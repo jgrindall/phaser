@@ -2,6 +2,8 @@ app.AbstractBlock = function(game, key, img){
 	this.game = game;
 	this.key = key;
 	this.img = img;
+	this.clickSignal = new Phaser.Signal();
+	this.releaseSignal = new Phaser.Signal();
 };
 
 app.AbstractBlock.prototype.preload = function(){
@@ -9,19 +11,20 @@ app.AbstractBlock.prototype.preload = function(){
 };
 
 app.AbstractBlock.prototype.create = function () {
-	this.sprite = this.game.add.sprite(0, 128*this.key, this.img);
+	this.sprite = new Phaser.Sprite(this.game, 0, 128*this.key, this.img);
 	this.sprite.inputEnabled = true;
 	this.sprite.input.enableDrag(false, true);
 	this.sprite.events.onInputDown.add(this.clickBlock, this);
-	this.sprite.events.onInputUp.add(this.releaseBlock, this);
+	this.sprite.events.onDragStop.add(this.releaseBlock, this);
 };
 
 app.AbstractBlock.prototype.clickBlock = function() {
-	
+	this.clickSignal.dispatch({target:this});
 };
 
 app.AbstractBlock.prototype.releaseBlock = function() {
-	console.log("release block");
+	console.log("release");
+	this.releaseSignal.dispatch({target:this});
 };
 
 

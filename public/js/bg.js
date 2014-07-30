@@ -5,7 +5,6 @@ app.Bg = function(game){
 
 app.Bg.prototype.preload = function(){
 	this.game.load.image('background', 'assets/background2.png');
-	
 }
 
 app.Bg.prototype.create = function(){

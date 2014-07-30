@@ -5,7 +5,7 @@ app.GameScene  = function(key, game){
 	this.platforms = new app.Platforms(this.game);
 	this.stars = new app.Stars(this.game);
 	this.bg = new app.Bg(this.game);
-	this.button = new app.Button(this.game);
+	this.button = new app.NavButton(this.game);
 	this.commandStack = ["UR", "UL", "U","U", "R", "R", "L", "R", "R", "U", "UR"];
 	this.commandNum = -1;
 };
@@ -40,7 +40,7 @@ app.GameScene.prototype.create = function() {
 	this.platforms.create();
 	this.stars.create();
 	this.button.create();
-	this.button.clicker.add(this.buttonClicked, this);
+	this.button.mouseUpSignal.add(this.buttonClicked, this);
 	this.game.camera.follow(this.player.sprite);
 };
 
