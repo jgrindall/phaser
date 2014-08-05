@@ -1,11 +1,6 @@
 
 app.GameScene  = function(key, game){
 	app.Scene.call(this, key, game);
-	this.player = new app.Player(this.game);
-	this.platforms = new app.Platforms(this.game);
-	this.stars = new app.Stars(this.game);
-	this.bg = new app.Bg(this.game);
-	this.button = new app.NavButton(this.game);
 	this.commandStack = ["UR", "UL", "U","U", "R", "R", "L", "R", "R", "U", "UR"];
 	this.commandNum = -1;
 };
@@ -15,11 +10,6 @@ app.GameScene.prototype.constructor = app.GameScene;
 
 app.GameScene.prototype.preload = function() {
 	app.Scene.prototype.preload.apply(this, arguments);
-	this.player.preload();
-	this.button.preload();
-	this.bg.preload();
-	this.platforms.preload();
-	this.stars.preload();
 };
 
 app.GameScene.prototype.nextCommand = function() {
@@ -35,12 +25,18 @@ app.GameScene.prototype.nextCommand = function() {
 
 app.GameScene.prototype.create = function() {
 	app.Scene.prototype.create.apply(this, arguments);
+	this.player = new app.Player(this.game);
+	this.platforms = new app.Platforms(this.game);
+	this.stars = new app.Stars(this.game);
+	this.bg = new app.Bg(this.game);
+	this.button = new app.NavButton(this.game);
 	this.bg.create();
     this.player.create();
 	this.platforms.create();
 	this.stars.create();
 	this.button.create();
 	this.button.mouseUpSignal.add(this.buttonClicked, this);
+	this.game.world.add(this.button.sprite);
 	this.game.camera.follow(this.player.sprite);
 };
 
@@ -56,7 +52,7 @@ app.GameScene.prototype.update = function() {
 	this.player.update();
 	this.platforms.update();
 	this.stars.update();
-	//this.checkStill();
+	this.checkStill();
 };
 
 app.GameScene.prototype.checkStill = function(){

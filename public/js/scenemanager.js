@@ -1,3 +1,9 @@
+
+
+
+//////////////
+
+
 app.SceneManager  = function(){
 	
 };
@@ -8,7 +14,7 @@ app.SceneManager.prototype.registerScenes = function(){
 	this.addScene(app.SceneManager.MAIN_SCENE, app.MainScene);
 	this.addScene(app.SceneManager.LEVELS_SCENE, app.LevelsScene);
 	this.transitions = this.game.plugins.add(Phaser.Plugin.StateTransition);
-	var transOptions = {duration: 1000,	properties: {alpha: 0, scale: {x: 2, y: 2}}};
+	var transOptions = {duration: 1500,	properties: {alpha: 0, scale: {x: 1.1, y: 1.1}}};
 	this.transitions.settings(transOptions);
 };
 
@@ -20,36 +26,36 @@ app.SceneManager.prototype.addScene = function(key, _class) {
 
 app.SceneManager.prototype.navigationClicked = function(data){
 	if(data.key === app.SceneManager.LEVELS_SCENE){
+		var level = app.LevelData.LEVELS[data.index];
+		app.commsData.setLevel(level);
 		this.transitions.to(app.SceneManager.COMM_SCENE);
 	}
 	else if(data.key === app.SceneManager.MAIN_SCENE){
 		this.transitions.to(app.SceneManager.LEVELS_SCENE);
 	}
 	else if(data.key === app.SceneManager.COMM_SCENE){
+		this.game.physics.startSystem(Phaser.Physics.ARCADE);
+		this.game.physics.arcade.gravity.y = 900;
 		this.transitions.to(app.SceneManager.GAME_SCENE);
 	}
-};
-
-app.SceneManager.prototype.load = function(s) {
-	this.game.state.start(s);
+	else if(data.key === app.SceneManager.GAME_SCENE){
+		this.transitions.to(app.SceneManager.COMM_SCENE);
+	}
 };
 
 app.SceneManager.prototype.preload = function(){
 	this.game = app.game;
-	this.game.load.onFileComplete.add(this.fileLoaded, this);
 	this.game.load.spritesheet('button', 'assets/number-buttons-90x90.png', 90, 90);
-	this.game.load.image('background', 'assets/background2.png');
 };
 
-app.SceneManager.prototype.fileLoaded = function() {
-	console.log("fileloaded");
+app.SceneManager.prototype.load = function(s) {
+	console.log("start! "+s);
+	this.game.state.start(s);
 };
 
 app.SceneManager.prototype.create = function() {
-	var _this = this;
+	console.log("create SM");
 	this.registerScenes();
-	this.game.physics.startSystem(Phaser.Physics.ARCADE);
-	this.game.physics.arcade.gravity.y = 900;
 	this.load(app.SceneManager.MAIN_SCENE);
 };
 

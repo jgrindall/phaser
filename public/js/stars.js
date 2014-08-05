@@ -3,7 +3,7 @@ app.Stars = function(game){
 };
 
 app.Stars.prototype.preload = function(){
-	this.game.load.image('star', 'assets/star2.png');
+	
 };
 
 app.Stars.prototype.create = function () {

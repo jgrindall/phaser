@@ -3,8 +3,7 @@ app.Platforms = function(game){
 };
 
 app.Platforms.prototype.preload = function(){
-    this.game.load.tilemap('level1', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);
-	this.game.load.image('tiles1', 'assets/tiles1.png');	
+    
 };
 
 app.Platforms.prototype.create = function () {
