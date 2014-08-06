@@ -29,10 +29,10 @@ app.Tabs.prototype.loadLevel = function(){
 app.Tabs.prototype.selectIndex = function (index) {
 	$.each(this.buttons, function(i, button){
 		if(i === index){
-			button.goToFrame(2);
+			button.select();
 		}
 		else{
-			button.goToFrame(0);
+			button.deselect();
 		}
 	});
 	this.selectSignal.dispatch({"index":index});

@@ -3,7 +3,7 @@ app.ButtonGroup = function(game){
 	this.game = game;
 	this.x0 = null;
 	this.spaceX = this.game.world.width / app.ButtonGroup.PER_PAGE_X;
-	this.spaceY = this.game.world.height / app.ButtonGroup.PER_PAGE_Y;
+	this.spaceY = (this.game.world.height - app.ButtonGroup.TOP_Y) / app.ButtonGroup.PER_PAGE_Y;
 	this.levelSelectSignal = new Phaser.Signal();
 };
 
@@ -15,7 +15,7 @@ app.ButtonGroup.prototype.create = function(){
 			b = new app.LevelsButton(this.game);
 			b.create();
 			b.sprite.x = this.spaceX * (i - 1);
-			b.sprite.y = this.spaceY * j;
+			b.sprite.y = app.ButtonGroup.TOP_Y + this.spaceY * (j - 1);
 			b.mouseUpSignal.add(this.buttonUp, this);
 			b.mouseDownSignal.add(this.buttonDown, this);
 			this.group.add(b.sprite);
@@ -41,16 +41,14 @@ app.ButtonGroup.prototype.buttonUp = function(data) {
 };
 
 app.ButtonGroup.prototype.move = function(pointer, x, y) {
+	var x, minX, maxX = 0;
 	if(this.x0 === null){
 		this.x0 = x;
 	}
 	this.dx = this.x0 - x;
-	var maxX = 0;
-	var minX = -1 * this.spaceX * (app.ButtonGroup.NUM_BUTTONS_X - app.ButtonGroup.PER_PAGE_X);
-	var x = this.startX - this.dx;
-	console.log("x "+x);
+	minX = -1 * this.spaceX * (app.ButtonGroup.NUM_BUTTONS_X - app.ButtonGroup.PER_PAGE_X);
+	x = this.startX - this.dx;
 	x = Math.min(Math.max(x, minX), maxX);
-	console.log("x "+x);
 	this.group.x = x;
 };
 
@@ -60,9 +58,9 @@ app.ButtonGroup.prototype.buttonDown = function(data) {
 	this.game.input.moveCallback = $.proxy(this.move, this);
 };
 
-app.ButtonGroup.PER_PAGE_X = 5;
-app.ButtonGroup.PER_PAGE_Y = 5;
+app.ButtonGroup.PER_PAGE_X = 4;
+app.ButtonGroup.PER_PAGE_Y = 4;
 app.ButtonGroup.NUM_BUTTONS_X = 12;
 app.ButtonGroup.NUM_BUTTONS_Y = 5;
-
+app.ButtonGroup.TOP_Y = 50;
 

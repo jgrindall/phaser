@@ -45,7 +45,7 @@ app.SceneManager.prototype.navigationClicked = function(data){
 
 app.SceneManager.prototype.preload = function(){
 	this.game = app.game;
-	this.game.load.spritesheet('button', 'assets/number-buttons-90x90.png', 90, 90);
+	this.game.load.spritesheet('button', 'assets/startButton.png', 90, 90);
 };
 
 app.SceneManager.prototype.load = function(s) {
