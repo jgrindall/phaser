@@ -1,7 +1,7 @@
 
 define(function(require, exports){
 	
-	var BlocksFactory = require('app/phaser/blocksfactory');
+	var BlocksFactory = require('app/scenes/comms/blocksfactory');
 	
 	var Commands = function(game, commsData){
 		this.game = game;

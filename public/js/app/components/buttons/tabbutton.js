@@ -1,7 +1,7 @@
 
 define(function(require, exports){
 	
-	var AbstractButton = require('app/phaser/abstractbutton');
+	var AbstractButton = require('app/components/buttons/abstractbutton');
 
 	var TabButton = function(game){
 		// overFrame, outFrame, downFrame, upFrame

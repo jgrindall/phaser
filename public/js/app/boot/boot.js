@@ -1,7 +1,7 @@
 define(function(require, exports) {
 	
-	var SceneManager = require('app/phaser/scenemanager');
-	var Implementations = require('app/phaser/implementations');
+	var SceneManager = require('app/scenemanager/scenemanager');
+	var Implementations = require('app/utils/implementations');
 	
    	var Boot = function ( ){
 

@@ -1,12 +1,11 @@
 
 define(function(require, exports){
 	
-	var Player = require('app/phaser/player');
-	var Platforms = require('app/phaser/platforms');
-	var Stars = require('app/phaser/stars');
-	var Bg = require('app/phaser/bg');
-	var Player = require('app/phaser/player');
-	var commsData = require('app/phaser/commsdata');
+	var Player = require('app/scenes/game/player');
+	var Platforms = require('app/scenes/game/platforms');
+	var Stars = require('app/scenes/game/stars');
+	var Bg = require('app/components/background');
+	var commsData = require('app/scenes/comms/commsdata');
 	
 	var GameView  = function(game){
 		this.game = game;

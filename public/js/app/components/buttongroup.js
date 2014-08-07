@@ -1,7 +1,7 @@
 
 define(function(require, exports){
 	
-	var LevelsButton = require('app/phaser/levelsbutton');
+	var LevelsButton = require('app/components/buttons/levelsbutton');
 	
 	var ButtonGroup = function(game){
 		this.game = game;

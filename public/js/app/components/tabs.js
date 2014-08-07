@@ -1,7 +1,7 @@
 
 define(function(require, exports){
 	
-	var TabButton = require('app/phaser/tabbutton');
+	var TabButton = require('app/components/buttons/tabbutton');
 	
 	var Tabs = function(game, commsData){
 		this.game = game;

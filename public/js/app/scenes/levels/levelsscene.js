@@ -1,9 +1,9 @@
 
 define(function(require, exports){
 	
-	var Scene = require('app/phaser/scene');
-	var ButtonGroup = require('app/phaser/buttongroup');
-	var TextFactory = require('app/phaser/textfactory');
+	var Scene = require('app/scenes/scene');
+	var ButtonGroup = require('app/components/buttongroup');
+	var TextFactory = require('app/utils/textfactory');
 	
 	var LevelsScene  = function(key, game){
 		Scene.call(this, key, game);

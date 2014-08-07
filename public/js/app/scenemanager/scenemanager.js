@@ -1,13 +1,14 @@
 
 define(function(require, exports){
 	
-	var AppConsts = 	require('app/phaser/appconsts');
-	var GameScene = 	require('app/phaser/gamescene');
-	var CommScene = 	require('app/phaser/commscene');
-	var MainScene = 	require('app/phaser/mainscene');
-	var LevelsScene = 	require('app/phaser/levelsscene');
-	var LevelData = 	require('app/phaser/leveldata');
-	var commsData = 	require('app/phaser/commsdata');
+	var AppConsts = 	require('app/consts/appconsts');
+	var GameScene = 	require('app/scenes/game/gamescene');
+	var CommScene = 	require('app/scenes/comms/commscene');
+	var MainScene = 	require('app/scenes/main/mainscene');
+	var LevelsScene = 	require('app/scenes/levels/levelsscene');
+	var commsData = 	require('app/scenes/comms/commsdata');
+	var LevelData = 	require('app/consts/leveldata');
+	
 	var SceneManager = function(){
 
 	};

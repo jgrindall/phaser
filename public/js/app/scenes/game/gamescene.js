@@ -1,10 +1,10 @@
 
 define(function(require, exports){
 	
-	var Scene = require('app/phaser/scene');
-	var NavButton = require('app/phaser/navbutton');
-	var GameView = require('app/phaser/gameview');
-	var GameMenu = require('app/phaser/gamemenu');
+	var Scene = require('app/scenes/scene');
+	var NavButton = require('app/components/buttons/navbutton');
+	var GameView = require('app/scenes/game/gameview');
+	var GameMenu = require('app/scenes/game/gamemenu');
 	
 	var GameScene  = function(key, game){
 		Scene.call(this, key, game);

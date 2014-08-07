@@ -1,7 +1,7 @@
 
 define(function(require, exports){
 	
-	var ObjectState = require('app/phaser/objectstate');
+	var ObjectState = require('app/scenes/game/objectstate');
 	
 	var Character = function(game){
 		this.game = game;

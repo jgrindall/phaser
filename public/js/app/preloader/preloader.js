@@ -1,7 +1,7 @@
 
 define(function(require, exports){
 	
-	var LevelData = require('app/phaser/leveldata');
+	var LevelData = require('app/consts/leveldata');
 	
 	var Preloader = function(game){
 		this.game = game;

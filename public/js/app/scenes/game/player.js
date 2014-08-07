@@ -1,7 +1,7 @@
 
 define(function(require, exports){
 	
-	var Character = require('app/phaser/character');
+	var Character = require('app/scenes/game/character');
 	
 	var Player = function(game){
 		Character.call(this, game);

@@ -1,7 +1,7 @@
 
 define(function(require, exports){
 	
-	var NavButton = require('app/phaser/navbutton');
+	var NavButton = require('app/components/buttons/navbutton');
 	
 	var GameMenu = function(game){
 		this.game = game;

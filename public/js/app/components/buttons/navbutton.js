@@ -1,9 +1,7 @@
 
 define(function(require, exports){
 	
-	var AbstractButton = require('app/phaser/abstractbutton');
-	var AbstractButton = require('app/phaser/abstractbutton');
-	
+	var AbstractButton = require('app/components/buttons/abstractbutton');
 	
 	NavButton = function(game){
 		AbstractButton.call(this, game, 'button', [0, 1, 2, 3]);

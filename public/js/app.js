@@ -9,7 +9,7 @@ require.config({
 
 require(['jquery', 'phaser', 'phaser-state-transition.min'], function () {
 	
-	require(['app/phaser/boot', 'app/phaser/implementations'], function (Boot) {
+	require(['app/boot/boot', 'app/utils/implementations'], function (Boot) {
 		
 		Boot.start();
 	

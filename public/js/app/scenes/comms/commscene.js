@@ -1,10 +1,10 @@
 
 define(function(require, exports){
 	
-	var Scene = require('app/phaser/scene');
-	var Commands = require('app/phaser/commands');
-	var Tabs = require('app/phaser/tabs');
-	var commsData = require('app/phaser/commsdata');
+	var Scene = require('app/scenes/scene');
+	var Commands = require('app/scenes/comms/commands');
+	var Tabs = require('app/components/tabs');
+	var commsData = require('app/scenes/comms/commsdata');
 	
 	var CommScene  = function(key, game){
 		Scene.call(this, key, game);

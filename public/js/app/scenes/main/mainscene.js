@@ -1,10 +1,10 @@
 
 define(function(require, exports){
 	
-	var Scene = require('app/phaser/scene');
-	var Preloader = require('app/phaser/preloader');
-	var NavButton = require('app/phaser/navbutton');
-	var TextFactory = require('app/phaser/textfactory');
+	var Scene = require('app/scenes/scene');
+	var Preloader = require('app/preloader/preloader');
+	var NavButton = require('app/components/buttons/navbutton');
+	var TextFactory = require('app/utils/textfactory');
 	
 	var MainScene  = function(key, game){
 		Scene.call(this, key, game);

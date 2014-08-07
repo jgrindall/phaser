@@ -1,6 +1,6 @@
 define(function(require, exports){
 
-	var Block = require('app/phaser/block');
+	var Block = require('app/scenes/comms/block');
 	
 	var BlockTypes = function(){
 	
