@@ -4,6 +4,7 @@ define(function(require, exports){
 	var Scene = require('app/phaser/scene');
 	var NavButton = require('app/phaser/navbutton');
 	var GameView = require('app/phaser/gameview');
+	var GameMenu = require('app/phaser/gamemenu');
 	
 	var GameScene  = function(key, game){
 		Scene.call(this, key, game);
@@ -18,6 +19,7 @@ define(function(require, exports){
 
 	GameScene.prototype.create = function() {
 		Scene.prototype.create.apply(this, arguments);
+		var that = this;
 		this.gameView = new GameView(this.game);
 		this.button = new NavButton(this.game);
 		this.gameView.create();
@@ -25,8 +27,25 @@ define(function(require, exports){
 		this.button.sprite.fixedToCamera = true;
 		this.button.mouseUpSignal.add(this.buttonClicked, this);
 		this.game.world.add(this.button.sprite);
+		setTimeout(function(){
+			that.showMenu();
+		}, 5000);
 	};
 
+	GameScene.prototype.showMenu = function(data) {
+		this.gameMenu = new GameMenu(this.game);
+		this.gameMenu.create();
+		this.gameMenu.selectSignal.add(this.menuClick, this);
+	};
+
+	GameScene.prototype.menuClick = function(data) {
+		console.log("clicked "+JSON.stringify(data));
+	};
+	
+	GameScene.prototype.hideMenu = function(data) {
+		console.log("hide");
+	};
+	
 	GameScene.prototype.buttonClicked = function(data) {
 		this.navigationSignal.dispatch({"key":this.key});
 	};
