@@ -1,4 +1,0 @@
-phaser
-======
-
-learning phaser.js

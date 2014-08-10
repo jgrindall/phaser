@@ -1,10 +1,8 @@
 
-define(function(require, exports){
+define(['app/scenes/game/objectstate', 'app/game'], function(ObjectState, Game){
 	
-	var ObjectState = require('app/scenes/game/objectstate');
-	
-	var Character = function(game){
-		this.game = game;
+	var Character = function(){
+		Game.pauseSignal.add(this.pauseChanged, this);
 	};
 	
 	Character.FORCE_DELAY = 425;
@@ -27,17 +25,68 @@ define(function(require, exports){
 	};
 
 	Character.prototype.setForce = function(s) {
-		var _this = this;
+		var that = this;
+		console.log("force "+s);
 		this.state.setState(s);
 		setTimeout(function(){
-			_this.state.setState(null);
+			that.state.setState(null);
 		}, Character.FORCE_DELAY);
 	};
-
-	Character.prototype.update = function() {
+	
+	Character.prototype.pauseChanged = function(){
+		var paused = Game.physicsPaused;
+		if(paused){
+			this.pause();
+		}
+		else{
+			this.unPause();
+		}
+	};
+	
+	Character.prototype.pause = function(){
+		this.cachedVelocity = {'x':this.sprite.body.velocity.x, 'y':this.sprite.body.velocity.y};
+		this.sprite.body.allowGravity = false;
 		this.sprite.body.velocity.x = 0;
-		var left = (this.state.isLeft() || this.cursors.left.isDown);
-		var right = (this.state.isRight() || this.cursors.right.isDown);
+		this.sprite.body.velocity.y = 0;
+		this.sprite.animations.stop();
+	};
+	
+	Character.prototype.unPause = function(){
+		this.sprite.body.allowGravity = true;
+		this.sprite.body.velocity.x = this.cachedVelocity.x;
+		this.sprite.body.velocity.y = this.cachedVelocity.y;
+	};
+	
+	Character.prototype.controlDown = function(data) {
+		if(this.state.getState() != null){
+			return;
+		}
+		if(data.index === 0){
+			this.setForce(ObjectState.LEFT);
+		}
+		else if(data.index === 1){
+			this.setForce(ObjectState.RIGHT);
+		}
+		else if(data.index === 2){
+			this.setForce(ObjectState.UPLEFT);
+		}
+		else if(data.index === 3){
+			this.setForce(ObjectState.UPRIGHT);
+		}
+	};
+	
+	Character.prototype.controlUp = function(data) {
+		
+	};
+	
+	Character.prototype.update = function() {
+		var left, right;
+		if(Game.physicsPaused){
+			return;
+		}
+		this.sprite.body.velocity.x = 0;
+		left = (this.state.isLeft() || this.cursors.left.isDown);
+		right = (this.state.isRight() || this.cursors.right.isDown);
 		var up = (this.state.isUp() || (this.sprite.body.blocked.down && this.cursors.up.isDown));
 	    if(left){
 			this.sprite.body.velocity.x = -150;

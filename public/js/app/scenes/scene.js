@@ -1,8 +1,7 @@
 
-define(function(require, exports){
+define(['app/game', 'app/components/background'], function(Game, Background){
 	
-	var Scene  = function(key, game){
-		this.game = game;
+	var Scene  = function(key){
 		this.key = key;
 		this.navigationSignal = new Phaser.Signal();
 	};
@@ -10,13 +9,23 @@ define(function(require, exports){
 	Scene.prototype.preload = function() {
 	
 	};
-
-	Scene.prototype.create = function() {
 	
+	Scene.prototype.addChildren = function() {
+		this.bg = new Background({"asset":'sky'});
+		this.bg.create();
+		Game.getInstance().world.add(this.bg.sprite);
 	};
-
+	
+	Scene.prototype.create = function() {
+		this.addChildren();
+	};
+	
+	Scene.prototype.addListeners = function() {
+		//
+	};
+	
 	Scene.prototype.update = function() {
-    
+    	//
 	};
 
 	Scene.prototype.shutdown = function() {

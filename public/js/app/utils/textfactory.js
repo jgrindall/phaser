@@ -1,19 +1,23 @@
 
-define(function(require, exports){
+define(['app/game'], function(Game){
 	
 	var TextFactory  = function(){
 		
 	};
 	
-	TextFactory.DEFAULT_FONT = {font: "80px Yanone", align: "center"};
+	TextFactory.DEFAULT_FONT = {font: "100px Yanone", align: "center"};
 	
-	TextFactory.make = function(game, x, y, label){
-		var text = game.add.text(x, y, label, TextFactory.DEFAULT_FONT);
-	    text.stroke = '#ffffff';
-	    text.strokeThickness = 3;
+	TextFactory.centreX = function(label){
+		
+	};
+		
+	TextFactory.make = function(x, y, label){
+		var text = new Phaser.Text(Game.getInstance(), x, y, label, TextFactory.DEFAULT_FONT);
+	    text.stroke = '#000044';
+	    text.strokeThickness = 2;
 	    var fill = text.context.createLinearGradient(0, 0, 0, text.canvas.height);
-		fill.addColorStop(0, '#ff0034');   
-		fill.addColorStop(1, '#ff8854');
+		fill.addColorStop(0, '#ffffff');   
+		fill.addColorStop(1, '#eeeeee');
 		text.fill = fill;
 		text.setShadow(3, 3, 'rgba(1, 1, 1, 0.5)', 5);
 		return text;

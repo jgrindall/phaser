@@ -1,11 +1,9 @@
 
-define(function(require, exports){
-	
-	var AbstractButton = require('app/components/buttons/abstractbutton');
+define(['app/components/buttons/abstractbutton'],function(AbstractButton){
 
-	var TabButton = function(game){
+	var TabButton = function(){
 		// overFrame, outFrame, downFrame, upFrame
-		AbstractButton.call(this, game, 'button', [0, 1, 2, 3]);
+		AbstractButton.call(this, 'button');
 	};
 	
 	TabButton.prototype = Object.create(AbstractButton.prototype);

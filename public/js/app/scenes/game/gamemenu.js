@@ -1,33 +1,59 @@
 
-define(function(require, exports){
+define(['app/components/buttons/navbutton', 'app/game', 'app/components/container'], function(NavButton, Game, Container){
 	
-	var NavButton = require('app/components/buttons/navbutton');
-	
-	var GameMenu = function(game){
-		this.game = game;
+	var GameMenu = function(options){
+		Container.call(this, options);
 		this.selectSignal = new Phaser.Signal();
+		this.buttons = [];
 	};
-
+	
+	GameMenu.prototype = Object.create(Container.prototype);
+	GameMenu.prototype.constructor = GameMenu;
+	
 	GameMenu.prototype.preload = function(){
     
 	};
-
-	GameMenu.prototype.create = function () {
-		this.group = this.game.add.group();
-		this.group.fixedToCamera = true;
-		for(i = 1; i <= 3; i++){
-			b = new NavButton(this.game);
+	
+	GameMenu.prototype.addRect = function () {
+		this.rect = new Phaser.Graphics(Game.getInstance(), 0, 0);
+		this.rect.beginFill(0x000000);
+   		this.rect.lineStyle(10, 0xffd900, 1);
+    	this.rect.drawRect(50, 250, 700, 400);
+		this.group.add(this.rect);
+	};
+	
+	GameMenu.prototype.addButtons = function () {
+		console.log("addButtons");
+		var that = this, b;
+		$.each(Array(4), function(i) {
+			b = new NavButton();
 			b.create();
-			b.sprite.x = 200 * (i - 1);
+			b.sprite.x = 200 * i;
 			b.sprite.y = 200;
-			b.mouseUpSignal.add(this.buttonUp, this);
-			this.group.add(b.sprite);
-		}
+			b.mouseUpSignal.add(that.buttonUp, that);
+			that.group.add(b.sprite);
+			that.buttons.push(b);
+		});
+	};
+	
+	GameMenu.prototype.create = function () {
+		console.log("create");
+		Container.prototype.create.call(this);
+		this.group.fixedToCamera = true;
+		this.addRect();
+		this.addButtons();
 	};
 	
 	GameMenu.prototype.buttonUp = function(data) {
-		console.log("button up");
-		this.selectSignal.dispatch({"target":"clicked!"});
+		var index = this.group.getIndex(data.target.sprite);
+		this.selectSignal.dispatch({"index":index - 1});
+	};
+	
+	GameMenu.prototype.destroy = function() {
+		$.each(this.buttons, function(i, b){
+			b.mouseUpSignal.removeAll(this);
+		});
+		Container.prototype.destroy.call(this);
 	};
 	
 	GameMenu.prototype.update = function() {
@@ -38,6 +64,9 @@ define(function(require, exports){
 	
 });
 	
+
+
+
 
 
 

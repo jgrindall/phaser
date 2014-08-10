@@ -1,5 +1,5 @@
 
-define(function(require, exports){
+define([], function(){
 	
 	Phaser.Group.prototype.hitTest = function(input){
 		var hits = false;

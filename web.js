@@ -10,12 +10,8 @@ app.get('/', function(req, res) {
 	res.render("index.html");
 });
 
-app.get('/2', function(req, res) {
-	res.render("index2.html");
-});
-
-app.get('/3', function(req, res) {
-	res.render("index3.html");
+app.get('/dist', function(req, res) {
+	res.render("dist/index.html");
 });
 
 app.listen(port, function() {

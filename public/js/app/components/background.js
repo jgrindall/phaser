@@ -1,16 +1,19 @@
 
-define(function(require, exports){
+define(['app/game'], function(Game){
 	
-	var Background = function(game){
-		this.game = game;
+	var Background = function(options){
+		this.options = options;
 	};
 
 	Background.prototype.preload = function(){
 	
-	}
+	};
 
 	Background.prototype.create = function(){
-		this.sprite = this.game.add.tileSprite(0, 0, 800, 600, 'background');
+		var w, h;
+		w = Game.getWidth();
+    	h = Game.getHeight();
+    	this.sprite = new Phaser.TileSprite(Game.getInstance(), 0, 0, w, h, this.options.asset);
 	    this.sprite.fixedToCamera = true;
 	};
 	

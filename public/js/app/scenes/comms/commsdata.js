@@ -1,4 +1,6 @@
-define(function(require, exports) {
+define(['app/scenes/comms/commslayout', 'app/consts/leveldata', 'app/scenes/game/gamemode', 'app/scenes/game/objectstate'],
+
+function(CommsLayout, LevelData, GameMode, ObjectState) {
 	
 	var CommsData = function(){
 		this.level = null;
@@ -6,8 +8,13 @@ define(function(require, exports) {
 		this.selectedIndex = 0;
 		this.layoutSignal = new Phaser.Signal();
 		this.tabSignal = new Phaser.Signal();
+		this.mode = GameMode.UNKNOWN;
 	};
-
+	
+	CommsData.prototype.setMode = function(mode){
+		this.mode = mode;
+	};
+	
 	CommsData.prototype.setSelectedTab = function(data){
 		this.selectedIndex = data.index;
 		this.tabSignal.dispatch();
@@ -30,20 +37,30 @@ define(function(require, exports) {
 	};
 
 	CommsData.prototype.getTilesLayout = function(n){
-		var tiles = this.tiles[n];
-		var p = [];
-		var y = CommsData.TOP;
-		var x = CommsData.XPOS;
+		var tiles, p, x, y;
+		tiles = this.tiles[n];
+		p = [];
+		y = CommsLayout.TOP;
+		x = CommsLayout.XPOS;
 		$.each(tiles, function(i, id){
-			var obj = {"type":id.type, "index":id.index, "x":x, "y":y};
+			var obj, indents, unindents;
+			indents = LevelData.getIndents(id.type);
+			unindents = LevelData.getUnindents(id.type);
+			if(unindents){
+				x -= CommsLayout.INDENT;
+			}
+			obj = {"type":id.type, "index":id.index, "x":x, "y":y};
 			p.push(obj);
-			y += CommsData.HEIGHT;
+			y += CommsLayout.getBlockHeight(id.type);
+			if(indents){
+				x += CommsLayout.INDENT;
+			}
 		});
 		return {"index":n, "positions":p};
 	};
 	
 	CommsData.prototype.getCommands = function(){
-		return ["UR", "UL", "U","U", "R", "R", "L", "R", "R", "U", "UR"];
+		return [ObjectState.UPRIGHT, ObjectState.UPLEFT, ObjectState.UP, ObjectState.RIGHT, ObjectState.UP, ObjectState.UPRIGHT];
 	};
 	
 	CommsData.prototype.layoutCurrentTiles = function(){
@@ -75,22 +92,25 @@ define(function(require, exports) {
 	};
 
 	CommsData.prototype.getDropPosition = function(block){
-		var tiles = this.currentTiles();
+		var tiles, h, middleY, num, indents;
+		tiles = this.currentTiles();
+		h = CommsLayout.getBlockHeight(block.id.type);
 		if(tiles.length === 0){
-			return 0;
+			return {"y":0, "indents":0};
 		}
-		var y = block.sprite.y;
-		var middleY = y + (CommsData.HEIGHT/2);
-		var num = (middleY - CommsData.TOP) / CommsData.HEIGHT;
-		num = Math.floor(num + 0.5);
-		num = Math.min(num, tiles.length + 1);
-		return num;
+		middleY = block.sprite.y + (h/2);
+		num = (middleY - CommsLayout.TOP) / h;
+		num = Math.min(Math.floor(num + 0.5), tiles.length + 1);
+		indents = (block.sprite.x - CommsLayout.XPOS)/CommsLayout.INDENT;
+		indents = Math.max(0, indents);
+		return {"y":num, "indents":indents};
 	};
 
 	CommsData.prototype.drop = function(block){
-		var index = this.getDropPosition(block);
+		var pos = this.getDropPosition(block);
+		console.log("index "+pos.y+",  "+pos.indents);
 		var tiles = this.currentTiles();
-		tiles.splice(index, 0, block.id);
+		tiles.splice(pos.y, 0, block.id);
 		this.layoutCurrentTiles();
 	};
 
@@ -115,10 +135,6 @@ define(function(require, exports) {
 		tiles.splice(index, 1);
 		this.layoutCurrentTiles();
 	};
-
-	CommsData.HEIGHT = 120;
-	CommsData.TOP = 60;
-	CommsData.XPOS = 400;
 
   	return new CommsData();
 });

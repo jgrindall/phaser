@@ -1,15 +1,16 @@
 
-define(function(require, exports){
+define(['app/components/buttons/tabbutton', 'app/game', 'app/components/container'],function(TabButton, Game, Container){
 	
-	var TabButton = require('app/components/buttons/tabbutton');
-	
-	var Tabs = function(game, commsData){
-		this.game = game;
-		this.commsData = commsData;
+	var Tabs = function(options){
+		Container.call(this, options);
+		this.commsData = this.options.commsData;
 		this.selectSignal = new Phaser.Signal();
 		this.buttons = [];
 	};
-
+	
+	Tabs.prototype = Object.create(Container.prototype);
+	Tabs.prototype.constructor = Tabs;
+	
 	Tabs.prototype.preload = function(){
 	
 	};
@@ -17,7 +18,7 @@ define(function(require, exports){
 	Tabs.prototype.loadLevel = function(){
 		var _this = this, level = this.commsData.level;
 		$.each(Array(level.tabs), function(i) {
-			b = new TabButton(_this.game);
+			b = new TabButton();
 			b.create();
 			b.sprite.x = i * 80;
 			b.sprite.y = 4;
@@ -54,7 +55,7 @@ define(function(require, exports){
 	};
 
 	Tabs.prototype.create = function () {
-		this.group = this.game.add.group();
+		Container.prototype.create.call(this);
 	};
 
 	Tabs.prototype.reload = function(){

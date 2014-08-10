@@ -1,13 +1,8 @@
 
-define(function(require, exports){
+define(['app/scenes/scene', 'app/scenes/comms/commands', 'app/components/tabs', 'app/scenes/comms/commsdata', 'app/game'], function(Scene, Commands, Tabs, commsData, Game){
 	
-	var Scene = require('app/scenes/scene');
-	var Commands = require('app/scenes/comms/commands');
-	var Tabs = require('app/components/tabs');
-	var commsData = require('app/scenes/comms/commsdata');
-	
-	var CommScene  = function(key, game){
-		Scene.call(this, key, game);
+	var CommScene  = function(key){
+		Scene.call(this, key);
 	};
 	
 	CommScene.prototype = Object.create(Scene.prototype);
@@ -24,27 +19,42 @@ define(function(require, exports){
 	};
 
 	CommScene.prototype.create = function() {
+		var bounds;
 		Scene.prototype.create.apply(this, arguments);
-		this.button = new NavButton(this.game);
-		this.commands = new Commands(this.game, commsData);
-		this.tabs = new Tabs(this.game, commsData);
-		this.button.create();
+		this.goButton = new NavButton();
+		this.commands = new Commands(commsData);
+		bounds = {"x": 0, "y": 0, "w": 300, "h": 50};
+		this.tabs = new Tabs({"commsData":commsData, "bounds":bounds});
+		this.goButton.create();
+		this.goButton.sprite.x = 110;
 		this.tabs.create();
 		this.tabs.group.x = 300;
 		this.commands.create();
-		this.game.world.add(this.button.sprite);
-		this.game.world.add(this.tabs.group);
-		this.button.mouseUpSignal.add(this.buttonClicked, this);
 		this.tabs.selectSignal.add(this.tabSelected, this);
+		this.backButton = new NavButton();
+		this.backButton.create();
+		Game.getInstance().world.add(this.goButton.sprite);
+		Game.getInstance().world.add(this.tabs.group);
+		Game.getInstance().world.add(this.backButton.sprite);
+		this.addListeners();
 		this.loadLevel();
 	};
-
+	
+	CommScene.prototype.addListeners = function(data) {
+		this.goButton.mouseUpSignal.add(this.goButtonClicked, this);
+		this.backButton.mouseUpSignal.add(this.backButtonClicked, this);
+	};
+	
 	CommScene.prototype.tabSelected = function(data) {
 		commsData.setSelectedTab(data);
 	};
-
-	CommScene.prototype.buttonClicked = function(data) {
-		this.navigationSignal.dispatch({"key": this.key});
+	
+	CommScene.prototype.backButtonClicked = function(data) {
+		this.navigationSignal.dispatch({"key": this.key, "button":"back"});
+	};
+	
+	CommScene.prototype.goButtonClicked = function(data) {
+		this.navigationSignal.dispatch({"key": this.key, "button":"go"});
 	};
 
 	CommScene.prototype.update = function() {

@@ -1,30 +1,30 @@
-define(function(require, exports) {
-	
-	var SceneManager = require('app/scenemanager/scenemanager');
-	var Implementations = require('app/utils/implementations');
+define(['jquery', 'app/scenemanager/scenemanager', 'app/game'],function($, SceneManager, Game) {
 	
    	var Boot = function ( ){
 
     };
 	
 	Boot.launch = function(){
-		var sceneManager, config;
+		var config, sceneManager;
 		sceneManager = new SceneManager();
 		config = {
 			"create":$.proxy(sceneManager.create, sceneManager),
 			"preload":$.proxy(sceneManager.preload, sceneManager)
 		};
-		app.game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', config);
-		
+		Game.init(config);
 	};
 	
+	Boot.resize = function(){
+		console.log("resize");
+	};
 	
 	Boot.start = function(){
+		$(window).resize($.proxy(Boot.resize, this));
 		$(document).ready(Boot.launch);
 	};
 	
-	
 	return Boot;
+	
 });
 
 

@@ -1,10 +1,7 @@
 
-define(function(require, exports){
+define(['app/scenes/comms/blocksfactory', 'app/game', 'app/scenes/comms/commslayout', 'app/scenes/comms/commsgroup'], function(BlocksFactory, Game, CommsLayout, CommsGroup){
 	
-	var BlocksFactory = require('app/scenes/comms/blocksfactory');
-	
-	var Commands = function(game, commsData){
-		this.game = game;
+	var Commands = function(commsData){
 		this.mainGroup = null;
 		this.targetGroups = [];
 		this.commsData = commsData;
@@ -40,8 +37,10 @@ define(function(require, exports){
 
 	Commands.prototype.update = function(){
 		$.each(this.targetGroups, function(i, group){
+			group.dirty = true;
 			group.update();
 		});
+		group.dirty = true;
 		this.mainGroup.update();
 	};
 
@@ -57,7 +56,7 @@ define(function(require, exports){
 		this.makeGroups(level.tabs);
 		$.each(level.tiles, function(type, v){
 			$.each(Array(v), function(i) {
-				b = BlocksFactory.create(type, that.game);
+				b = BlocksFactory.create(type);
 				b.create();
 				b.clickSignal.add($.proxy(that.blockDown, that));
 				b.releaseSignal.add($.proxy(that.blockUp, that));
@@ -89,10 +88,13 @@ define(function(require, exports){
 	Commands.prototype.makeGroups = function(numTabs){
 		var that = this;
 		$.each(Array(numTabs), function(i) {
-			var group = that.game.add.group();
+			var group = new CommsGroup(Game.getInstance());
+			group.create();
+			Game.getInstance().world.add(group);
 			that.targetGroups.push(group);
 		});
-		this.mainGroup = this.game.add.group();
+		this.mainGroup = new Phaser.Group(Game.getInstance());
+		Game.getInstance().world.add(this.mainGroup);
 		this.currentGroup = this.targetGroups[this.commsData.selectedIndex];
 	};
 
@@ -102,18 +104,17 @@ define(function(require, exports){
 
 	Commands.prototype.create = function() {
 		this.dragger = null;
-		this.game.input.onDown.add($.proxy(this.onDown, this));
+		Game.getInput().onDown.add($.proxy(this.onDown, this));
 	};
 
 	Commands.prototype.onUp = function() {
-		this.game.input.moveCallback = null;
+		Game.getInput().moveCallback = null;
 	};
 
 	Commands.prototype.onDown = function() {
-		var input = this.game.input;
+		var input = Game.getInput();
 		var hits = this.mainGroup.hitTest(input) || this.currentGroup.hitTest(input);
 		if(!hits){
-			// scroll whole group
 			this.startY = this.currentGroup.y;
 			this.y0 = input.activePointer.y;
 			input.onUp.add($.proxy(this.onUp, this));
@@ -122,9 +123,9 @@ define(function(require, exports){
 	};
 
 	Commands.prototype.move = function() {
-		var input = this.game.input;
+		var input = Game.getInput();
 		var num = this.commsData.currentTiles().length;
-		var miny = -1 * CommsData.HEIGHT * num;
+		var miny = -1 * CommsLayout.getBlockHeight(1) * num;
 		var maxy = 0;
 		var y = this.startY - (this.y0 - input.activePointer.y);
 		y = Math.min(y, maxy);
@@ -155,7 +156,7 @@ define(function(require, exports){
 	};
 
 	Commands.prototype.blockUp = function(data) {
-		var input = this.game.input;
+		var input =  Game.getInput();
 		input.onUp.removeAll();
 		input.moveCallback = null;
 		var block = data.target;

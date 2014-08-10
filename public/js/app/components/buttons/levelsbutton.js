@@ -1,10 +1,8 @@
 
-define(function(require, exports){
+define(['app/components/buttons/abstractbutton'], function(AbstractButton){
 	
-	var AbstractButton = require('app/components/buttons/abstractbutton');
-
-	var LevelsButton = function(game){
-		AbstractButton.call(this, game, 'button', [0, 1, 2, 3]);
+	var LevelsButton = function(){
+		AbstractButton.call(this, 'button');
 	};
 
 	LevelsButton.prototype = Object.create(AbstractButton.prototype);

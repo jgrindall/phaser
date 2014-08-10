@@ -1,7 +1,7 @@
-define(function(require, exports){
+define(['app/game'], function(Game){
 	
-	var Stars = function(game){
-		this.game = game;
+	var Stars = function(){
+		
 	};
 
 	Stars.prototype.preload = function(){
@@ -9,10 +9,10 @@ define(function(require, exports){
 	};
 
 	Stars.prototype.create = function () {
-		this.body = this.game.add.group();
-		this.game.physics.enable(this.body, Phaser.Physics.ARCADE);
-		this.body.enableBody = true;
-	    var star = this.body.create(200, 0, 'star');
+		this.group = new Phaser.Group(Game.getInstance());
+		Game.getInstance().physics.enable(this.group, Phaser.Physics.ARCADE);
+		this.group.enableBody = true;
+	    var star = this.group.create(200, 0, 'star');
 		star.body.bounce.y = 0.1;
 	};
 

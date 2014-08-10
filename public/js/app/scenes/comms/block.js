@@ -1,7 +1,6 @@
-define(function(require, exports){
+define(['app/game'], function(Game){
 	
-	var Block = function(game, type, img){
-		this.game = game;
+	var Block = function(type, img){
 		this.type = type;
 		this.img = img;
 		this.clickSignal = new Phaser.Signal();
@@ -17,7 +16,7 @@ define(function(require, exports){
 	};
 
 	Block.prototype.create = function () {
-		this.sprite = new Phaser.Sprite(this.game, 0, 128*this.type, this.img);
+		this.sprite = new Phaser.Sprite(Game.getInstance(), 0, 128*this.type, this.img);
 		this.sprite.block = this;
 		this.sprite.inputEnabled = true;
 		this.sprite.input.enableDrag(false, true);

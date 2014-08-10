@@ -1,0 +1,14 @@
+public/dist
+
+public/dist/*
+
+public/dist/*.*
+
+public/bower_components/
+
+public/bower_components/*
+
+public/bower_components/*.*
+
+
+

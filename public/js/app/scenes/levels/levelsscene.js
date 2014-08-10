@@ -1,12 +1,8 @@
 
-define(function(require, exports){
+define(['app/scenes/scene', 'app/components/scroller', 'app/components/pager', 'app/utils/textfactory', 'app/components/buttons/levelsbutton', 'app/game', 'app/scenes/levels/leveldataprovider'], function(Scene, Scroller, Pager, TextFactory, LevelsButton, Game, LevelDataProvider){
 	
-	var Scene = require('app/scenes/scene');
-	var ButtonGroup = require('app/components/buttongroup');
-	var TextFactory = require('app/utils/textfactory');
-	
-	var LevelsScene  = function(key, game){
-		Scene.call(this, key, game);
+	var LevelsScene  = function(key){
+		Scene.call(this, key);
 	};
 
 	LevelsScene.prototype = Object.create(Scene.prototype);
@@ -18,14 +14,26 @@ define(function(require, exports){
 
 	LevelsScene.prototype.create = function() {
 		Scene.prototype.create.apply(this, arguments);
-		this.group = new ButtonGroup(this.game);
-		this.group.create();
-		this.group.levelSelectSignal.add(this.levelSelect, this);
-		this.text = TextFactory.make(this.game, this.game.world.centerX - 300, 0, "Choose a level");
+		var options = {"snapX":100, "dataProvider" : new LevelDataProvider()};
+		this.scroller = new Pager(options);
+		this.scroller.create();
+		this.scroller.selectSignal.add(this.levelSelect, this);
+		this.text = TextFactory.make(Game.getInstance().world.centerX - 300, 0, "Choose a level");
+		this.backButton = new NavButton();
+		this.backButton.create();
+		Game.getInstance().world.add(this.backButton.sprite);
+		Game.getInstance().world.add(this.scroller.group);
+		Game.getInstance().world.add(this.text);
+		this.backButton.mouseUpSignal.add(this.backButtonClicked, this);
 	};
-
+	
+	LevelsScene.prototype.backButtonClicked = function(data) {
+		this.navigationSignal.dispatch({"key":this.key, "button":"back"});
+	};
+	
 	LevelsScene.prototype.levelSelect = function(data) {
-		this.navigationSignal.dispatch({"key":this.key, "index":data.index});
+		console.log("level "+JSON.stringify(data));
+		this.navigationSignal.dispatch({"key":this.key, "button":"level", "index":data.index});
 	};
 
 	LevelsScene.prototype.update = function() {
