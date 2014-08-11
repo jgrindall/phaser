@@ -1,11 +1,11 @@
 
 define(['app/scenes/game/objectstate', 'app/game'], function(ObjectState, Game){
 	
+	"use strict";
+	
 	var Character = function(){
 		Game.pauseSignal.add(this.pauseChanged, this);
 	};
-	
-	Character.FORCE_DELAY = 425;
 	
 	Character.prototype.preload = function(){
 	
@@ -26,7 +26,6 @@ define(['app/scenes/game/objectstate', 'app/game'], function(ObjectState, Game){
 
 	Character.prototype.setForce = function(s) {
 		var that = this;
-		console.log("force "+s);
 		this.state.setState(s);
 		setTimeout(function(){
 			that.state.setState(null);
@@ -85,15 +84,16 @@ define(['app/scenes/game/objectstate', 'app/game'], function(ObjectState, Game){
 			return;
 		}
 		this.sprite.body.velocity.x = 0;
-		left = (this.state.isLeft() || this.cursors.left.isDown);
-		right = (this.state.isRight() || this.cursors.right.isDown);
-		var up = (this.state.isUp() || (this.sprite.body.blocked.down && this.cursors.up.isDown));
+		left = this.state.isLeft();
+		right = this.state.isRight();
+		var up = this.state.isUp();
+		// || (this.sprite.body.blocked.down && this.cursors.up.isDown));
 	    if(left){
-			this.sprite.body.velocity.x = -150;
+			this.sprite.body.velocity.x = -Character.VELX;
 	        this.sprite.animations.play('left');
 	    }
 	    else if(right){
-	        this.sprite.body.velocity.x = 150;
+	        this.sprite.body.velocity.x = Character.VELX;
 	        this.sprite.animations.play('right');
 	    }
 	    else{
@@ -101,11 +101,15 @@ define(['app/scenes/game/objectstate', 'app/game'], function(ObjectState, Game){
 	        this.sprite.frame = 4;
 	    }
 	    if(up){
-	        this.sprite.body.velocity.y = -400;
+	        this.sprite.body.velocity.y = -Character.VELY;
 			this.state.remove("U");
 	    }
 	};
-
+	
+	Character.VELX = 500;
+	Character.VELY = 400;
+	Character.FORCE_DELAY = 1005;
+	
 	return Character;
 	
 });

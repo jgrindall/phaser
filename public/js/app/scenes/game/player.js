@@ -24,8 +24,6 @@ define(['app/scenes/game/character', 'app/game'], function(Character, Game){
 	    body.collideWorldBounds = true;
 	    this.sprite.animations.add('left', [0, 1, 2, 3], 10, true);
 	    this.sprite.animations.add('right', [5, 6, 7, 8], 10, true);
-	    this.cursors = Game.getInput().keyboard.createCursorKeys();
-		this.jumpButton = Game.getInput().keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	};
 
 	Player.prototype.create = function () {

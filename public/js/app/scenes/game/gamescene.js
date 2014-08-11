@@ -1,7 +1,9 @@
 
-define(['app/scenes/scene', 'app/components/buttons/navbutton', 'app/scenes/comms/commsdata', 'app/scenes/game/controls', 'app/scenes/game/gamemode', 'app/scenes/game/gameview', 'app/scenes/game/gamemenu', 'app/game'],
+define(['app/scenes/scene', 'app/components/buttons/navbutton', 'app/components/buttons/pausebutton', 'app/scenes/comms/commsdata', 'app/scenes/game/controls', 'app/scenes/game/gamemode', 'app/scenes/game/gameview', 'app/scenes/game/gamemenu', 'app/game'],
 
-function(Scene, NavButton, commsData, Controls, GameMode, GameView, GameMenu, Game){
+function(Scene, NavButton, PauseButton, commsData, Controls, GameMode, GameView, GameMenu, Game){
+	
+	"use strict";
 	
 	var GameScene  = function(key){
 		Scene.call(this, key);
@@ -28,13 +30,13 @@ function(Scene, NavButton, commsData, Controls, GameMode, GameView, GameMenu, Ga
 	
 	GameScene.prototype.create = function() {
 		Scene.prototype.create.apply(this, arguments);
-		this.gameView = new GameView(Game.getInstance());
-		this.button = new NavButton(Game.getInstance());
+		this.gameView = new GameView();
+		this.pauseButton = new PauseButton({"x":Game.getInstance().world.width - PauseButton.WIDTH, "y":0});
 		this.gameView.create();
-	    this.button.create();
-		this.button.sprite.fixedToCamera = true;
-		this.button.mouseUpSignal.add(this.buttonClicked, this);
-		Game.getInstance().world.add(this.button.sprite);
+	    this.pauseButton.create();
+		this.pauseButton.sprite.fixedToCamera = true;
+		this.pauseButton.mouseUpSignal.add(this.buttonClicked, this);
+		Game.getInstance().world.add(this.pauseButton.sprite);
 		if(commsData.mode != GameMode.COMMANDS){
 			this.addControls();
 		}
@@ -43,7 +45,6 @@ function(Scene, NavButton, commsData, Controls, GameMode, GameView, GameMenu, Ga
 	
 	GameScene.prototype.checkLaunch = function() {
 		var that = this;
-		console.log("mode " + commsData.mode);
 		if(commsData.mode === GameMode.UNKNOWN){
 			setTimeout(function(){
 				that.showMenu();
@@ -57,21 +58,19 @@ function(Scene, NavButton, commsData, Controls, GameMode, GameView, GameMenu, Ga
 	};
 	
 	GameScene.prototype.showMenu = function(data) {
-		var options;
-		console.log("showMenu "+this.gameMenu);
+		var options, that = this;
 		Game.pausePhysics();
 		options = {"bounds":{"x":0, "y":0, "w":300, "h":200}};
 		if(!this.gameMenu){
 			this.gameMenu = new GameMenu(options);
 			this.gameMenu.create();
 			Game.getInstance().world.add(this.gameMenu.group);
-			console.log("sig "+this.gameMenu.selectSignal);
 			this.gameMenu.selectSignal.add(this.menuClick, this);
+			Game.getInstance().add.tween(this.gameMenu.group).to({"y": -100, "x":200}, 250, Phaser.Easing.Quadratic.Out, true, 20, false);
 		}
 	};
-
+	
 	GameScene.prototype.menuClick = function(data) {
-		console.log("hit "+JSON.stringify(data));
 		if(data.index === 0){
 			commsData.setMode(GameMode.INTERACTIVE);
 			this.hideMenu();
@@ -85,6 +84,9 @@ function(Scene, NavButton, commsData, Controls, GameMode, GameView, GameMenu, Ga
 		}
 		else if(data.index === 3){
 			this.navigationSignal.dispatch({"key":this.key, "target":"levels"});
+		}
+		else if(data.index === 4){
+			this.hideMenu();
 		}
 	};
 	

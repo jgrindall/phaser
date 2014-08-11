@@ -1,7 +1,9 @@
 
 define(['app/components/buttons/abstractbutton'], function(AbstractButton){
 	
-	ControlButton = function(){
+	"use strict";
+	
+	var ControlButton = function(){
 		AbstractButton.call(this, 'button');
 	};
 	

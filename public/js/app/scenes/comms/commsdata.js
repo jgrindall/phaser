@@ -2,6 +2,8 @@ define(['app/scenes/comms/commslayout', 'app/consts/leveldata', 'app/scenes/game
 
 function(CommsLayout, LevelData, GameMode, ObjectState) {
 	
+	"use strict";
+	
 	var CommsData = function(){
 		this.level = null;
 		this.clear();
@@ -9,6 +11,10 @@ function(CommsLayout, LevelData, GameMode, ObjectState) {
 		this.layoutSignal = new Phaser.Signal();
 		this.tabSignal = new Phaser.Signal();
 		this.mode = GameMode.UNKNOWN;
+	};
+	
+	CommsData.prototype.getMode = function(){
+		return this.mode;
 	};
 	
 	CommsData.prototype.setMode = function(mode){
@@ -34,6 +40,7 @@ function(CommsLayout, LevelData, GameMode, ObjectState) {
 				that.tiles[i] = [];
 			});
 		}
+		this.mode = GameMode.UNKNOWN;
 	};
 
 	CommsData.prototype.getTilesLayout = function(n){

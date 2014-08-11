@@ -11,16 +11,14 @@ define(['app/game', 'app/components/scroller', 'app/components/groupmarker'],fun
 	
 	Pager.prototype.addChildren = function(){
 		Scroller.prototype.addChildren.call(this);
-		if(this.options.marker){
-			this.groupMarker = new GroupMarker({"num":this.options.dataProvider.getNumPages()});
-			this.groupMarker.create();
-			Game.getInstance().world.add(this.groupMarker.group);
-		}
+		this.groupMarker = new GroupMarker({"num":this.options.dataProvider.getNumPages()});
+		this.groupMarker.create();
+		Game.getInstance().world.add(this.groupMarker.group);
 	};
 	
 	Pager.prototype.snap = function() {
 		Scroller.prototype.snap.call(this);
-		var pageNum = 1;
+		var pageNum = -1 * Math.round(this.group.x / Game.getInstance().world.width);
 		if(this.groupMarker){
 			this.groupMarker.setSelected(pageNum);
 		}

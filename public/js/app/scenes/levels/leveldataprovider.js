@@ -20,8 +20,8 @@ define(['app/game', 'app/components/buttongrid', 'app/components/buttons/levelsb
 	};
 	
 	LevelDataProvider.prototype.addAll = function(scroller){
-		this.addPage(0, 4, 5, scroller);
-		this.addPage(1, 6, 3, scroller);
+		this.addPage(0, 3, 3, scroller);
+		this.addPage(1, 3, 3, scroller);
 	};
 	
 	return LevelDataProvider;

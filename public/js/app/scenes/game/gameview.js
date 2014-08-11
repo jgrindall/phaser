@@ -1,7 +1,7 @@
 
-define(['app/game', 'app/scenes/game/player', 'app/components/background', 'app/scenes/game/stars', 'app/scenes/comms/commsdata', 'app/scenes/game/platforms'],
+define(['app/game', 'app/scenes/game/player', 'app/components/background', 'app/scenes/game/stars', 'app/scenes/comms/commsdata', 'app/scenes/game/platforms', 'app/scenes/game/gamemode'],
 
-function(Game, Player, Background, Stars, commsData, Platforms){
+function(Game, Player, Background, Stars, commsData, Platforms, GameMode){
 	
 	var GameView  = function(){
 		
@@ -72,7 +72,9 @@ function(Game, Player, Background, Stars, commsData, Platforms){
 		this.player.update();
 		this.platforms.update();
 		this.stars.update();
-		this.checkStill();
+		if(commsData.getMode() === GameMode.COMMANDS){
+			this.checkStill();
+		}
 	};
 	
 	GameView.prototype.playBack = function(){

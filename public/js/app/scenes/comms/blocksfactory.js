@@ -1,5 +1,7 @@
 define(['app/scenes/comms/block'], function(Block){
 	
+	"use strict";
+	
 	var BlockTypes = function(){
 	
 	};

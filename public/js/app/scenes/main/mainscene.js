@@ -1,5 +1,7 @@
 
-define(['app/scenes/scene', 'app/preloader/preloader', 'app/components/buttons/navbutton', 'app/utils/textfactory', 'app/game'],function(Scene, Preloader, NavButton, TextFactory, Game){
+define(['app/scenes/scene', 'app/preloader/preloader', 'app/components/buttons/navbutton', 'app/components/buttons/bulbbutton', 'app/components/loaderbar', 'app/utils/textfactory', 'app/game'],
+
+function(Scene, Preloader, NavButton, BulbButton, LoaderBar, TextFactory, Game){
 	
 	var MainScene  = function(key){
 		Scene.call(this, key);
@@ -28,8 +30,13 @@ define(['app/scenes/scene', 'app/preloader/preloader', 'app/components/buttons/n
 	};
 	
 	MainScene.prototype.addBar = function() {
-		this.loaderBar = new Phaser.Sprite(Game.getInstance(), 500, 60, 'loaderBar');
-		Game.getInstance().world.add(this.loaderBar);
+		var x, y, options;
+		x = Game.getInstance().world.centerX - LoaderBar.WIDTH/2;
+		y = Game.getInstance().world.height - LoaderBar.HEIGHT - 20;
+		options = {"x":x, "y":y};
+		this.loaderBar = new LoaderBar(options);
+		this.loaderBar.create();
+		Game.getInstance().world.add(this.loaderBar.sprite);
 	};
 	
 	MainScene.prototype.addText = function() {
@@ -40,13 +47,10 @@ define(['app/scenes/scene', 'app/preloader/preloader', 'app/components/buttons/n
 	};
 	
 	MainScene.prototype.addButtons = function() {
-		this.startButton = new NavButton();
-		this.tutorialButton = new NavButton();
+		this.startButton = new NavButton({"x":100, "y":200});
+		this.tutorialButton = new BulbButton({"x":400, "y":200});
 		this.startButton.create();
 		this.tutorialButton.create();
-		this.tutorialButton.sprite.x = 100;
-		this.startButton.sprite.y = 200;
-		this.tutorialButton.sprite.y = 200;
 		this.startButton.mouseUpSignal.add(this.startButtonClicked, this);
 		this.tutorialButton.mouseUpSignal.add(this.tutorialButtonClicked, this);
 		Game.getInstance().world.add(this.startButton.sprite);
@@ -56,12 +60,14 @@ define(['app/scenes/scene', 'app/preloader/preloader', 'app/components/buttons/n
 	MainScene.prototype.loadProgress = function(data) {
 		var p = Math.round(data.numLoaded * 100 / data.total);
 		this.preloadLabel.text = "Loaded "+p+"%";
+		this.loaderBar.goToPercent(p);
 	};
 
 	MainScene.prototype.create = function() {
 		MainScene.created = true;
 		Scene.prototype.create.call(this);
 		this.preloadLabel.text = "Loaded 100%";
+		this.loaderBar.goToPercent(100);
 	};
 
 	MainScene.prototype.startButtonClicked = function(data) {

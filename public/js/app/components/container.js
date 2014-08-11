@@ -1,6 +1,8 @@
 
 define(['app/game'],function(Game){
 	
+	"use strict";
+	
 	var Container = function(options){
 		this.options = options || {};
 		if(!this.options.bounds){
@@ -10,7 +12,7 @@ define(['app/game'],function(Game){
 	};
 
 	Container.prototype.create = function(){
-		this.group = Game.getInstance().add.group();
+		this.group = new Phaser.Group(Game.getInstance());
 	};
 	
 	Container.prototype.destroy = function() {

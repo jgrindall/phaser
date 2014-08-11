@@ -1,5 +1,7 @@
 define(['jquery', 'app/scenemanager/scenemanager', 'app/game'],function($, SceneManager, Game) {
 	
+	"use strict";
+	
    	var Boot = function ( ){
 
     };

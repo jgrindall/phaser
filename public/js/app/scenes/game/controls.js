@@ -1,5 +1,7 @@
 define(['app/game', 'app/components/buttons/controlbutton', 'app/components/container'], function(Game, ControlButton, Container){
 	
+	"use strict";
+	
 	var Controls = function(options){
 		Container.call(this, options);
 		this.upSignal = new Phaser.Signal();
@@ -16,7 +18,7 @@ define(['app/game', 'app/components/buttons/controlbutton', 'app/components/cont
 
 	Controls.prototype.create = function () {
 		Container.prototype.create.call(this);
-		var that = this;
+		var that = this, b;
 		$.each(Array(4), function(i) {
 			b = new ControlButton();
 			b.create();

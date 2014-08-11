@@ -18,10 +18,8 @@ define(['app/components/buttons/tabbutton', 'app/game', 'app/components/containe
 	Tabs.prototype.loadLevel = function(){
 		var _this = this, level = this.commsData.level;
 		$.each(Array(level.tabs), function(i) {
-			b = new TabButton();
+			b = new TabButton({"x":i * 80, "y":40});
 			b.create();
-			b.sprite.x = i * 80;
-			b.sprite.y = 4;
 			if(i === 1){
 				b.goToFrame(2);
 			}

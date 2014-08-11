@@ -68,9 +68,11 @@ define(['app/consts/appconsts', 'app/utils/textfactory', 'app/consts/leveldata',
 	SceneManager.prototype.preload = function(){
 		this.transitions = Game.getInstance().plugins.add(Phaser.Plugin.StateTransition);
 		this.transitions.settings({duration: 300,	properties: {alpha: 0, scale: {x: 1.05, y: 1.05}}});
-		Game.getInstance().load.spritesheet('button', 'assets/images/startButton.png', 125, 125);
-		Game.getInstance().load.image('sky', 'assets/images/sky.png');
-		Game.getInstance().load.image('loaderBar', 'assets/images/bar.png');
+		Game.getInstance().load.spritesheet('play', 'assets/images/buttons/yellowPlay.png', 120, 120);
+		Game.getInstance().load.spritesheet('bulb', 'assets/images/buttons/yellowBulb.png', 120, 120);
+		Game.getInstance().load.spritesheet('pause', 'assets/images/buttons/yellowPause.png', 120, 120);
+		Game.getInstance().load.image('sky', 'assets/images/bg/sky.png');
+		Game.getInstance().load.spritesheet('loaderBar', 'assets/images/other/bar.png', 500, 60);
 		var testLabel = TextFactory.make(Game.getInstance().world.centerX - 300, 0, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	};
 

@@ -11,12 +11,11 @@ define(['app/game', 'app/components/buttons/markerbutton', 'app/components/conta
 	
 	GroupMarker.prototype.create = function(){
 		Container.prototype.create.call(this);
-		var b, i;
-		for(i = 1; i <= this.options.num; i++){
-			b = new MarkerButton();
+		var b, i, x;
+		for(i = 0; i <= this.options.num - 1; i++){
+			x = Game.getInstance().world.centerX - 20 * this.options.num + i * 40;
+			b = new MarkerButton({"x":x, "y":Game.getInstance().world.height - 40});
 			b.create();
-			b.sprite.x = 100 + i * 20;
-			b.sprite.y = 400;
 			this.group.add(b.sprite);
 			this.buttons.push(b);
 		}

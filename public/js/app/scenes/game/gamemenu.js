@@ -1,5 +1,7 @@
 
-define(['app/components/buttons/navbutton', 'app/game', 'app/components/container'], function(NavButton, Game, Container){
+define(['app/components/buttons/navbutton', 'app/components/buttons/closebutton', 'app/game', 'app/components/buttons/listbutton', 'app/components/buttons/homebutton', 'app/components/container'],
+
+function(NavButton, CloseButton, Game, ListButton, HomeButton, Container){
 	
 	var GameMenu = function(options){
 		Container.call(this, options);
@@ -15,38 +17,33 @@ define(['app/components/buttons/navbutton', 'app/game', 'app/components/containe
 	};
 	
 	GameMenu.prototype.addRect = function () {
-		this.rect = new Phaser.Graphics(Game.getInstance(), 0, 0);
-		this.rect.beginFill(0x000000);
-   		this.rect.lineStyle(10, 0xffd900, 1);
-    	this.rect.drawRect(50, 250, 700, 400);
-		this.group.add(this.rect);
+		this.panel = new Phaser.Sprite(Game.getInstance(), 0, 0, 'panel');
+		this.buttonGroup = new Phaser.Group(Game.getInstance(), 0, 0);
+		this.group.add(this.panel);
+		this.group.add(this.buttonGroup);
 	};
 	
-	GameMenu.prototype.addButtons = function () {
-		console.log("addButtons");
-		var that = this, b;
-		$.each(Array(4), function(i) {
-			b = new NavButton();
-			b.create();
-			b.sprite.x = 200 * i;
-			b.sprite.y = 200;
-			b.mouseUpSignal.add(that.buttonUp, that);
-			that.group.add(b.sprite);
-			that.buttons.push(b);
-		});
+	GameMenu.prototype.addButton = function (_class, x, y) {
+		var b = new _class({"x":x, "y":y});
+		b.create();
+		b.mouseUpSignal.add(this.buttonUp, this);
+		this.buttonGroup.add(b.sprite);
+		this.buttons.push(b);
 	};
 	
 	GameMenu.prototype.create = function () {
-		console.log("create");
 		Container.prototype.create.call(this);
-		this.group.fixedToCamera = true;
 		this.addRect();
-		this.addButtons();
+		this.addButton(NavButton, 100, 200);
+		this.addButton(NavButton, 200, 200);
+		this.addButton(ListButton, 300, 200);
+		this.addButton(HomeButton, 400, 200);
+		this.addButton(CloseButton, 500, 150);
 	};
 	
 	GameMenu.prototype.buttonUp = function(data) {
-		var index = this.group.getIndex(data.target.sprite);
-		this.selectSignal.dispatch({"index":index - 1});
+		var index = this.buttonGroup.getIndex(data.target.sprite);
+		this.selectSignal.dispatch({"index":index});
 	};
 	
 	GameMenu.prototype.destroy = function() {

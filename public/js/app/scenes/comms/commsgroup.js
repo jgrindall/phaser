@@ -1,5 +1,7 @@
 define(['app/game','app/scenes/comms/commslayout', 'app/consts/leveldata'], function(Game, CommsLayout, LevelData) {
 	
+	"use strict";
+	
 	var CommsGroup = function(game){
 		Phaser.Group.call(this, game);
 	};

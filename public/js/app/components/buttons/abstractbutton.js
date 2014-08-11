@@ -1,8 +1,11 @@
 
 define(['app/game'], function(Game){
 	
-	var AbstractButton = function(asset){
-		this.asset = asset;
+	"use strict";
+	
+	var AbstractButton = function(options){
+		this.options = options;
+		this.asset = this.options.asset;
 		this.frames = [0, 1, 2, 3];
 		this.mouseDownSignal = new Phaser.Signal();
 		this.mouseUpSignal = new Phaser.Signal();
@@ -30,6 +33,8 @@ define(['app/game'], function(Game){
 		this.sprite.events.onInputUp.add(this.mouseUp, this);
 		this.sprite.events.onInputDown.add(this.mouseDown, this);
 		this.sprite.inputEnabled = true;
+		this.sprite.x = this.options.x;
+		this.sprite.y = this.options.y;
 		this.resetFrames();
 	};
 

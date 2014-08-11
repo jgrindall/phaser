@@ -1,6 +1,8 @@
 
 define(['app/scenes/scene', 'app/scenes/comms/commands', 'app/components/tabs', 'app/scenes/comms/commsdata', 'app/game'], function(Scene, Commands, Tabs, commsData, Game){
 	
+	"use strict";
+	
 	var CommScene  = function(key){
 		Scene.call(this, key);
 	};
@@ -21,17 +23,16 @@ define(['app/scenes/scene', 'app/scenes/comms/commands', 'app/components/tabs', 
 	CommScene.prototype.create = function() {
 		var bounds;
 		Scene.prototype.create.apply(this, arguments);
-		this.goButton = new NavButton();
+		this.goButton = new NavButton({"x":110, "y":0});
 		this.commands = new Commands(commsData);
 		bounds = {"x": 0, "y": 0, "w": 300, "h": 50};
 		this.tabs = new Tabs({"commsData":commsData, "bounds":bounds});
 		this.goButton.create();
-		this.goButton.sprite.x = 110;
 		this.tabs.create();
 		this.tabs.group.x = 300;
 		this.commands.create();
 		this.tabs.selectSignal.add(this.tabSelected, this);
-		this.backButton = new NavButton();
+		this.backButton = new HomeButton({"x":0, "y":0});
 		this.backButton.create();
 		Game.getInstance().world.add(this.goButton.sprite);
 		Game.getInstance().world.add(this.tabs.group);

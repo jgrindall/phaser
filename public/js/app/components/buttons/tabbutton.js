@@ -1,9 +1,10 @@
 
 define(['app/components/buttons/abstractbutton'],function(AbstractButton){
 
-	var TabButton = function(){
+	var TabButton = function(options){
+		options.asset = 'play';
 		// overFrame, outFrame, downFrame, upFrame
-		AbstractButton.call(this, 'button');
+		AbstractButton.call(this, options);
 	};
 	
 	TabButton.prototype = Object.create(AbstractButton.prototype);

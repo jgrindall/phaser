@@ -15,6 +15,11 @@ define(['app/game'],function(Game){
 		this.group = new Phaser.Group(Game.getInstance());
 	    this.addChildren();
 		Game.getInput().onDown.add($.proxy(this.onDown, this));
+		Game.getInput().mouse.mouseOutCallback = $.proxy(this.mouseOutCallback, this);
+	};
+	
+	Scroller.prototype.mouseOutCallback = function() {
+		this.onUp();
 	};
 	
 	Scroller.prototype.add = function(child) {
@@ -49,7 +54,8 @@ define(['app/game'],function(Game){
 	};
 	
 	Scroller.prototype.snap = function() {
-		this.group.x = this.options.snapX * Math.round(this.group.x / this.options.snapX);
+		var x = this.options.snapX * Math.round(this.group.x / this.options.snapX)
+		Game.getInstance().add.tween(this.group).to({'x': x}, 250, Phaser.Easing.Quadratic.Out, true, 20, false);
 	};
 
 	Scroller.prototype.buttonUp = function(data) {
@@ -61,7 +67,6 @@ define(['app/game'],function(Game){
 		}
 		else{
 			// button up?
-			console.log("button up");
 		}
 	};
 
@@ -74,6 +79,12 @@ define(['app/game'],function(Game){
 		x = this.startX - this.dx;
 		x = Math.min(Math.max(x, this.minX), 0);
 		this.group.x = x;
+	};
+	
+	Scroller.prototype.destroy = function() {
+		this.group.destroy(true);
+		Game.getInput().onDown.removeAll(this);
+		Game.getInput().mouse.mouseOutCallback = null;
 	};
 	
 	Scroller.prototype.startDragging = function(data) {

@@ -29,10 +29,10 @@ define([], function(){
 	LevelData.INDENTS_TYPES = 		[2];
 	LevelData.UNINDENTS_TYPES = 	[3];
 	
-	LevelData.BLOCK0 = "assets/images/block0.png";
-	LevelData.BLOCK1 = "assets/images/block1.png";
-	LevelData.BLOCK2 = "assets/images/block2.png";
-	LevelData.BLOCK3 = "assets/images/block3.png";
+	LevelData.BLOCK0 = "assets/images/blocks/block0.png";
+	LevelData.BLOCK1 = "assets/images/blocks/block1.png";
+	LevelData.BLOCK2 = "assets/images/blocks/block2.png";
+	LevelData.BLOCK3 = "assets/images/blocks/block3.png";
 
 	LevelData.BLOCK = [LevelData.BLOCK0, LevelData.BLOCK1];
 

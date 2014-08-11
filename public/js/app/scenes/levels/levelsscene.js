@@ -1,5 +1,7 @@
 
-define(['app/scenes/scene', 'app/components/scroller', 'app/components/pager', 'app/utils/textfactory', 'app/components/buttons/levelsbutton', 'app/game', 'app/scenes/levels/leveldataprovider'], function(Scene, Scroller, Pager, TextFactory, LevelsButton, Game, LevelDataProvider){
+define(['app/scenes/scene', 'app/components/scroller', 'app/components/pager', 'app/utils/textfactory', 'app/components/buttons/levelsbutton', 'app/components/buttons/homebutton', 'app/game', 'app/scenes/levels/leveldataprovider'],
+
+function(Scene, Scroller, Pager, TextFactory, LevelsButton, HomeButton, Game, LevelDataProvider){
 	
 	var LevelsScene  = function(key){
 		Scene.call(this, key);
@@ -19,7 +21,7 @@ define(['app/scenes/scene', 'app/components/scroller', 'app/components/pager', '
 		this.scroller.create();
 		this.scroller.selectSignal.add(this.levelSelect, this);
 		this.text = TextFactory.make(Game.getInstance().world.centerX - 300, 0, "Choose a level");
-		this.backButton = new NavButton();
+		this.backButton = new HomeButton({"x":0, "y":0});
 		this.backButton.create();
 		Game.getInstance().world.add(this.backButton.sprite);
 		Game.getInstance().world.add(this.scroller.group);
@@ -32,7 +34,6 @@ define(['app/scenes/scene', 'app/components/scroller', 'app/components/pager', '
 	};
 	
 	LevelsScene.prototype.levelSelect = function(data) {
-		console.log("level "+JSON.stringify(data));
 		this.navigationSignal.dispatch({"key":this.key, "button":"level", "index":data.index});
 	};
 
@@ -42,6 +43,9 @@ define(['app/scenes/scene', 'app/components/scroller', 'app/components/pager', '
 
 	LevelsScene.prototype.shutdown = function() {
 		Scene.prototype.shutdown.apply(this, arguments);
+		if(this.scroller){
+			this.scroller.destroy();
+		}
 	};
 
 	return LevelsScene;

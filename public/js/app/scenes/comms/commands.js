@@ -1,6 +1,8 @@
 
 define(['app/scenes/comms/blocksfactory', 'app/game', 'app/scenes/comms/commslayout', 'app/scenes/comms/commsgroup'], function(BlocksFactory, Game, CommsLayout, CommsGroup){
 	
+	"use strict";
+	
 	var Commands = function(commsData){
 		this.mainGroup = null;
 		this.targetGroups = [];

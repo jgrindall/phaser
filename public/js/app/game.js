@@ -1,6 +1,8 @@
 
 define([],function(){
 	
+	"use strict";
+	
 	var Game = function(){
 		
 	};
@@ -55,7 +57,6 @@ define([],function(){
 	};
 	
 	Game.create = function(){
-		var w, h;
 		var w, h;
 		w = Game.getWidth();
     	h = Game.getHeight();

@@ -1,5 +1,7 @@
 define(['app/game'], function(Game){
 	
+	"use strict";
+	
 	var Block = function(type, img){
 		this.type = type;
 		this.img = img;
