@@ -1,6 +1,8 @@
 
 define(['app/components/buttons/abstractbutton'],function(AbstractButton){
-
+	
+	"use strict";
+	
 	var TabButton = function(options){
 		options.asset = 'play';
 		// overFrame, outFrame, downFrame, upFrame

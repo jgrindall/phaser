@@ -1,7 +1,9 @@
 
 define(['app/components/buttons/abstractbutton'], function(AbstractButton){
 	
-	NavButton = function(options){
+	"use strict";
+	
+	var NavButton = function(options){
 		options.asset = 'play';
 		AbstractButton.call(this, options);
 	};

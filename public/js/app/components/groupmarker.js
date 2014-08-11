@@ -1,6 +1,8 @@
 
 define(['app/game', 'app/components/buttons/markerbutton', 'app/components/container'],function(Game, MarkerButton, Container){
 	
+	"use strict";
+	
 	var GroupMarker = function(options){
 		Container.call(this, options);
 		this.buttons = [];

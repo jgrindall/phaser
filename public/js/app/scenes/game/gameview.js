@@ -3,6 +3,8 @@ define(['app/game', 'app/scenes/game/player', 'app/components/background', 'app/
 
 function(Game, Player, Background, Stars, commsData, Platforms, GameMode){
 	
+	"use strict";
+	
 	var GameView  = function(){
 		
 	};

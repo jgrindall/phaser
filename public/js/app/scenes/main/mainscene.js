@@ -3,6 +3,8 @@ define(['app/scenes/scene', 'app/preloader/preloader', 'app/components/buttons/n
 
 function(Scene, Preloader, NavButton, BulbButton, LoaderBar, TextFactory, Game){
 	
+	"use strict";
+	
 	var MainScene  = function(key){
 		Scene.call(this, key);
 		this.numLoaded = 0;

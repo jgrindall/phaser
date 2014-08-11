@@ -1,7 +1,9 @@
 
 define(['app/components/buttons/abstractbutton'], function(AbstractButton){
 	
-	PauseButton = function(options){
+	"use strict";
+	
+	var PauseButton = function(options){
 		options.asset = 'pause';
 		AbstractButton.call(this, options);
 	};

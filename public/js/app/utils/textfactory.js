@@ -1,6 +1,8 @@
 
 define(['app/game'], function(Game){
 	
+	"use strict";
+	
 	var TextFactory  = function(){
 		
 	};

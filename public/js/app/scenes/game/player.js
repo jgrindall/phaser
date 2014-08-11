@@ -1,6 +1,8 @@
 
 define(['app/scenes/game/character', 'app/game'], function(Character, Game){
 	
+	"use strict";
+	
 	var Player = function(){
 		Character.call(this);
 	};

@@ -1,6 +1,8 @@
 
 define(['app/game', 'app/components/scroller', 'app/components/groupmarker'],function(Game, Scroller, GroupMarker){
 	
+	"use strict";
+	
 	var Pager = function(options){
 		options.snapX = Game.getInstance().world.width;
 		Scroller.call(this, options);

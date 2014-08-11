@@ -1,7 +1,9 @@
 
 define(['app/components/buttons/abstractbutton'], function(AbstractButton){
 	
-	HomeButton = function(options){
+	"use strict";
+	
+	var HomeButton = function(options){
 		options.asset = 'home';
 		AbstractButton.call(this, options);
 	};

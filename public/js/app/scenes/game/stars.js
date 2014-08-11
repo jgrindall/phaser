@@ -1,5 +1,7 @@
 define(['app/game'], function(Game){
 	
+	"use strict";
+	
 	var Stars = function(){
 		
 	};

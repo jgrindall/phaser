@@ -3,6 +3,8 @@ define(['app/components/buttons/navbutton', 'app/components/buttons/closebutton'
 
 function(NavButton, CloseButton, Game, ListButton, HomeButton, Container){
 	
+	"use strict";
+		
 	var GameMenu = function(options){
 		Container.call(this, options);
 		this.selectSignal = new Phaser.Signal();

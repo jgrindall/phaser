@@ -1,6 +1,8 @@
 
 define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 	
+	"use strict";
+	
 	var Preloader = function(){
 		this.numLoaded = 0;
 		this.loadSignal = new Phaser.Signal();

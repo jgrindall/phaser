@@ -1,6 +1,8 @@
 
 define(['app/game', 'app/components/buttongrid', 'app/components/buttons/levelsbutton'], function(Game, ButtonGrid, LevelsButton){
 	
+	"use strict";
+	
 	var LevelDataProvider  = function(){
 		
 	};

@@ -1,6 +1,8 @@
 
 define(['app/components/buttons/abstractbutton'], function(AbstractButton){
 	
+	"use strict";
+	
 	var MarkerButton = function(options){
 		options.asset = 'marker';
 		AbstractButton.call(this, options);

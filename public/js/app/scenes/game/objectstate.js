@@ -1,5 +1,7 @@
 define([], function(){
 	
+	"use strict";
+	
 	var ObjectState = function(body){
 		this.body = body;
 		this.state = null;

@@ -1,6 +1,8 @@
 
 define([], function(){
 	
+	"use strict";
+	
 	Phaser.Group.prototype.hitTest = function(input){
 		var hits = false;
 		var pointer = input.activePointer;

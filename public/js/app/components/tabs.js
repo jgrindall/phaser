@@ -1,6 +1,8 @@
 
 define(['app/components/buttons/tabbutton', 'app/game', 'app/components/container'],function(TabButton, Game, Container){
 	
+	"use strict";
+	
 	var Tabs = function(options){
 		Container.call(this, options);
 		this.commsData = this.options.commsData;

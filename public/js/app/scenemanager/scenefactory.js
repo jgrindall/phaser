@@ -1,6 +1,8 @@
 
 define(['app/consts/appconsts','app/scenes/game/gamescene','app/scenes/comms/commscene','app/scenes/main/mainscene','app/scenes/tutorial/tutorialscene','app/scenes/levels/levelsscene'], function(AppConsts, GameScene, CommScene, MainScene, TutorialScene, LevelsScene ){
 	
+	"use strict";
+	
 	var SceneFactory = function(){
 
 	};

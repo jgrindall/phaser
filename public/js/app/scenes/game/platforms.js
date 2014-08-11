@@ -1,6 +1,8 @@
 
 define(['app/game'], function(Game){
 	
+	"use strict";
+	
 	var Platforms = function(){
 		
 	};

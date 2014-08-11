@@ -1,6 +1,8 @@
 
 define(['app/scenes/scene', 'app/preloader/preloader', 'app/components/buttons/navbutton', 'app/utils/textfactory', 'app/game'],function(Scene, Preloader, NavButton, TextFactory, Game){
 	
+	"use strict";
+	
 	var TutorialScene  = function(key){
 		Scene.call(this, key);
 	};

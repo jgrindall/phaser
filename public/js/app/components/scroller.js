@@ -1,6 +1,8 @@
 
 define(['app/game'],function(Game){
 	
+	"use strict";
+	
 	var Scroller = function(options){
 		this.options = options;
 		this.x0 = null;

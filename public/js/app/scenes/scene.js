@@ -1,6 +1,8 @@
 
 define(['app/game', 'app/components/background'], function(Game, Background){
 	
+	"use strict";
+	
 	var Scene  = function(key){
 		this.key = key;
 		this.navigationSignal = new Phaser.Signal();

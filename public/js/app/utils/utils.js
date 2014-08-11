@@ -1,6 +1,8 @@
 
 define(function(require, exports){
 	
+	"use strict";
+	
 	var Utils = function(){
 		
 	};

@@ -1,6 +1,8 @@
 
 define(['app/consts/appconsts', 'app/utils/textfactory', 'app/consts/leveldata', 'app/scenemanager/scenefactory', 'app/scenes/comms/commsdata', 'app/game'], function(AppConsts, TextFactory, LevelData, SceneFactory, commsData, Game){
 	
+	"use strict";
+	
 	var SceneManager = function(){
 
 	};

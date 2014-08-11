@@ -3,6 +3,8 @@ define(['app/scenes/scene', 'app/components/scroller', 'app/components/pager', '
 
 function(Scene, Scroller, Pager, TextFactory, LevelsButton, HomeButton, Game, LevelDataProvider){
 	
+	"use strict";
+	
 	var LevelsScene  = function(key){
 		Scene.call(this, key);
 	};

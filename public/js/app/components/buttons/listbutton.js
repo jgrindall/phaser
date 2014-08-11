@@ -1,6 +1,8 @@
 
 define(['app/components/buttons/abstractbutton'], function(AbstractButton){
 	
+	"use strict";
+	
 	var ListButton = function(options){
 		options.asset = 'list';
 		AbstractButton.call(this, options);

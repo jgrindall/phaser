@@ -1,6 +1,8 @@
 
 define(['app/components/buttons/abstractbutton'], function(AbstractButton){
 	
+	"use strict";
+	
 	var LevelsButton = function(options){
 		options.asset = 'play';
 		AbstractButton.call(this, options);
