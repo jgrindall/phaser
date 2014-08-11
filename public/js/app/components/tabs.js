@@ -18,16 +18,16 @@ define(['app/components/buttons/tabbutton', 'app/game', 'app/components/containe
 	};
 
 	Tabs.prototype.loadLevel = function(){
-		var _this = this, level = this.commsData.level;
+		var that = this, level = this.commsData.level, b;
 		$.each(Array(level.tabs), function(i) {
-			b = new TabButton({"x":i * 80, "y":40});
+			b = new TabButton({"x":that.options.bounds.x + i * TabButton.WIDTH, "y":0});
 			b.create();
 			if(i === 1){
 				b.goToFrame(2);
 			}
-			b.mouseDownSignal.add($.proxy(_this.click, _this));
-			_this.group.add(b.sprite);
-			_this.buttons.push(b);
+			b.mouseDownSignal.add($.proxy(that.click, that));
+			that.group.add(b.sprite);
+			that.buttons.push(b);
 		}); 
 		this.reload();
 	};

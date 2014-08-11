@@ -7,7 +7,7 @@ define([], function() {
 	};
 	
 	CommsLayout.getBlockHeight = function(type){
-		return 120;
+		return 75;
 	};
 
 	CommsLayout.TOP = 60;

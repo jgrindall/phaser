@@ -1,4 +1,6 @@
-define(['app/game', 'app/components/buttons/controlbutton', 'app/components/container'], function(Game, ControlButton, Container){
+define(['app/game', 'app/components/buttons/controlbutton', 'app/components/buttons/pausebutton', 'app/components/container'],
+
+function(Game, ControlButton, PauseButton, Container){
 	
 	"use strict";
 	
@@ -18,12 +20,11 @@ define(['app/game', 'app/components/buttons/controlbutton', 'app/components/cont
 
 	Controls.prototype.create = function () {
 		Container.prototype.create.call(this);
+		this.group.fixedToCamera = true;
 		var that = this, b;
 		$.each(Array(4), function(i) {
-			b = new ControlButton();
+			b = new ControlButton({"x":100 + i*100, "y":Game.getInstance().world.height - ControlButton.HEIGHT});
 			b.create();
-			b.sprite.x = 100 + i * 180;
-			b.sprite.y = 400;
 			b.mouseDownSignal.add($.proxy(that.controlDown, that));
 			b.mouseUpSignal.add($.proxy(that.controlUp, that));
 			that.group.add(b.sprite);

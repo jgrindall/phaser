@@ -18,7 +18,7 @@ function(Scene, NavButton, PauseButton, commsData, Controls, GameMode, GameView,
 	};
 	
 	GameScene.prototype.addControls = function() {
-		this.controls = new Controls();
+		this.controls = new Controls({"bounds":{"x":0, "y":0}});
 		this.controls.create();
 		Game.getInstance().world.add(this.controls.group);
 		this.controls.upSignal.add(this.gameView.controlUp, this.gameView);
@@ -37,7 +37,7 @@ function(Scene, NavButton, PauseButton, commsData, Controls, GameMode, GameView,
 		this.pauseButton.sprite.fixedToCamera = true;
 		this.pauseButton.mouseUpSignal.add(this.buttonClicked, this);
 		Game.getInstance().world.add(this.pauseButton.sprite);
-		if(commsData.mode != GameMode.COMMANDS){
+		if(1==1 || commsData.mode != GameMode.COMMANDS){
 			this.addControls();
 		}
 		this.checkLaunch();
@@ -80,10 +80,10 @@ function(Scene, NavButton, PauseButton, commsData, Controls, GameMode, GameView,
 			this.navigationSignal.dispatch({"key":this.key, "target":"comms"});
 		}
 		else if(data.index === 2){
-			this.navigationSignal.dispatch({"key":this.key, "target":"home"});
+			this.navigationSignal.dispatch({"key":this.key, "target":"levels"});
 		}
 		else if(data.index === 3){
-			this.navigationSignal.dispatch({"key":this.key, "target":"levels"});
+			this.navigationSignal.dispatch({"key":this.key, "target":"home"});
 		}
 		else if(data.index === 4){
 			this.hideMenu();

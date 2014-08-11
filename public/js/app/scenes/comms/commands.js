@@ -121,9 +121,15 @@ define(['app/scenes/comms/blocksfactory', 'app/game', 'app/scenes/comms/commslay
 			this.y0 = input.activePointer.y;
 			input.onUp.add($.proxy(this.onUp, this));
 			input.moveCallback = $.proxy(this.move, this);
+			input.mouse.mouseOutCallback = $.proxy(this.mouseOutCallback, this);
+			
 		}
 	};
-
+	
+	Commands.prototype.mouseOutCallback = function() {
+		this.onUp();
+	};
+	
 	Commands.prototype.move = function() {
 		var input = Game.getInput();
 		var num = this.commsData.currentTiles().length;

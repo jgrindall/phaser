@@ -9,6 +9,8 @@ define(['app/components/buttons/abstractbutton'],function(AbstractButton){
 		AbstractButton.call(this, options);
 	};
 	
+	TabButton.WIDTH = 120;
+	
 	TabButton.prototype = Object.create(AbstractButton.prototype);
 	TabButton.prototype.constructor = TabButton;
 
