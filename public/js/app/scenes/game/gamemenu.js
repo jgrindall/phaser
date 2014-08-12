@@ -11,6 +11,9 @@ function(NavButton, CloseButton, Game, ListButton, HomeButton, Container){
 		this.buttons = [];
 	};
 	
+	GameMenu.WIDTH = 800;
+	GameMenu.HEIGHT = 600;
+	
 	GameMenu.prototype = Object.create(Container.prototype);
 	GameMenu.prototype.constructor = GameMenu;
 	
@@ -19,7 +22,7 @@ function(NavButton, CloseButton, Game, ListButton, HomeButton, Container){
 	};
 	
 	GameMenu.prototype.addRect = function () {
-		this.panel = new Phaser.Sprite(Game.getInstance(), 0, 0, 'panel');
+		this.panel = new Phaser.Sprite(Game.getInstance(), this.bounds.x, this.bounds.y, 'panel');
 		this.buttonGroup = new Phaser.Group(Game.getInstance(), 0, 0);
 		this.group.add(this.panel);
 		this.group.add(this.buttonGroup);
@@ -36,11 +39,12 @@ function(NavButton, CloseButton, Game, ListButton, HomeButton, Container){
 	GameMenu.prototype.create = function () {
 		Container.prototype.create.call(this);
 		this.addRect();
-		this.addButton(NavButton, 100, 200);
-		this.addButton(NavButton, 200, 200);
-		this.addButton(ListButton, 300, 200);
-		this.addButton(HomeButton, 400, 200);
-		this.addButton(CloseButton, 500, 150);
+		var y = this.bounds.y + this.bounds.h/2 - NavButton.HEIGHT/2;
+		this.addButton(NavButton, 200, y);
+		this.addButton(NavButton, 350, y);
+		this.addButton(ListButton, 500, y);
+		this.addButton(HomeButton, 650, y);
+		this.addButton(CloseButton, this.bounds.x + this.bounds.w - 50, this.bounds.y + 10);
 	};
 	
 	GameMenu.prototype.buttonUp = function(data) {

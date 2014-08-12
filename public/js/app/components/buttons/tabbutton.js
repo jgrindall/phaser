@@ -4,12 +4,12 @@ define(['app/components/buttons/abstractbutton'],function(AbstractButton){
 	"use strict";
 	
 	var TabButton = function(options){
-		options.asset = 'play';
-		// overFrame, outFrame, downFrame, upFrame
+		options.asset = 'tabbutton';
 		AbstractButton.call(this, options);
 	};
 	
-	TabButton.WIDTH = 120;
+	TabButton.WIDTH = 244;
+	TabButton.HEIGHT = 52;
 	
 	TabButton.prototype = Object.create(AbstractButton.prototype);
 	TabButton.prototype.constructor = TabButton;
@@ -23,11 +23,11 @@ define(['app/components/buttons/abstractbutton'],function(AbstractButton){
 	};
 
 	TabButton.prototype.select = function(){
-		this.goToFrame(2);
+		this.goToFrame(1);
 	};
 
 	TabButton.prototype.deselect = function(){
-		this.goToFrame(1);
+		this.goToFrame(0);
 	};
 	
 	return TabButton;

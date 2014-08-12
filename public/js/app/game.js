@@ -1,5 +1,7 @@
 
-define([],function(){
+define([],
+
+function(){
 	
 	"use strict";
 	
@@ -49,18 +51,56 @@ define([],function(){
 	};
 	
 	Game.getWidth = function(){
-		return Math.min(1024, document.body.offsetWidth);
+		var pRatio, w;
+		pRatio = window.devicePixelRatio;
+		w = Math.min(1024, document.body.offsetWidth);
+		return pRatio * w;
 	};
 	
 	Game.getHeight = function(){
-		return Math.min(768, document.body.offsetHeight);
+		var pRatio, h;
+		pRatio = window.devicePixelRatio;
+		h = Math.min(768, document.body.offsetHeight);
+		return pRatio * h;
+	};
+	
+	Game.gonePortrait = function(){
+		alert("portrait");
+	};
+	
+	Game.w = function(){
+		return Game.getInstance().camera.width;
+	};
+	
+	Game.h = function(){
+		return Game.getInstance().camera.height;
+	};
+	
+	Game.cx = function(){
+		return Game.w()/2;
+	};
+	
+	Game.cy = function(){
+		return Game.h()/2;
+	};
+	
+	Game.setupScale = function(){
+		Game.scaleManager = new Phaser.ScaleManager(Game.instance, 1024, 768);
+		Game.scaleManager.forceLandscape = true;
+		Game.scaleManager.scaleMode = Phaser.StageScaleMode.EXACT_FIT;
+		Game.scaleManager.pageAlignHorizontally = true;
+		Game.scaleManager.pageAlignVertically = true;
+		Game.scaleManager.enterPortrait.add(Game.gonePortrait);
+		Game.scaleManager.forceOrientation(true, false);
 	};
 	
 	Game.create = function(){
 		var w, h;
 		w = Game.getWidth();
     	h = Game.getHeight();
-		Game.instance = new Phaser.Game(w, h, Phaser.AUTO, 'game', Game.config)
+    	console.log("size "+window.devicePixelRatio, document.body.offsetWidth, document.body.offsetHeight);
+		Game.instance = new Phaser.Game(w, h, Phaser.AUTO, 'game', Game.config);
+		Game.setupScale();
 	};
 	
 	Game.getInstance = function(){

@@ -1,3 +1,8 @@
+/********************/
+
+/*  app consts  */
+
+
 define([], function() {
 	
 	"use strict";

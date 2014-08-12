@@ -1,7 +1,7 @@
 
 define(['app/game', 'app/scenes/game/player', 'app/components/background', 'app/scenes/game/stars', 'app/scenes/comms/commsdata', 'app/scenes/game/platforms', 'app/scenes/game/gamemode'],
 
-function(Game, Player, Background, Stars, commsData, Platforms, GameMode){
+function(Game, Player, Background, Stars, CommsData, Platforms, GameMode){
 	
 	"use strict";
 	
@@ -57,7 +57,7 @@ function(Game, Player, Background, Stars, commsData, Platforms, GameMode){
 	};
 	
 	GameView.prototype.create = function() {
-		this.commandStack = commsData.getCommands();
+		this.commandStack = CommsData.getInstance().getCommands();
 		this.commandNum = -1;
 		this.addBg();
 		this.addPlatforms();
@@ -74,7 +74,7 @@ function(Game, Player, Background, Stars, commsData, Platforms, GameMode){
 		this.player.update();
 		this.platforms.update();
 		this.stars.update();
-		if(commsData.getMode() === GameMode.COMMANDS){
+		if(CommsData.getInstance().getMode() === GameMode.COMMANDS){
 			this.checkStill();
 		}
 	};

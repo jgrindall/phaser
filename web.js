@@ -6,12 +6,16 @@ app.configure(function(){
 	app.use(express.static(__dirname+"/public"));
 });
 
-app.get('/', function(req, res) {
-	res.render("index.html");
+app.render = function(res, path){
+	res.sendfile(path);
+};
+
+app.get('/home', function(req, res) {
+	app.render(res, "public/index.html");
 });
 
-app.get('/dist', function(req, res) {
-	res.render("dist/index.html");
+app.get('/build', function(req, res) {
+	app.render(res, "public/index-build.html");
 });
 
 app.listen(port, function() {

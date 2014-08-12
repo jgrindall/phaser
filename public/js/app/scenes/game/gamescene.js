@@ -1,7 +1,7 @@
 
 define(['app/scenes/scene', 'app/components/buttons/navbutton', 'app/components/buttons/pausebutton', 'app/scenes/comms/commsdata', 'app/scenes/game/controls', 'app/scenes/game/gamemode', 'app/scenes/game/gameview', 'app/scenes/game/gamemenu', 'app/game'],
 
-function(Scene, NavButton, PauseButton, commsData, Controls, GameMode, GameView, GameMenu, Game){
+function(Scene, NavButton, PauseButton, CommsData, Controls, GameMode, GameView, GameMenu, Game){
 	
 	"use strict";
 	
@@ -31,13 +31,13 @@ function(Scene, NavButton, PauseButton, commsData, Controls, GameMode, GameView,
 	GameScene.prototype.create = function() {
 		Scene.prototype.create.apply(this, arguments);
 		this.gameView = new GameView();
-		this.pauseButton = new PauseButton({"x":Game.getInstance().world.width - PauseButton.WIDTH, "y":0});
+		this.pauseButton = new PauseButton({"x":Game.w() - PauseButton.WIDTH, "y":0});
 		this.gameView.create();
 	    this.pauseButton.create();
 		this.pauseButton.sprite.fixedToCamera = true;
 		this.pauseButton.mouseUpSignal.add(this.buttonClicked, this);
 		Game.getInstance().world.add(this.pauseButton.sprite);
-		if(1==1 || commsData.mode != GameMode.COMMANDS){
+		if(1==1 || CommsData.getInstance().mode != GameMode.COMMANDS){
 			this.addControls();
 		}
 		this.checkLaunch();
@@ -45,38 +45,39 @@ function(Scene, NavButton, PauseButton, commsData, Controls, GameMode, GameView,
 	
 	GameScene.prototype.checkLaunch = function() {
 		var that = this;
-		if(commsData.mode === GameMode.UNKNOWN){
+		if(CommsData.getInstance().mode === GameMode.UNKNOWN){
 			setTimeout(function(){
 				that.showMenu();
-			}, 1000);
+			}, 500);
 		}
-		else if(commsData.mode === GameMode.COMMANDS){
+		else if(CommsData.getInstance().mode === GameMode.COMMANDS){
 			setTimeout(function(){
 				that.gameView.playBack();
-			}, 1000);
+			}, 500);
 		}
 	};
 	
 	GameScene.prototype.showMenu = function(data) {
-		var options, that = this;
+		var options, that = this, bounds;
 		Game.pausePhysics();
-		options = {"bounds":{"x":0, "y":0, "w":300, "h":200}};
+		bounds = {"x":Game.cx() - GameMenu.WIDTH/2, "y":Game.cy() - GameMenu.HEIGHT/2, "w":GameMenu.WIDTH, "h":GameMenu.HEIGHT};
+		options = {"bounds":bounds};
 		if(!this.gameMenu){
 			this.gameMenu = new GameMenu(options);
 			this.gameMenu.create();
 			Game.getInstance().world.add(this.gameMenu.group);
 			this.gameMenu.selectSignal.add(this.menuClick, this);
-			Game.getInstance().add.tween(this.gameMenu.group).to({"y": -100, "x":200}, 250, Phaser.Easing.Quadratic.Out, true, 20, false);
+			//Game.getInstance().add.tween(this.gameMenu.group).to({"y": Game.cy() - GameMenu.HEIGHT/2}, 250, Phaser.Easing.Quadratic.Out, true, 20, false);
 		}
 	};
 	
 	GameScene.prototype.menuClick = function(data) {
 		if(data.index === 0){
-			commsData.setMode(GameMode.INTERACTIVE);
+			CommsData.getInstance().setMode(GameMode.INTERACTIVE);
 			this.hideMenu();
 		}
 		else if(data.index === 1){
-			commsData.setMode(GameMode.COMMANDS);
+			CommsData.getInstance().setMode(GameMode.COMMANDS);
 			this.navigationSignal.dispatch({"key":this.key, "target":"comms"});
 		}
 		else if(data.index === 2){

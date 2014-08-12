@@ -6,7 +6,6 @@ define(['app/game'], function(Game){
 	var AbstractButton = function(options){
 		this.options = options;
 		this.asset = this.options.asset;
-		this.frames = [0, 1, 2, 3];
 		this.mouseDownSignal = new Phaser.Signal();
 		this.mouseUpSignal = new Phaser.Signal();
 	};
@@ -16,11 +15,11 @@ define(['app/game'], function(Game){
 	};
 
 	AbstractButton.prototype.goToFrame = function(i){
-		this.sprite.setFrames(this.frames[i], this.frames[i], this.frames[i], this.frames[i]);
+		this.sprite.setFrames(i, i, i, i);
 	};
 
 	AbstractButton.prototype.resetFrames = function(i){
-		this.sprite.setFrames(this.frames[0], this.frames[1], this.frames[2], this.frames[3]);
+		this.sprite.setFrames(0, 1, 2, 3);
 	};
 
 	AbstractButton.prototype.callback = function(){
@@ -29,7 +28,7 @@ define(['app/game'], function(Game){
 
 	AbstractButton.prototype.create = function(){
 		//game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame
-		this.sprite = new Phaser.Button(Game.getInstance(), 0, 0, this.asset, this.callback, this, this.frames[0], this.frames[1], this.frames[2], this.frames[3]);
+		this.sprite = new Phaser.Button(Game.getInstance(), 0, 0, this.asset, this.callback, this, 0, 1, 2, 3);
 		this.sprite.events.onInputUp.add(this.mouseUp, this);
 		this.sprite.events.onInputDown.add(this.mouseDown, this);
 		this.sprite.inputEnabled = true;

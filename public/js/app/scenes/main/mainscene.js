@@ -33,8 +33,8 @@ function(Scene, Preloader, NavButton, BulbButton, LoaderBar, TextFactory, Game){
 	
 	MainScene.prototype.addBar = function() {
 		var x, y, options;
-		x = Game.getInstance().world.centerX - LoaderBar.WIDTH/2;
-		y = Game.getInstance().world.height - LoaderBar.HEIGHT - 20;
+		x = Game.cx() - LoaderBar.WIDTH/2;
+		y = Game.cy() - 20;
 		options = {"x":x, "y":y};
 		this.loaderBar = new LoaderBar(options);
 		this.loaderBar.create();
@@ -42,15 +42,14 @@ function(Scene, Preloader, NavButton, BulbButton, LoaderBar, TextFactory, Game){
 	};
 	
 	MainScene.prototype.addText = function() {
-		this.label = TextFactory.make(Game.getInstance().world.centerX - 300, 0, "Main menu");
-		this.preloadLabel = TextFactory.make(Game.getInstance().world.centerX - 300, 50, "Loaded 0%");
+		this.label = TextFactory.make(Game.cx() - 300, 0, "Main menu");
 		Game.getInstance().world.add(this.label);
-		Game.getInstance().world.add(this.preloadLabel);
 	};
 	
 	MainScene.prototype.addButtons = function() {
-		this.startButton = new NavButton({"x":100, "y":200});
-		this.tutorialButton = new BulbButton({"x":400, "y":200});
+		var padding = 100;
+		this.startButton = new NavButton({"x":Game.cx() - NavButton.WIDTH - padding, "y":Game.h() + 100});
+		this.tutorialButton = new BulbButton({"x":Game.cx() + padding, "y":Game.h() + 100});
 		this.startButton.create();
 		this.tutorialButton.create();
 		this.startButton.mouseUpSignal.add(this.startButtonClicked, this);
@@ -61,17 +60,32 @@ function(Scene, Preloader, NavButton, BulbButton, LoaderBar, TextFactory, Game){
 	
 	MainScene.prototype.loadProgress = function(data) {
 		var p = Math.round(data.numLoaded * 100 / data.total);
-		this.preloadLabel.text = "Loaded "+p+"%";
 		this.loaderBar.goToPercent(p);
 	};
 
 	MainScene.prototype.create = function() {
-		MainScene.created = true;
 		Scene.prototype.create.call(this);
-		this.preloadLabel.text = "Loaded 100%";
 		this.loaderBar.goToPercent(100);
+		console.log("MainScene.created "+MainScene.created);
+		if(MainScene.created){
+			this.showButtons();
+		}
+		else{
+			MainScene.created = true;
+			setTimeout($.proxy(this.showButtons, this), 750);
+		}
 	};
-
+	
+	MainScene.prototype.showButtons = function() {
+		var obj1, obj2, obj3;
+		obj1 = {"y": Game.h() + 100};
+		obj2 = {"y": Game.cy()};
+		obj3 = {"y": Game.cy()};
+		Game.getInstance().add.tween(this.loaderBar.sprite).to(obj1, 250, Phaser.Easing.Quadratic.Out, true, 20, false);
+		Game.getInstance().add.tween(this.startButton.sprite).to(obj2, 250, Phaser.Easing.Quadratic.Out, true, 20, false);
+		Game.getInstance().add.tween(this.tutorialButton.sprite).to(obj3, 250, Phaser.Easing.Quadratic.Out, true, 20, false);
+	};
+	
 	MainScene.prototype.startButtonClicked = function(data) {
 		this.navigationSignal.dispatch({"key":this.key, "button":"start"});
 	};

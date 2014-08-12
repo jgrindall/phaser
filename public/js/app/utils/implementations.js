@@ -1,5 +1,5 @@
 
-define([], function(){
+define(['phaser'], function(Phaser){
 	
 	"use strict";
 	

@@ -22,7 +22,7 @@ function(Scene, Scroller, Pager, TextFactory, LevelsButton, HomeButton, Game, Le
 		this.scroller = new Pager(options);
 		this.scroller.create();
 		this.scroller.selectSignal.add(this.levelSelect, this);
-		this.text = TextFactory.make(Game.getInstance().world.centerX - 300, 0, "Choose a level");
+		this.text = TextFactory.make(Game.cx() - 300, 0, "Choose a level");
 		this.backButton = new HomeButton({"x":0, "y":0});
 		this.backButton.create();
 		Game.getInstance().world.add(this.backButton.sprite);

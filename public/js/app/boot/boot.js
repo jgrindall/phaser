@@ -1,4 +1,6 @@
-define(['jquery', 'app/scenemanager/scenemanager', 'app/game'],function($, SceneManager, Game) {
+define(['jquery', 'app/scenemanager/scenemanager', 'app/game'],
+
+function($, SceneManager, Game) {
 	
 	"use strict";
 	

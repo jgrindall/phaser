@@ -1,5 +1,7 @@
 
-define(['app/components/buttons/tabbutton', 'app/game', 'app/components/container'],function(TabButton, Game, Container){
+define(['app/components/buttons/tabbutton', 'app/game', 'app/components/container'],
+
+function(TabButton, Game, Container){
 	
 	"use strict";
 	

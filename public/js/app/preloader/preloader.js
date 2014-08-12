@@ -27,8 +27,20 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 	Preloader.LEVEL1_JSON_KEY = 'level1';
 	Preloader.LEVEL1_TILES_KEY = 'tiles1';
 	Preloader.PANEL_KEY = 'panel';
-
+	Preloader.LEFT_KEY = 'left';
+	Preloader.RIGHT_KEY = 'right';
+	Preloader.UP_KEY = 'up';
+	Preloader.DOWN_KEY = 'down';
+	Preloader.TAB_BUTTON = 'tabbutton';
+	Preloader.LEVEL_BUTTON = 'levelbutton';
+	
 	Preloader.data = [
+		{"type":"spritesheet", 	"asset":"assets/images/buttons/levelbutton.png", 		"key":Preloader.LEVEL_BUTTON, 		"w":150, 	"h":150},
+		{"type":"spritesheet", 	"asset":"assets/images/buttons/tabbutton.png", 			"key":Preloader.TAB_BUTTON, 		"w":244, 	"h":52},
+		{"type":"spritesheet", 	"asset":"assets/images/buttons/yellowLeft.png", 		"key":Preloader.LEFT_KEY, 			"w":120, 	"h":120},
+		{"type":"spritesheet", 	"asset":"assets/images/buttons/yellowRight.png", 		"key":Preloader.RIGHT_KEY, 			"w":120, 	"h":120},
+		{"type":"spritesheet", 	"asset":"assets/images/buttons/yellowUp.png", 			"key":Preloader.UP_KEY, 			"w":120, 	"h":120},
+		{"type":"spritesheet", 	"asset":"assets/images/buttons/yellowDown.png", 		"key":Preloader.DOWN_KEY, 			"w":120, 	"h":120},
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/close.png", 				"key":Preloader.CLOSE_KEY, 			"w":50, 	"h":50},
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/yellowList.png", 		"key":Preloader.LIST_KEY, 			"w":120, 	"h":120},
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/greenHome.png", 			"key":Preloader.HOME_KEY, 			"w":120, 	"h":120},

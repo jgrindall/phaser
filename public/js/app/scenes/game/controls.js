@@ -20,10 +20,14 @@ function(Game, ControlButton, PauseButton, Container){
 
 	Controls.prototype.create = function () {
 		Container.prototype.create.call(this);
-		this.group.fixedToCamera = true;
-		var that = this, b;
+		//this.group.fixedToCamera = true;
+		var that = this, y, assets = ['left', 'right', 'up', 'down'];
+		y = Game.h() - ControlButton.HEIGHT;
 		$.each(Array(4), function(i) {
-			b = new ControlButton({"x":100 + i*100, "y":Game.getInstance().world.height - ControlButton.HEIGHT});
+			var x, pos, b;
+			x = 100 + ControlButton.WIDTH * i;
+			pos = {"x":x, "y":y, 'asset':assets[i]};
+			b = new ControlButton(pos);
 			b.create();
 			b.mouseDownSignal.add($.proxy(that.controlDown, that));
 			b.mouseUpSignal.add($.proxy(that.controlUp, that));

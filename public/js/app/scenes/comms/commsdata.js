@@ -93,7 +93,14 @@ function(CommsLayout, LevelData, GameMode, ObjectState) {
 		});
 		console.log("LOG s: " + s);
 	};
-
+	
+	CommsData.getInstance = function(){
+		if(!CommsData.instance){
+			CommsData.instance = new CommsData();
+		}
+		return CommsData.instance;
+	};
+	
 	CommsData.prototype.currentTiles = function(){
 		return this.tiles[this.selectedIndex];
 	};
@@ -143,7 +150,7 @@ function(CommsLayout, LevelData, GameMode, ObjectState) {
 		this.layoutCurrentTiles();
 	};
 
-  	return new CommsData();
+  	return CommsData;
 });
 
 

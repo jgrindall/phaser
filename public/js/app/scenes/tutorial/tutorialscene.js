@@ -1,5 +1,7 @@
 
-define(['app/scenes/scene', 'app/preloader/preloader', 'app/components/buttons/navbutton', 'app/utils/textfactory', 'app/game'],function(Scene, Preloader, NavButton, TextFactory, Game){
+define(['app/scenes/scene', 'app/preloader/preloader', 'app/components/buttons/homebutton', 'app/utils/textfactory', 'app/game'],
+
+function(Scene, Preloader, HomeButton, TextFactory, Game){
 	
 	"use strict";
 	
@@ -13,7 +15,7 @@ define(['app/scenes/scene', 'app/preloader/preloader', 'app/components/buttons/n
 	TutorialScene.prototype.create = function() {
 		Scene.prototype.create.apply(this, arguments);
 		this.label = TextFactory.make(Game.getInstance().world.centerX - 300, 50, "Tutorial");
-		this.startButton = new NavButton({"x":0, "y":0});
+		this.startButton = new HomeButton({"x":0, "y":0});
 		this.startButton.create();
 		this.startButton.mouseUpSignal.add(this.startButtonClicked, this);
 		Game.getInstance().world.add(this.startButton.sprite);
