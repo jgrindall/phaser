@@ -1,7 +1,7 @@
 
-define(['app/scenes/scene', 'app/components/buttons/navbutton', 'app/components/buttons/pausebutton', 'app/scenes/comms/commsdata', 'app/scenes/game/controls', 'app/scenes/game/gamemode', 'app/scenes/game/gameview', 'app/scenes/game/gamemenu', 'app/game'],
+define(['app/scenes/scene', 'app/components/buttons/navbutton', 'app/components/buttons/pausebutton', 'app/commsdata', 'app/locdata', 'app/scenes/game/controls', 'app/scenes/game/gamemode', 'app/scenes/game/gameview', 'app/scenes/game/gamemenu', 'app/game'],
 
-function(Scene, NavButton, PauseButton, CommsData, Controls, GameMode, GameView, GameMenu, Game){
+function(Scene, NavButton, PauseButton, CommsData, LocData, Controls, GameMode, GameView, GameMenu, Game){
 	
 	"use strict";
 	
@@ -38,14 +38,16 @@ function(Scene, NavButton, PauseButton, CommsData, Controls, GameMode, GameView,
 		this.pauseButton.sprite.fixedToCamera = true;
 		this.pauseButton.mouseUpSignal.add(this.buttonClicked, this);
 		Game.getInstance().world.add(this.pauseButton.sprite);
-		if(CommsData.getInstance().mode !== GameMode.COMMANDS){
+		if(LocData.getInstance().getMode() !== GameMode.COMMANDS){
 			this.addControls();
 		}
 		this.checkLaunch();
 	};
 	
 	GameScene.prototype.stackComplete = function() {
-		alert("ended");
+		//Storage.getInstance();
+		console.log(LocData.getInstance().page + "  " + LocData.getInstance().level);
+		console.log("ended");
 		// save progress
 	};
 	
@@ -58,10 +60,10 @@ function(Scene, NavButton, PauseButton, CommsData, Controls, GameMode, GameView,
 	};
 	
 	GameScene.prototype.checkLaunch = function() {
-		if(CommsData.getInstance().mode === GameMode.UNKNOWN){
+		if(LocData.getInstance().getMode() === GameMode.UNKNOWN){
 			this.checkLaunch_menu();
 		}
-		else if(CommsData.getInstance().mode === GameMode.COMMANDS){
+		else if(LocData.getInstance().getMode() === GameMode.COMMANDS){
 			this.checkLaunch_playback();
 		}
 	};
@@ -76,17 +78,16 @@ function(Scene, NavButton, PauseButton, CommsData, Controls, GameMode, GameView,
 			this.gameMenu.create();
 			Game.getInstance().world.add(this.gameMenu.group);
 			this.gameMenu.selectSignal.add(this.menuClick, this);
-			//Game.getInstance().add.tween(this.gameMenu.group).to({"y": Game.cy() - GameMenu.HEIGHT/2}, 250, Phaser.Easing.Quadratic.Out, true, 20, false);
 		}
 	};
 	
 	GameScene.prototype.menuClick = function(data) {
 		if(data.index === 0){
-			CommsData.getInstance().setMode(GameMode.INTERACTIVE);
+			LocData.getInstance().setMode(GameMode.INTERACTIVE);
 			this.hideMenu();
 		}
 		else if(data.index === 1){
-			CommsData.getInstance().setMode(GameMode.COMMANDS);
+			LocData.getInstance().setMode(GameMode.COMMANDS);
 			this.navigationSignal.dispatch({"key":this.key, "target":"comms"});
 		}
 		else if(data.index === 2){

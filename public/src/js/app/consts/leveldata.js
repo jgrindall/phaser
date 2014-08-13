@@ -7,6 +7,11 @@ define([], function(){
 	
 	};
 	
+	LevelData.getLevel = function(page, level){
+		var data = LevelData.PAGES[page][level];
+		return data;
+	};
+	
 	LevelData.getIndents = function(type){
 		return (LevelData.INDENTS_TYPES.indexOf(type) >= 0);
 	};
@@ -38,11 +43,16 @@ define([], function(){
 
 	LevelData.BLOCK = [LevelData.BLOCK0, LevelData.BLOCK1];
 
-	LevelData.LEVEL0 = {"tiles": [3, 4, 3, 3], "tabs":3};
-	LevelData.LEVEL1 = {"tiles": [2, 2, 3, 3], "tabs":2};
-
-	LevelData.LEVELS = [LevelData.LEVEL0, LevelData.LEVEL1];
-		
+	LevelData.PAGE0_LEVEL0 = {"tiles": [3, 4, 3, 3], "tabs":3};
+	LevelData.PAGE0_LEVEL1 = {"tiles": [2, 2, 3, 3], "tabs":2};
+	LevelData.PAGE0 = [LevelData.PAGE0_LEVEL0, LevelData.PAGE0_LEVEL1];
+	
+	LevelData.PAGE1_LEVEL0 = {"tiles": [3, 4, 3, 3], "tabs":3};
+	LevelData.PAGE1_LEVEL1 = {"tiles": [2, 2, 3, 3], "tabs":2};
+	LevelData.PAGE1 = [LevelData.PAGE1_LEVEL0, LevelData.PAGE1_LEVEL1];
+	
+	LevelData.PAGES = [LevelData.PAGE0, LevelData.PAGE1];
+	
 	return LevelData;
 
 });

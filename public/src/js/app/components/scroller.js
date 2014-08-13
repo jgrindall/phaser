@@ -37,7 +37,7 @@ define(['app/game'],function(Game){
 	Scroller.prototype.select = function(data){
 		if(Math.abs(this.dx) < Scroller.MIN_MOVE){
 			var page = this.group.getIndex(data.grid.group);
-			this.selectSignal.dispatch({"key":this.key, "index":data.index, "page":page});
+			this.selectSignal.dispatch({"key":this.key, "level":data.index, "page":page});
 		}
 	};
 	

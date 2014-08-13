@@ -5,6 +5,7 @@ define(['app/game', 'app/components/container'],function(Game, Container){
 	
 	var ButtonGrid = function(options){
 		Container.call(this, options);
+		this.config = this.options.config || [];
 		this.spaceX = this.bounds.w / this.options.numX;
 		this.spaceY = this.bounds.h / this.options.numY;
 		this.marginX = (this.spaceX - this.options.buttonClass.WIDTH)/2;
@@ -27,14 +28,14 @@ define(['app/game', 'app/components/container'],function(Game, Container){
 	};
 	
 	ButtonGrid.prototype.addButtons = function(){
-		var pos, i, j, b, n = 1;
+		var pos, i, j, b, n = 0;
 		this.buttonGroup = new Phaser.Group(Game.getInstance(), 0, 0);
 		for(i = 1; i <= this.options.numY; i++){
 			for(j = 1; j <= this.options.numX; j++){
 				pos = {"x":this.bounds.x + this.spaceX * (j - 1), "y":this.bounds.y + this.spaceY * (i - 1)};
 				pos.x += this.marginX;
 				pos.y += this.marginY;
-				b = new this.options.buttonClass({"bounds":pos, "index":n});
+				b = new this.options.buttonClass({"bounds":pos, "index":n, "state":this.config[n]});
 				b.create();
 				b.mouseUpSignal.add(this.buttonUp, this);
 				this.buttonGroup.add(b.group);

@@ -5,9 +5,10 @@ function(BlocksFactory, Game, CommsLayout, CommsGroup){
 	
 	"use strict";
 	
-	var Commands = function(commsData){
+	var Commands = function(commsData, locData){
 		this.mainGroup = null;
 		this.targetGroups = [];
+		this.locData = locData;
 		this.commsData = commsData;
 		commsData.layoutSignal.add(this.onLayout, this);
 		commsData.tabSignal.add(this.onSelectTab, this);
@@ -56,9 +57,9 @@ function(BlocksFactory, Game, CommsLayout, CommsGroup){
 	};
 
 	Commands.prototype.loadLevel = function(){
-		var i, b, that = this, level = this.commsData.level;
-		this.makeGroups(level.tabs);
-		$.each(level.tiles, function(type, v){
+		var i, b, that = this, levelData = this.locData.levelData;
+		this.makeGroups(levelData.tabs);
+		$.each(levelData.tiles, function(type, v){
 			$.each(new Array(v), function(i) {
 				b = BlocksFactory.create(type);
 				b.create();

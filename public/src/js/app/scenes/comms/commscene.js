@@ -1,7 +1,7 @@
 
-define(['app/scenes/scene', 'app/scenes/comms/commands', 'app/components/tabs', 'app/components/buttons/tabbutton', 'app/scenes/comms/commsdata', 'app/components/buttons/navbutton', 'app/components/buttons/homebutton', 'app/game'],
+define(['app/scenes/scene', 'app/scenes/comms/commands', 'app/components/tabs', 'app/components/buttons/tabbutton', 'app/locdata', 'app/commsdata', 'app/components/buttons/navbutton', 'app/components/buttons/homebutton', 'app/game'],
 
-function(Scene, Commands, Tabs, TabButton, CommsData, NavButton, HomeButton, Game){
+function(Scene, Commands, Tabs, TabButton, LocData, CommsData, NavButton, HomeButton, Game){
 	
 	"use strict";
 	
@@ -24,13 +24,13 @@ function(Scene, Commands, Tabs, TabButton, CommsData, NavButton, HomeButton, Gam
 
 	CommScene.prototype.create = function() {
 		var bounds, numTabs, w;
-		numTabs = CommsData.getInstance().level.tabs;
+		numTabs = LocData.getInstance().levelData.tabs;
 		w = numTabs * TabButton.WIDTH;
 		Scene.prototype.create.apply(this, arguments);
 		this.goButton = new NavButton({"x":110, "y":0});
-		this.commands = new Commands(CommsData.getInstance());
+		this.commands = new Commands(CommsData.getInstance(), LocData.getInstance());
 		bounds = {"x": Game.w() - w, "y": 0, "w": w, "h": 50};
-		this.tabs = new Tabs({"commsData":CommsData.getInstance(), "bounds":bounds});
+		this.tabs = new Tabs({"locData":LocData.getInstance(), "commsData":CommsData.getInstance(), "bounds":bounds});
 		this.goButton.create();
 		this.tabs.create();
 		this.commands.create();

@@ -7,23 +7,20 @@ function(LevelsButton, Game, Container, TextFactory){
 		
 	var LevelBadge = function(options){
 		Container.call(this, options);
+		this.state = this.options.state;
 		this.mouseUpSignal = new Phaser.Signal();
-		this.unlocked = Math.floor(Math.random() * 2);
-		this.done = Math.floor(Math.random() * 2);
 	};
-	
-	LevelBadge.WIDTH = 150;
-	LevelBadge.HEIGHT = 150;
 	
 	LevelBadge.prototype = Object.create(Container.prototype);
 	LevelBadge.prototype.constructor = LevelBadge;
 	
 	LevelBadge.prototype.preload = function(){
-    
+    	
 	};
 	
 	LevelBadge.prototype.addText = function () {
-		this.label = TextFactory.make(this.options.bounds.x + 40, this.options.bounds.y + 10, ""+this.options.index);
+		var text = "" + (this.options.index + 1);
+		this.label = TextFactory.make(this.options.bounds.x + 40, this.options.bounds.y + 10, text);
 		this.group.add(this.label);
 	};
 	
@@ -36,24 +33,13 @@ function(LevelsButton, Game, Container, TextFactory){
 	};
 	
 	LevelBadge.prototype.getAsset = function () {
-		if(!this.unlocked){
-			return 'levelbuttonlocked';
-		}
-		else{
-			if(this.done){
-				return 'levelbuttondone';
-			}
-			else{
-				return 'levelbutton';
-			}
-		}
+		return LevelBadge.ASSETS[this.state];
 	};
 	
 	LevelBadge.prototype.addMain = function () {
 		this.button = new LevelsButton({"x":this.options.bounds.x, "y":this.options.bounds.y, "asset":this.getAsset()});
 		this.button.create();
 		this.button.mouseUpSignal.add(this.select, this);
-		console.log(this.button+"  "+this.button.sprite);
 		this.group.add(this.button.sprite);
 	};
 	
@@ -63,6 +49,15 @@ function(LevelsButton, Game, Container, TextFactory){
 		this.addDecor();
 		this.addText();
 	};
+	
+	LevelBadge.WIDTH = 150;
+	LevelBadge.HEIGHT = 150;
+	
+	LevelBadge.OPEN = 0;
+	LevelBadge.LOCKED = 1;
+	LevelBadge.COMPLETE = 2;
+	
+	LevelBadge.ASSETS = ['levelbutton', 'levelbuttonlocked', 'levelbuttondone'];
 	
 	return LevelBadge;
 	

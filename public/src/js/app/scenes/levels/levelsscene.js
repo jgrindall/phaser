@@ -1,7 +1,7 @@
 
-define(['app/scenes/scene', 'app/components/scroller', 'app/components/pager', 'app/utils/textfactory', 'app/components/buttons/levelsbutton', 'app/components/buttons/homebutton', 'app/game', 'app/scenes/levels/leveldataprovider'],
+define(['jquery', 'app/scenes/scene', 'app/components/scroller', 'app/components/pager', 'app/utils/textfactory', 'app/components/buttons/levelsbutton', 'app/components/buttons/homebutton', 'app/game', 'app/scenes/levels/leveldataprovider'],
 
-function(Scene, Scroller, Pager, TextFactory, LevelsButton, HomeButton, Game, LevelDataProvider){
+function($, Scene, Scroller, Pager, TextFactory, LevelsButton, HomeButton, Game, LevelDataProvider){
 	
 	"use strict";
 	
@@ -36,7 +36,8 @@ function(Scene, Scroller, Pager, TextFactory, LevelsButton, HomeButton, Game, Le
 	};
 	
 	LevelsScene.prototype.levelSelect = function(data) {
-		this.navigationSignal.dispatch({"key":this.key, "button":"level", "index":data.index});
+		var newData = $.extend({}, {"key":this.key, "button":"level"}, data);
+		this.navigationSignal.dispatch(newData);
 	};
 
 	LevelsScene.prototype.update = function() {

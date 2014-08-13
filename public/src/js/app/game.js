@@ -57,6 +57,8 @@ function(){
 		return pRatio * w;
 	};
 	
+	// 800 x 600??
+	
 	Game.getHeight = function(){
 		var pRatio, h;
 		pRatio = window.devicePixelRatio;

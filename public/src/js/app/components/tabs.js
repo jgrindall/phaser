@@ -7,6 +7,7 @@ function(TabButton, Game, Container){
 	
 	var Tabs = function(options){
 		Container.call(this, options);
+		this.locData = this.options.locData;
 		this.commsData = this.options.commsData;
 		this.selectSignal = new Phaser.Signal();
 		this.buttons = [];
@@ -20,9 +21,11 @@ function(TabButton, Game, Container){
 	};
 
 	Tabs.prototype.loadLevel = function(){
-		var that = this, level = this.commsData.level, b;
-		$.each(new Array(level.tabs), function(i) {
-			b = new TabButton({"x":that.options.bounds.x + i * TabButton.WIDTH, "y":0 , "num":i});
+		var that = this, levelData = this.locData.levelData, b;
+		$.each(new Array(levelData.tabs), function(i) {
+			var pos;
+			pos = {"x":that.options.bounds.x + i * TabButton.WIDTH, "y":0 , "num":i};
+			b = new TabButton(pos);
 			b.create();
 			if(i === 1){
 				b.goToFrame(2);

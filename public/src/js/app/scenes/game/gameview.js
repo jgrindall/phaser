@@ -1,7 +1,7 @@
 
-define(['app/game', 'app/scenes/game/player', 'app/components/background', 'app/scenes/game/stars', 'app/scenes/comms/commsdata', 'app/scenes/game/platforms', 'app/scenes/game/gamemode'],
+define(['app/game', 'app/scenes/game/player', 'app/components/background', 'app/scenes/game/stars', 'app/commsdata', 'app/locdata', 'app/scenes/game/platforms', 'app/scenes/game/gamemode'],
 
-function(Game, Player, Background, Stars, CommsData, Platforms, GameMode){
+function(Game, Player, Background, Stars, CommsData, LocData, Platforms, GameMode){
 	
 	"use strict";
 	
@@ -74,7 +74,7 @@ function(Game, Player, Background, Stars, CommsData, Platforms, GameMode){
 		this.player.update();
 		this.platforms.update();
 		this.stars.update();
-		if(CommsData.getInstance().getMode() === GameMode.COMMANDS){
+		if(LocData.getInstance().getMode() === GameMode.COMMANDS){
 			this.checkStill();
 		}
 	};

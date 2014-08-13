@@ -1,7 +1,7 @@
 
-define(['app/consts/appconsts', 'app/utils/textfactory', 'app/consts/leveldata', 'app/scenemanager/scenefactory', 'app/scenes/comms/commsdata', 'app/game', 'phaserstatetrans'],
+define(['app/consts/appconsts', 'app/utils/textfactory', 'app/consts/leveldata', 'app/scenemanager/scenefactory', 'app/commsdata', 'app/locdata', 'app/game', 'phaserstatetrans'],
 
-function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, Game, PhaserStateTrans){
+function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, LocData, Game, PhaserStateTrans){
 	
 	"use strict";
 	
@@ -28,14 +28,14 @@ function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, Game, Phase
 	};
 	
 	SceneManager.prototype.navigationClicked = function(data){
-		var level, target;
+		var level, target, page;
 		if(data.key === AppConsts.LEVELS_SCENE){
 			if(data.button === "back"){
 				this.go(AppConsts.MAIN_SCENE);
 			}
 			else{
-				level = LevelData.LEVELS[data.index];
-				CommsData.getInstance().setLevel(level);
+				
+				LocData.getInstance().setLocation(data);
 				Game.startPhysics();
 				this.go(AppConsts.GAME_SCENE);
 			}

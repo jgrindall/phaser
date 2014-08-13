@@ -5,20 +5,9 @@ function(CommsLayout, LevelData, GameMode, ObjectState) {
 	"use strict";
 	
 	var CommsData = function(){
-		this.level = null;
-		this.clear();
 		this.selectedIndex = 0;
 		this.layoutSignal = new Phaser.Signal();
 		this.tabSignal = new Phaser.Signal();
-		this.mode = GameMode.UNKNOWN;
-	};
-	
-	CommsData.prototype.getMode = function(){
-		return this.mode;
-	};
-	
-	CommsData.prototype.setMode = function(mode){
-		this.mode = mode;
 	};
 	
 	CommsData.prototype.setSelectedTab = function(data){
@@ -26,17 +15,12 @@ function(CommsLayout, LevelData, GameMode, ObjectState) {
 		this.tabSignal.dispatch();
 	};
 
-	CommsData.prototype.setLevel = function(level){
-		this.level = level;
-		this.clear();
-	};
-
-	CommsData.prototype.clear = function(){
+	CommsData.prototype.init = function(levelData){
 		this.selectedIndex = 0;
 		this.tiles = [];
 		var that = this;
-		if(this.level){
-			$.each(new Array(this.level.tabs), function(i) {
+		if(levelData){
+			$.each(new Array(levelData.tabs), function(i) {
 				that.tiles[i] = [];
 			});
 		}
@@ -102,7 +86,9 @@ function(CommsLayout, LevelData, GameMode, ObjectState) {
 	};
 	
 	CommsData.prototype.currentTiles = function(){
-		return this.tiles[this.selectedIndex];
+		var tiles = this.tiles[this.selectedIndex];
+		console.log("tiles "+JSON.stringify(this.tiles)+" , "+this.selectedIndex);
+		return tiles;
 	};
 
 	CommsData.prototype.getDropPosition = function(block){
