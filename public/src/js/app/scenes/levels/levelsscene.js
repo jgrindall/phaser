@@ -22,13 +22,25 @@ function($, Scene, Scroller, Pager, TextFactory, LevelsButton, HomeButton, Game,
 		this.scroller = new Pager(options);
 		this.scroller.create();
 		this.scroller.selectSignal.add(this.levelSelect, this);
-		this.text = TextFactory.make(Game.cx() - 300, 0, "Choose a level");
+		this.text = TextFactory.make(Game.cx() - 300, 0, "Choose a level", TextFactory.LARGE);
 		this.backButton = new HomeButton({"x":0, "y":0});
 		this.backButton.create();
 		Game.getInstance().world.add(this.backButton.sprite);
 		Game.getInstance().world.add(this.scroller.group);
 		Game.getInstance().world.add(this.text);
 		this.backButton.mouseUpSignal.add(this.backButtonClicked, this);
+	};
+	
+	LevelsScene.prototype.enableAllInput = function(){
+		Scene.prototype.enableAllInput.call(this);
+		this.backButton.enableInput();
+		this.scroller.group.enableInput();
+	};
+	
+	LevelsScene.prototype.disableAllInput = function(){
+		Scene.prototype.disableAllInput.call(this);
+		this.backButton.disableInput();
+		this.scroller.group.disableInput();
 	};
 	
 	LevelsScene.prototype.backButtonClicked = function(data) {

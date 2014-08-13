@@ -12,6 +12,24 @@ define(['app/game', 'app/components/background'], function(Game, Background){
 	
 	};
 	
+	Scene.prototype.onAlert = function(data) {
+		console.log("-->   onAlert!! "+JSON.stringify(data));
+		if(data.show){
+			this.disableAllInput();
+		}
+		else{
+			this.enableAllInput();
+		}
+	};
+	
+	Scene.prototype.disableAllInput = function(){
+	
+	};
+	
+	Scene.prototype.enableAllInput = function(){
+	
+	};
+	
 	Scene.prototype.addChildren = function() {
 		this.bg = new Background({"asset":'sky'});
 		this.bg.create();
@@ -20,6 +38,7 @@ define(['app/game', 'app/components/background'], function(Game, Background){
 	
 	Scene.prototype.create = function() {
 		this.addChildren();
+		Game.alertSignal.add($.proxy(this.onAlert, this));
 	};
 	
 	Scene.prototype.addListeners = function() {
@@ -32,6 +51,7 @@ define(['app/game', 'app/components/background'], function(Game, Background){
 
 	Scene.prototype.shutdown = function() {
 		console.log("shutdown scene //TODO - tidy up");
+		Game.alertSignal.removeAll(this);
 	};
 	
 	return Scene;

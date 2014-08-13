@@ -14,6 +14,7 @@ define(['app/game'],function(Game){
 	Scroller.MIN_MOVE = 10;
 	
 	Scroller.prototype.create = function(){
+		console.log("scroller create!");
 		this.group = new Phaser.Group(Game.getInstance());
 	    this.addChildren();
 		Game.getInput().onDown.add($.proxy(this.onDown, this));
@@ -25,6 +26,7 @@ define(['app/game'],function(Game){
 	};
 	
 	Scroller.prototype.add = function(child) {
+		console.log("scroller add! "+child);
 		this.group.add(child.group);
 		var x, w, worldWidth;
 		x = child.options.bounds.x;

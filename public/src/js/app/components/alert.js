@@ -1,7 +1,7 @@
 
-define(['app/components/buttons/navbutton', 'app/components/buttons/closebutton', 'app/game', 'app/components/buttons/listbutton', 'app/components/buttons/homebutton', 'app/components/container'],
+define(['app/components/buttons/tickbutton', 'app/game', 'app/components/container', 'app/utils/textfactory'],
 
-function(NavButton, CloseButton, Game, ListButton, HomeButton, Container){
+function(TickButton, Game, Container, TextFactory){
 	
 	"use strict";
 		
@@ -11,48 +11,56 @@ function(NavButton, CloseButton, Game, ListButton, HomeButton, Container){
 		this.buttons = [];
 	};
 	
-	Alert.WIDTH = 800;
-	Alert.HEIGHT = 600;
+	Alert.WIDTH = 400;
+	Alert.HEIGHT = 200;
 	
 	Alert.prototype = Object.create(Container.prototype);
-	Alert.prototype.constructor = GameMenu;
+	Alert.prototype.constructor = Alert;
 	
 	Alert.prototype.preload = function(){
     
 	};
 	
 	Alert.prototype.addRect = function () {
-		this.panel = new Phaser.Sprite(Game.getInstance(), this.bounds.x, this.bounds.y, 'panel');
+		this.panel = new Phaser.Sprite(Game.getInstance(), this.bounds.x, this.bounds.y, 'alert');
 		this.buttonGroup = new Phaser.Group(Game.getInstance(), 0, 0);
 		this.group.add(this.panel);
 		this.group.add(this.buttonGroup);
 	};
 	
-	Alert.prototype.addButton = function (ClassRef, x, y) {
-		var b = new ClassRef({"x":x, "y":y});
-		b.create();
-		b.mouseUpSignal.add(this.buttonUp, this);
-		this.buttonGroup.add(b.sprite);
-		this.buttons.push(b);
+	Alert.prototype.addBg = function () {
+		this.rect = new Phaser.Graphics(Game.getInstance(), 0, 0);
+		this.rect.beginFill(0x000000);
+		this.rect.alpha = 0.7;
+    	this.rect.drawRect(0, 0, Game.w(), Game.h());
+		this.group.add(this.rect);
 	};
 	
 	Alert.prototype.addText = function () {
-		this.label = TextFactory.make(Game.cx() - 300, 0, "Title");
+		this.label = TextFactory.make(Game.cx() - 150, this.bounds.y + 20, this.options.label, TextFactory.SMALL);
 		this.group.add(this.label);
+	};
+	
+	Alert.prototype.addOk = function () {
+		var x, y, b;
+		x = Game.cx() - TickButton.WIDTH/2;
+		y = this.bounds.y + this.bounds.h - TickButton.HEIGHT;
+		b = new TickButton({"x":x, "y":y});
+		b.create();
+		b.mouseUpSignal.add(this.buttonUp, this);
+		this.group.add(b.sprite);
 	};
 	
 	Alert.prototype.create = function () {
 		Container.prototype.create.call(this);
+		this.addBg();
 		this.addRect();
-		var y = this.bounds.y + this.bounds.h/2 - NavButton.HEIGHT/2;
-		this.addButton(NavButton, 200, y);
-		this.addButton(NavButton, 350, y);
+		this.addOk();
 		this.addText();
 	};
 	
 	Alert.prototype.buttonUp = function(data) {
-		var index = this.buttonGroup.getIndex(data.target.sprite);
-		this.selectSignal.dispatch({"index":index});
+		this.selectSignal.dispatch();
 	};
 	
 	Alert.prototype.destroy = function() {

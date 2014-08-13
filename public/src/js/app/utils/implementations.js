@@ -14,7 +14,29 @@ define(['phaser'], function(Phaser){
 		});
 		return hits;
 	};
-
+	
+	Phaser.Group.prototype.enableInput = function(){
+		this.forEach(function(child){
+			if(child instanceof Phaser.Group){
+				child.enableInput();
+			}
+			else if(child instanceof Phaser.Button){
+				child.inputEnabled = true;
+			}
+		});
+	};
+	
+	Phaser.Group.prototype.disableInput = function(){
+		this.forEach(function(child){
+			if(child instanceof Phaser.Group){
+				child.disableInput();
+			}
+			else if(child instanceof Phaser.Button){
+				child.inputEnabled = false;
+			}
+		});
+	};
+	
 });
 	
 	

@@ -20,16 +20,13 @@ function(LevelsButton, Game, Container, TextFactory){
 	
 	LevelBadge.prototype.addText = function () {
 		var text = "" + (this.options.index + 1);
-		this.label = TextFactory.make(this.options.bounds.x + 40, this.options.bounds.y + 10, text);
+		this.label = TextFactory.make(this.options.bounds.x + 40, this.options.bounds.y + 10, text, TextFactory.LARGE);
 		this.group.add(this.label);
 	};
 	
 	LevelBadge.prototype.select = function () {
+		console.log('SELECT');
 		this.mouseUpSignal.dispatch({"target":this});
-	};
-	
-	LevelBadge.prototype.addDecor = function () {
-		
 	};
 	
 	LevelBadge.prototype.getAsset = function () {
@@ -46,16 +43,11 @@ function(LevelsButton, Game, Container, TextFactory){
 	LevelBadge.prototype.create = function () {
 		Container.prototype.create.call(this);
 		this.addMain();
-		this.addDecor();
 		this.addText();
 	};
 	
 	LevelBadge.WIDTH = 150;
 	LevelBadge.HEIGHT = 150;
-	
-	LevelBadge.OPEN = 0;
-	LevelBadge.LOCKED = 1;
-	LevelBadge.COMPLETE = 2;
 	
 	LevelBadge.ASSETS = ['levelbutton', 'levelbuttonlocked', 'levelbuttondone'];
 	

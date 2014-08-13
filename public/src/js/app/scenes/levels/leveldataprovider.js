@@ -13,9 +13,8 @@ function(Game, ButtonGrid, LevelBadge, Storage){
 		return 3;
 	};
 	
-	LevelDataProvider.prototype.addPage = function(i, numX, numY, scroller){
-		var options, grid, bounds, w, h, paddingX, paddingY, top, config;
-		config = Storage.getInstance().loadLevelDataForPage(i);
+	LevelDataProvider.prototype.addPage = function(i, numX, numY, scroller, config){
+		var options, grid, bounds, w, h, paddingX, paddingY, top;
 		top = 50;
 		w = Game.w();
 		h = Game.h();
@@ -29,9 +28,12 @@ function(Game, ButtonGrid, LevelBadge, Storage){
 	};
 	
 	LevelDataProvider.prototype.addAll = function(scroller){
-		this.addPage(0, 3, 3, scroller);
-		this.addPage(1, 3, 3, scroller);
-		this.addPage(2, 3, 3, scroller);
+		var config0 = Storage.getInstance().loadLevelDataForPage(0);
+		var config1 = Storage.getInstance().loadLevelDataForPage(1);
+		var config2 = Storage.getInstance().loadLevelDataForPage(2);
+		this.addPage(0, 3, 3, scroller, config0);
+		this.addPage(1, 3, 3, scroller, config1);
+		this.addPage(2, 3, 3, scroller, config2);
 	};
 	
 	return LevelDataProvider;

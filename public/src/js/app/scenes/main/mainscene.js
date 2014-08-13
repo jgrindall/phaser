@@ -42,7 +42,7 @@ function(Scene, Preloader, NavButton, BulbButton, LoaderBar, TextFactory, Game){
 	};
 	
 	MainScene.prototype.addText = function() {
-		this.label = TextFactory.make(Game.cx() - 300, 0, "Main menu");
+		this.label = TextFactory.make(Game.cx() - 300, 0, "Main menu", TextFactory.LARGE);
 		Game.getInstance().world.add(this.label);
 	};
 	

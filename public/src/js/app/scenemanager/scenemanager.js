@@ -1,7 +1,7 @@
 
-define(['app/consts/appconsts', 'app/utils/textfactory', 'app/consts/leveldata', 'app/scenemanager/scenefactory', 'app/commsdata', 'app/locdata', 'app/game', 'phaserstatetrans'],
+define(['app/consts/appconsts', 'app/utils/textfactory', 'app/consts/leveldata', 'app/scenemanager/scenefactory', 'app/commsdata', 'app/locdata', 'app/game', 'phaserstatetrans', 'app/utils/storage', 'app/levelstatus', 'app/utils/alertmanager'],
 
-function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, LocData, Game, PhaserStateTrans){
+function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, LocData, Game, PhaserStateTrans, Storage, LevelStatus, AlertManager){
 	
 	"use strict";
 	
@@ -28,16 +28,23 @@ function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, LocData, Ga
 	};
 	
 	SceneManager.prototype.navigationClicked = function(data){
-		var level, target, page;
+		var level, target, page, levelData;
+		console.log("nav "+JSON.stringify(data));
 		if(data.key === AppConsts.LEVELS_SCENE){
 			if(data.button === "back"){
 				this.go(AppConsts.MAIN_SCENE);
 			}
 			else{
-				
 				LocData.getInstance().setLocation(data);
-				Game.startPhysics();
-				this.go(AppConsts.GAME_SCENE);
+				levelData = Storage.getInstance().loadLevelDataForPageAndLevel(data.page, data.level);
+				if(levelData === LevelStatus.OPEN){
+					console.log("go");
+					Game.startPhysics();
+					this.go(AppConsts.GAME_SCENE);
+				}
+				else{
+					AlertManager.makeAlert("blocked!");
+				}
 			}
 		}
 		else if(data.key === AppConsts.MAIN_SCENE){
@@ -81,7 +88,7 @@ function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, LocData, Ga
 		Game.getInstance().load.spritesheet('pause', 'assets/images/buttons/yellowPause.png', 120, 120);
 		Game.getInstance().load.image('sky', 'assets/images/bg/sky.png');
 		Game.getInstance().load.spritesheet('loaderBar', 'assets/images/other/bar.png', 500, 60);
-		var testLabel = TextFactory.make(Game.cx() - 300, 0, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+		var testLabel = TextFactory.make(Game.cx() - 300, 0, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", TextFactory.LARGE);
 	};
 
 	SceneManager.prototype.load = function(s) {

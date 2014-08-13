@@ -16,6 +16,7 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 	Preloader.SOUND4_KEY = 				'sound4';
 	Preloader.SOUND5_KEY = 				'sound5';
 	Preloader.CLOSE_KEY = 				'close';
+	Preloader.TICK_KEY = 				'tick';
 	Preloader.HOME_KEY = 				'home';
 	Preloader.MARKER_KEY = 				'marker';
 	Preloader.BLOCK_KEY0 = 				'block0';
@@ -27,6 +28,7 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 	Preloader.LEVEL1_JSON_KEY = 		'level1';
 	Preloader.LEVEL1_TILES_KEY = 		'tiles1';
 	Preloader.PANEL_KEY = 				'panel';
+	Preloader.ALERT_KEY = 				'alert';
 	Preloader.LEFT_KEY = 				'left';
 	Preloader.RIGHT_KEY = 				'right';
 	Preloader.UP_KEY = 					'up';
@@ -50,6 +52,7 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/yellowUp.png", 				"key":Preloader.UP_KEY, 					"w":120, 	"h":120},
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/yellowDown.png", 			"key":Preloader.DOWN_KEY, 					"w":120, 	"h":120},
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/close.png", 					"key":Preloader.CLOSE_KEY, 					"w":50, 	"h":50},
+		{"type":"spritesheet", 	"asset":"assets/images/buttons/tick.png", 					"key":Preloader.TICK_KEY, 					"w":80, 	"h":80},
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/yellowList.png", 			"key":Preloader.LIST_KEY, 					"w":120, 	"h":120},
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/greenHome.png", 				"key":Preloader.HOME_KEY, 					"w":120, 	"h":120},
 		{"type":"spritesheet", 	"asset":"assets/images/game/dude.png", 						"key":Preloader.DUDE_KEY, 					"w":32, 	"h":48},
@@ -71,7 +74,8 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 		{"type":"image", 		"asset":LevelData.BLOCK3, 								"key":Preloader.BLOCK_KEY3},
 		{"type":"image", 		"asset":"assets/images/game/star2.png", 				"key":Preloader.STAR_KEY},
 		{"type":"image", 		"asset":"assets/levels/tiles1.png",	 					"key":Preloader.LEVEL1_TILES_KEY},
-		{"type":"image", 		"asset":"assets/images/other/panel.png",	 			"key":Preloader.PANEL_KEY}
+		{"type":"image", 		"asset":"assets/images/other/panel.png",	 			"key":Preloader.PANEL_KEY},
+		{"type":"image", 		"asset":"assets/images/other/alert.png",	 			"key":Preloader.ALERT_KEY}
 	];
 	
 	Preloader.TILES = [

@@ -31,16 +31,24 @@ define(['app/game'], function(Game){
 		this.sprite = new Phaser.Button(Game.getInstance(), 0, 0, this.asset, this.callback, this, 0, 1, 2, 3);
 		this.sprite.events.onInputUp.add(this.mouseUp, this);
 		this.sprite.events.onInputDown.add(this.mouseDown, this);
-		this.sprite.inputEnabled = true;
 		this.sprite.x = this.options.x;
 		this.sprite.y = this.options.y;
 		this.resetFrames();
+		this.enableInput();
 	};
 
 	AbstractButton.prototype.mouseUp = function(){
 		this.mouseUpSignal.dispatch({"target":this});
 	};
-
+	
+	AbstractButton.prototype.enableInput = function(){
+		this.sprite.inputEnabled = true;
+	};
+	
+	AbstractButton.prototype.disableInput = function(){
+		this.sprite.inputEnabled = false;
+	};
+	
 	AbstractButton.prototype.mouseDown = function(){
 		this.mouseDownSignal.dispatch({"target":this});
 	};

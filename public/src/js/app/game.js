@@ -14,6 +14,7 @@ function(){
 	Game.init = function(config){
 		Game.config = config;
 		Game.pauseSignal = new Phaser.Signal();
+		Game.alertSignal = new Phaser.Signal();
 		Game.getInstance();
 	};
 	
