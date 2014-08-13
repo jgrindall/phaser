@@ -1,8 +1,0 @@
-{
-	"name": "rjsphaser",
-  	"version": "0.0.0",
-  	"dependencies": {
-    	"jquery": "~2.0.0",
-    	"phaser":"2.0.7"
-  	}
-}

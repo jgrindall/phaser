@@ -10,12 +10,12 @@ app.render = function(res, path){
 	res.sendfile(path);
 };
 
-app.get('/home', function(req, res) {
-	app.render(res, "public/index.html");
+app.get('/src', function(req, res) {
+	app.render(res, "public/src/index.html");
 });
 
 app.get('/build', function(req, res) {
-	app.render(res, "public/index-build.html");
+	app.render(res, "public/build/index.html");
 });
 
 app.listen(port, function() {

@@ -1,14 +1,10 @@
-public/dist
+public/build/
 
-public/dist/*
+public/build/*
 
-public/dist/*.*
+public/build/*.*
 
-public/bower_components/
+node_modules/
 
-public/bower_components/*
-
-public/bower_components/*.*
-
-
+node_modules/**
 
