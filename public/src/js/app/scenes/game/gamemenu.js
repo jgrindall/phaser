@@ -17,10 +17,6 @@ function(NavButton, CloseButton, Game, ListButton, HomeButton, Container){
 	GameMenu.prototype = Object.create(Container.prototype);
 	GameMenu.prototype.constructor = GameMenu;
 	
-	GameMenu.prototype.preload = function(){
-    
-	};
-	
 	GameMenu.prototype.addRect = function () {
 		this.panel = new Phaser.Sprite(Game.getInstance(), this.bounds.x, this.bounds.y, 'panel');
 		this.buttonGroup = new Phaser.Group(Game.getInstance(), 0, 0);

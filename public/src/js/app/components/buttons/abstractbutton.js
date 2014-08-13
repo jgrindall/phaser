@@ -10,10 +10,6 @@ define(['app/game'], function(Game){
 		this.mouseUpSignal = new Phaser.Signal();
 	};
 
-	AbstractButton.prototype.preload = function(){
-	
-	};
-
 	AbstractButton.prototype.goToFrame = function(i){
 		this.sprite.setFrames(i, i, i, i);
 	};
@@ -58,6 +54,8 @@ define(['app/game'], function(Game){
 	};
 	
 	AbstractButton.prototype.destroy = function(){
+		this.sprite.inputEnabled = false;
+		this.sprite.destroy(true);
 		this.mouseDownSignal = null;
 		this.mouseUpSignal = null;
 	};

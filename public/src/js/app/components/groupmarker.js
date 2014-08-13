@@ -15,13 +15,17 @@ define(['app/game', 'app/components/buttons/markerbutton', 'app/components/conta
 		Container.prototype.create.call(this);
 		var b, i, x;
 		for(i = 0; i <= this.options.num - 1; i++){
-			x = Game.getInstance().world.centerX - 20 * this.options.num + i * 40;
-			b = new MarkerButton({"x":x, "y":Game.getInstance().world.height - 40});
+			x = Game.cx() - 20 * this.options.num + i * 40;
+			b = new MarkerButton({"x":x, "y":Game.h() - 40});
 			b.create();
 			this.group.add(b.sprite);
 			this.buttons.push(b);
 		}
 		this.setSelected(0);
+	};
+	
+	GroupMarker.prototype.destroy = function() {
+		Container.prototype.destroy.call(this);
 	};
 	
 	GroupMarker.prototype.setSelected = function(index) {

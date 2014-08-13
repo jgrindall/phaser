@@ -7,21 +7,18 @@ define(['app/game'], function(Game){
 		
 	};
 
-	Platforms.prototype.preload = function(){
-    
-	};
-
 	Platforms.prototype.create = function () {
 		this.map = new Phaser.Tilemap(Game.getInstance(), 'level1');
 	    this.map.addTilesetImage('tiles1');
 	    this.map.setCollisionByExclusion([ ]);
 	    this.tileMapLayer = this.map.createLayer('tileLayer1');
-	    //this.tileMapLayer.debug = true;
 	    this.tileMapLayer.resizeWorld();
 	};
-
-	Platforms.prototype.update = function() {
-    
+	
+	Platforms.prototype.destroy = function() {
+		this.tileMapLayer.destroy(true);
+		this.tileMapLayer = null;
+		this.map = null;
 	};
 	
 	return Platforms;

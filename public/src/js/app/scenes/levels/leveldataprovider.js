@@ -1,5 +1,5 @@
 
-define(['app/game', 'app/components/buttongrid', 'app/components/buttons/levelbadge', 'app/utils/Storage'],
+define(['app/game', 'app/components/buttongrid', 'app/components/buttons/levelbadge', 'app/utils/storage'],
 
 function(Game, ButtonGrid, LevelBadge, Storage){
 	

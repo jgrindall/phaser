@@ -10,10 +10,6 @@ define(['app/scenes/game/objectstate', 'app/game'], function(ObjectState, Game){
 	Character.VELX = 200;
 	Character.VELY = 400;
 	Character.FORCE_DELAY = 20;
-	
-	Character.prototype.preload = function(){
-	
-	};
 
 	Character.prototype.create = function () {
 		this.makeSprite();
@@ -113,6 +109,10 @@ define(['app/scenes/game/objectstate', 'app/game'], function(ObjectState, Game){
 	    		this.forced = false;
 	    	}
 	    }
+	};
+	
+	Character.prototype.destroy = function () {
+		Game.pauseSignal.removeAll(this);
 	};
 	
 	return Character;

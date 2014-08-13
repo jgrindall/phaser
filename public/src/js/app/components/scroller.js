@@ -14,10 +14,9 @@ define(['app/game'],function(Game){
 	Scroller.MIN_MOVE = 10;
 	
 	Scroller.prototype.create = function(){
-		console.log("scroller create!");
 		this.group = new Phaser.Group(Game.getInstance());
-	    this.addChildren();
-		Game.getInput().onDown.add($.proxy(this.onDown, this));
+		this.addChildren();
+	    Game.getInput().onDown.add($.proxy(this.onDown, this));
 		Game.getInput().mouse.mouseOutCallback = $.proxy(this.mouseOutCallback, this);
 	};
 	
@@ -26,12 +25,11 @@ define(['app/game'],function(Game){
 	};
 	
 	Scroller.prototype.add = function(child) {
-		console.log("scroller add! "+child);
 		this.group.add(child.group);
 		var x, w, worldWidth;
 		x = child.options.bounds.x;
 		w = child.options.bounds.w;
-		worldWidth = Game.getInstance().world.width;
+		worldWidth = Game.w();
 		this.minX = Math.min(this.minX, -1*(x + w - worldWidth));
 		child.signal.add($.proxy(this.select, this));
 	};
@@ -85,12 +83,6 @@ define(['app/game'],function(Game){
 		this.group.x = xpos;
 	};
 	
-	Scroller.prototype.destroy = function() {
-		this.group.destroy(true);
-		Game.getInput().onDown.removeAll(this);
-		Game.getInput().mouse.mouseOutCallback = null;
-	};
-	
 	Scroller.prototype.startDragging = function(data) {
 		this.startX = this.group.x;
 		this.dx = 0;
@@ -98,6 +90,14 @@ define(['app/game'],function(Game){
 		this.dragging = true;
 		Game.getInput().onUp.add($.proxy(this.onUp, this));
 		Game.getInput().moveCallback = $.proxy(this.move, this);
+	};
+	
+	Scroller.prototype.destroy = function() {
+		Game.getInput().onDown.removeAll(this);
+		Game.getInput().mouse.mouseOutCallback = null;
+		this.group.destroy(true);
+		this.options = null;
+		this.selectSignal = null;
 	};
 	
 	return Scroller;

@@ -6,10 +6,6 @@ define(['app/game'], function(Game){
 		
 	};
 
-	Stars.prototype.preload = function(){
-	
-	};
-
 	Stars.prototype.create = function () {
 		this.group = new Phaser.Group(Game.getInstance());
 		Game.getInstance().physics.enable(this.group, Phaser.Physics.ARCADE);

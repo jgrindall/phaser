@@ -1,7 +1,7 @@
 
-define(['jquery', 'app/scenes/scene', 'app/components/scroller', 'app/components/pager', 'app/utils/textfactory', 'app/components/buttons/levelsbutton', 'app/components/buttons/homebutton', 'app/game', 'app/scenes/levels/leveldataprovider'],
+define(['jquery', 'app/scenes/scene', 'app/components/scroller', 'app/components/pager', 'app/utils/textfactory', 'app/components/buttons/levelsbutton', 'app/components/buttons/homebutton', 'app/game', 'app/scenes/levels/leveldataprovider', 'app/utils/storage'],
 
-function($, Scene, Scroller, Pager, TextFactory, LevelsButton, HomeButton, Game, LevelDataProvider){
+function($, Scene, Scroller, Pager, TextFactory, LevelsButton, HomeButton, Game, LevelDataProvider, Storage){
 	
 	"use strict";
 	
@@ -11,10 +11,6 @@ function($, Scene, Scroller, Pager, TextFactory, LevelsButton, HomeButton, Game,
 
 	LevelsScene.prototype = Object.create(Scene.prototype);
 	LevelsScene.prototype.constructor = LevelsScene;
-
-	LevelsScene.prototype.preload = function() {
-		Scene.prototype.preload.call(this);
-	};
 
 	LevelsScene.prototype.create = function() {
 		Scene.prototype.create.apply(this, arguments);
@@ -58,9 +54,13 @@ function($, Scene, Scroller, Pager, TextFactory, LevelsButton, HomeButton, Game,
 
 	LevelsScene.prototype.shutdown = function() {
 		Scene.prototype.shutdown.apply(this, arguments);
-		if(this.scroller){
-			this.scroller.destroy();
-		}
+		this.scroller.selectSignal.removeAll(this);
+		this.backButton.mouseUpSignal.removeAll(this);
+		this.backButton.destroy();
+		this.scroller.destroy();
+		this.backButton = null;
+		this.text = null;
+		this.scroller = null;
 	};
 
 	return LevelsScene;

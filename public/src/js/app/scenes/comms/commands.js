@@ -40,15 +40,6 @@ function(BlocksFactory, Game, CommsLayout, CommsGroup){
 		this.update();
 	};
 
-	Commands.prototype.update = function(){
-		$.each(this.targetGroups, function(i, group){
-			group.dirty = true;
-			group.update();
-		});
-		group.dirty = true;
-		this.mainGroup.update();
-	};
-
 	Commands.prototype.onLayout = function(data){
 		var that = this;
 		$.each(data, function(i, obj){
@@ -101,10 +92,6 @@ function(BlocksFactory, Game, CommsLayout, CommsGroup){
 		this.mainGroup = new Phaser.Group(Game.getInstance());
 		Game.getInstance().world.add(this.mainGroup);
 		this.currentGroup = this.targetGroups[this.commsData.selectedIndex];
-	};
-
-	Commands.prototype.preload = function(){
-	
 	};
 
 	Commands.prototype.create = function() {

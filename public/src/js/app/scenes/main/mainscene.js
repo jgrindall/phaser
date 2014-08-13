@@ -100,6 +100,17 @@ function(Scene, Preloader, NavButton, BulbButton, LoaderBar, TextFactory, Game){
 
 	MainScene.prototype.shutdown = function() {
 		Scene.prototype.shutdown.apply(this, arguments);
+		this.loaderBar.destroy();
+		this.startButton.mouseUpSignal.removeAll(this);
+		this.tutorialButton.mouseUpSignal.removeAll(this);
+		if(this.preloader){
+			this.preloader.loadSignal.removeAll(this);
+			this.preloader.destroy();
+		}
+		this.loaderBar = null;
+		this.startButton = null
+		this.tutorialButton = null;
+		this.preloader = null;
 	};
 
 	return MainScene;

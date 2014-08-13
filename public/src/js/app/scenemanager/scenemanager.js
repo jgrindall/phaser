@@ -27,56 +27,74 @@ function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, LocData, Ga
 		this.transitions.to(s);
 	};
 	
-	SceneManager.prototype.navigationClicked = function(data){
-		var level, target, page, levelData;
-		console.log("nav "+JSON.stringify(data));
-		if(data.key === AppConsts.LEVELS_SCENE){
-			if(data.button === "back"){
-				this.go(AppConsts.MAIN_SCENE);
-			}
-			else{
-				LocData.getInstance().setLocation(data);
-				levelData = Storage.getInstance().loadLevelDataForPageAndLevel(data.page, data.level);
-				if(levelData === LevelStatus.OPEN){
-					console.log("go");
-					Game.startPhysics();
-					this.go(AppConsts.GAME_SCENE);
-				}
-				else{
-					AlertManager.makeAlert("blocked!");
-				}
-			}
+	SceneManager.prototype.levelsNavigationClicked = function(data){
+		var levelData;
+		if(data.button === "back"){
+			this.go(AppConsts.MAIN_SCENE);
 		}
-		else if(data.key === AppConsts.MAIN_SCENE){
-			if(data.button === "start"){
-				this.go(AppConsts.LEVELS_SCENE);
-			}
-			else if(data.button === "tutorial"){
-				this.go(AppConsts.TUTORIAL_SCENE);
-			}
-		}
-		else if(data.key === AppConsts.COMM_SCENE){
-			if(data.button === "back"){
-				this.go(AppConsts.LEVELS_SCENE);
-			}
-			else if(data.button === "go"){
+		else{
+			LocData.getInstance().setLocation(data);
+			levelData = Storage.getInstance().loadLevelDataForPageAndLevel(data.page, data.level);
+			if(levelData === LevelStatus.OPEN){
 				Game.startPhysics();
 				this.go(AppConsts.GAME_SCENE);
 			}
+			else{
+				AlertManager.makeAlert("blocked!");
+			}
 		}
-		else if(data.key === AppConsts.TUTORIAL_SCENE){
+	};
+	
+	SceneManager.prototype.mainNavigationClicked = function(data){
+		if(data.button === "start"){
+			this.go(AppConsts.LEVELS_SCENE);
+		}
+		else if(data.button === "tutorial"){
+			this.go(AppConsts.TUTORIAL_SCENE);
+		}
+	};
+	
+	SceneManager.prototype.commNavigationClicked = function(data){
+		if(data.button === "back"){
+			this.go(AppConsts.LEVELS_SCENE);
+		}
+		else if(data.button === "go"){
+			Game.startPhysics();
+			this.go(AppConsts.GAME_SCENE);
+		}
+	};
+	
+	SceneManager.prototype.tutorialNavigationClicked = function(data){
+		this.go(AppConsts.MAIN_SCENE);
+	};
+	
+	SceneManager.prototype.gameNavigationClicked = function(data){
+		if(data.target === "comms"){
+			this.go(AppConsts.COMM_SCENE);
+		}
+		if(data.target === "home"){
 			this.go(AppConsts.MAIN_SCENE);
 		}
+		if(data.target === "levels"){
+			this.go(AppConsts.LEVELS_SCENE);
+		}
+	};
+	
+	SceneManager.prototype.navigationClicked = function(data){
+		if(data.key === AppConsts.LEVELS_SCENE){
+			this.levelsNavigationClicked(data);
+		}
+		else if(data.key === AppConsts.MAIN_SCENE){
+			this.mainNavigationClicked(data);
+		}
+		else if(data.key === AppConsts.COMM_SCENE){
+			this.commNavigationClicked(data);
+		}
+		else if(data.key === AppConsts.TUTORIAL_SCENE){
+			this.tutorialNavigationClicked(data);
+		}
 		else if(data.key === AppConsts.GAME_SCENE){
-			if(data.target === "comms"){
-				this.go(AppConsts.COMM_SCENE);
-			}
-			if(data.target === "home"){
-				this.go(AppConsts.MAIN_SCENE);
-			}
-			if(data.target === "levels"){
-				this.go(AppConsts.LEVELS_SCENE);
-			}
+			this.gameNavigationClicked(data);
 		}
 	};
 

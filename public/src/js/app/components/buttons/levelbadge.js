@@ -14,10 +14,6 @@ function(LevelsButton, Game, Container, TextFactory){
 	LevelBadge.prototype = Object.create(Container.prototype);
 	LevelBadge.prototype.constructor = LevelBadge;
 	
-	LevelBadge.prototype.preload = function(){
-    	
-	};
-	
 	LevelBadge.prototype.addText = function () {
 		var text = "" + (this.options.index + 1);
 		this.label = TextFactory.make(this.options.bounds.x + 40, this.options.bounds.y + 10, text, TextFactory.LARGE);
@@ -25,7 +21,6 @@ function(LevelsButton, Game, Container, TextFactory){
 	};
 	
 	LevelBadge.prototype.select = function () {
-		console.log('SELECT');
 		this.mouseUpSignal.dispatch({"target":this});
 	};
 	
@@ -44,6 +39,14 @@ function(LevelsButton, Game, Container, TextFactory){
 		Container.prototype.create.call(this);
 		this.addMain();
 		this.addText();
+	};
+	
+	LevelBadge.prototype.destroy = function () {
+		this.button.mouseUpSignal.removeAll(this);
+		Container.prototype.destroy.call(this);
+		this.mouseUpSignal = null;
+		this.label = null;
+		this.button = null;
 	};
 	
 	LevelBadge.WIDTH = 150;

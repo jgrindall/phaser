@@ -6,11 +6,12 @@ define(['app/game'], function(Game){
 	var Background = function(options){
 		this.options = options;
 	};
-
-	Background.prototype.preload = function(){
 	
+	Background.prototype.destroy = function(){
+		this.sprite.destroy(true);
+		this.sprite = null;
 	};
-
+	
 	Background.prototype.create = function(){
 		var w, h;
 		w = Game.getWidth();

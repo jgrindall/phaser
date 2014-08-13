@@ -18,10 +18,6 @@ function(Scene, Commands, Tabs, TabButton, LocData, CommsData, NavButton, HomeBu
 		this.tabs.init();
 	};
 
-	CommScene.prototype.preload = function() {
-		Scene.prototype.preload.call(this);
-	};
-
 	CommScene.prototype.create = function() {
 		var bounds, numTabs, w;
 		numTabs = LocData.getInstance().levelData.tabs;

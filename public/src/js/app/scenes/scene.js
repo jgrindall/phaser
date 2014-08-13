@@ -7,13 +7,8 @@ define(['app/game', 'app/components/background'], function(Game, Background){
 		this.key = key;
 		this.navigationSignal = new Phaser.Signal();
 	};
-
-	Scene.prototype.preload = function() {
-	
-	};
 	
 	Scene.prototype.onAlert = function(data) {
-		console.log("-->   onAlert!! "+JSON.stringify(data));
 		if(data.show){
 			this.disableAllInput();
 		}
@@ -40,17 +35,12 @@ define(['app/game', 'app/components/background'], function(Game, Background){
 		this.addChildren();
 		Game.alertSignal.add($.proxy(this.onAlert, this));
 	};
-	
-	Scene.prototype.addListeners = function() {
-		//
-	};
-	
+
 	Scene.prototype.update = function() {
     	//
 	};
 
 	Scene.prototype.shutdown = function() {
-		console.log("shutdown scene //TODO - tidy up");
 		Game.alertSignal.removeAll(this);
 	};
 	

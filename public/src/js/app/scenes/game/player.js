@@ -10,10 +10,6 @@ define(['app/scenes/game/character', 'app/game'], function(Character, Game){
 	Player.prototype = Object.create(Character.prototype);
 	Player.prototype.constructor = Player;
 
-	Player.prototype.preload = function(){
-		Character.prototype.preload.call(this);
-	};
-
 	Player.prototype.makeSprite = function () {
 		Character.prototype.makeSprite.call(this, arguments);
 	    this.sprite = new Phaser.Sprite(Game.getInstance(), 32, 32, 'dude');
@@ -27,13 +23,11 @@ define(['app/scenes/game/character', 'app/game'], function(Character, Game){
 	    this.sprite.animations.add('left', [0, 1, 2, 3], 10, true);
 	    this.sprite.animations.add('right', [5, 6, 7, 8], 10, true);
 	};
-
-	Player.prototype.create = function () {
-		Character.prototype.create.call(this, arguments);
-	};
-
-	Player.prototype.update = function() {
-	    Character.prototype.update.call(this, arguments);
+	
+	Player.prototype.destroy = function () {
+		Character.prototype.destroy.call(this, arguments);
+		this.sprite.destroy(true);
+		this.sprite = null;
 	};
 	
 	return Player;

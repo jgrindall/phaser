@@ -12,7 +12,6 @@ function(Game, Player, Background, Stars, CommsData, LocData, Platforms, GameMod
 	GameView.CHECK_STILL = 500;
 	
 	GameView.prototype.nextCommand = function() {
-		console.log("nextCommand");
 		var s;
 		this.commandNum++;
 		if(this.commandNum === this.commandStack.length){
@@ -72,7 +71,6 @@ function(Game, Player, Background, Stars, CommsData, LocData, Platforms, GameMod
 		Game.getPhysics().collide(this.stars.group, this.platforms.tileMapLayer);
 		Game.getPhysics().overlap(this.player.sprite, this.stars.group, this.collectStar, null, this);
 		this.player.update();
-		this.platforms.update();
 		this.stars.update();
 		if(LocData.getInstance().getMode() === GameMode.COMMANDS){
 			this.checkStill();
@@ -105,13 +103,16 @@ function(Game, Player, Background, Stars, CommsData, LocData, Platforms, GameMod
 		star.kill();
 	};
 
-	GameView.prototype.shutdown = function() {
-		
+	GameView.prototype.destroy = function() {
+		this.bg.destroy();
+		this.platforms.destroy();
+		this.player.destroy();
+		this.bg = null;
+		this.platforms = null;
+		this.player = null;
 	};
 	
 	return GameView;
 
 });
 	
-	
-

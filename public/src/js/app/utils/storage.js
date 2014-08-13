@@ -1,13 +1,12 @@
 
-define([],
+define(['jquery'],
 
-function(){
+function($){
 	
 	"use strict";
 	
 	var Storage = function(){
-		this.cache = [];
-		this.persistence = localStorage;
+		
 	};
 	
 	Storage.LEVEL_PROGESS_KEY = "levelData";
@@ -15,11 +14,17 @@ function(){
 	Storage.DEFAULT_PROGRESS = [[0,0,0,0,0,0,0,0,0], [1,1,1,1,1,1,1,1,1], [2,2,2,2,2,2,2,2,2]];
 	
 	Storage.prototype.init = function(){
-		this.saveForKey(Storage.LEVEL_PROGESS_KEY, Storage.DEFAULT_PROGRESS);
+		var data;
+		this.cache = [];
+		this.persistence = localStorage;
+		data = this.loadAllLevelData();
+		if(!data){
+			this.saveForKey(Storage.LEVEL_PROGESS_KEY, Storage.DEFAULT_PROGRESS);
+		}
 	};
 	
 	Storage.prototype.saveForKey = function(key, data){
-		this.persistence.setItem(key, data);
+		this.persistence.setItem(key, JSON.stringify(data));
 		this.addToCache(key, data);
 	};
 	
@@ -27,9 +32,9 @@ function(){
 		return this.getForKey(Storage.LEVEL_PROGESS_KEY);
 	};
 	
-	Storage.prototype.setLevelDataForPageAndLevel = function(page, level, obj){
-		var levelData = this.loadLevelDataForPage(page);
-		levelData[level] = obj;
+	Storage.prototype.setLevelDataForPageAndLevel = function(page, level, i){
+		var levelData = this.loadAllLevelData();
+		levelData[page][level] = i;
 		this.saveForKey(Storage.LEVEL_PROGESS_KEY, levelData);
 	};
 	
@@ -52,7 +57,10 @@ function(){
 		data = this.cache[key];
 		if(!data){
 			data = this.persistence.getItem(key);
-			this.addToCache(key, data);
+			if(data){
+				data = $.parseJSON(data);
+				this.addToCache(key, data);
+			}
 		}
 		return data;
 	};

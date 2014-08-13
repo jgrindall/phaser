@@ -117,6 +117,10 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 		}
 	};
 
+	Preloader.prototype.destroy = function() {
+		this.loadSignal = null;
+	};
+	
 	return Preloader;
 
 });

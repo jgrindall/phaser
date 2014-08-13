@@ -17,10 +17,6 @@ function(TickButton, Game, Container, TextFactory){
 	Alert.prototype = Object.create(Container.prototype);
 	Alert.prototype.constructor = Alert;
 	
-	Alert.prototype.preload = function(){
-    
-	};
-	
 	Alert.prototype.addRect = function () {
 		this.panel = new Phaser.Sprite(Game.getInstance(), this.bounds.x, this.bounds.y, 'alert');
 		this.buttonGroup = new Phaser.Group(Game.getInstance(), 0, 0);
@@ -68,10 +64,6 @@ function(TickButton, Game, Container, TextFactory){
 			b.mouseUpSignal.removeAll(this);
 		});
 		Container.prototype.destroy.call(this);
-	};
-	
-	Alert.prototype.update = function() {
-    
 	};
 	
 	return Alert;

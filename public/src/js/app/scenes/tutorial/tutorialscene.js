@@ -14,7 +14,7 @@ function(Scene, Preloader, HomeButton, TextFactory, Game){
 
 	TutorialScene.prototype.create = function() {
 		Scene.prototype.create.apply(this, arguments);
-		this.label = TextFactory.make(Game.getInstance().world.centerX - 300, 50, "Tutorial", TextFactory.LARGE);
+		this.label = TextFactory.make(Game.cx() - 300, 50, "Tutorial", TextFactory.LARGE);
 		this.startButton = new HomeButton({"x":0, "y":0});
 		this.startButton.create();
 		this.startButton.mouseUpSignal.add(this.startButtonClicked, this);

@@ -15,10 +15,6 @@ function(TabButton, Game, Container){
 	
 	Tabs.prototype = Object.create(Container.prototype);
 	Tabs.prototype.constructor = Tabs;
-	
-	Tabs.prototype.preload = function(){
-	
-	};
 
 	Tabs.prototype.loadLevel = function(){
 		var that = this, levelData = this.locData.levelData, b;

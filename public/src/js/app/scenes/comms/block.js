@@ -9,10 +9,6 @@ define(['app/game'], function(Game){
 		this.releaseSignal = new Phaser.Signal();
 	};
 
-	Block.prototype.preload = function(){
-
-	};
-
 	Block.prototype.toString = function(){
 		return "Block at " + this.sprite.x + "," + this.sprite.y + " of type " + this.type;
 	};

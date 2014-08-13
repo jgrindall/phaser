@@ -23,6 +23,11 @@ define(['app/game'], function(Game){
 		this.sprite = new Phaser.Sprite(Game.getInstance(), 500, 60, 'loaderBar');
 	};
 	
+	LoaderBar.prototype.destroy = function(){
+		this.sprite.destroy(true);
+		this.sprite = null;
+	};
+	
 	return LoaderBar;
 
 });

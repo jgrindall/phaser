@@ -12,10 +12,6 @@ function(Scene, NavButton, PauseButton, CommsData, LocData, Controls, GameMode, 
 	
 	GameScene.prototype = Object.create(Scene.prototype);
 	GameScene.prototype.constructor = GameScene;
-
-	GameScene.prototype.preload = function() {
-		Scene.prototype.preload.apply(this, arguments);
-	};
 	
 	GameScene.prototype.addControls = function() {
 		this.controls = new Controls({"bounds":{"x":0, "y":0}});
@@ -45,10 +41,8 @@ function(Scene, NavButton, PauseButton, CommsData, LocData, Controls, GameMode, 
 	};
 	
 	GameScene.prototype.stackComplete = function() {
-		//Storage.getInstance();
-		console.log(LocData.getInstance().page + "  " + LocData.getInstance().level);
-		console.log("ended");
-		// save progress
+		var success = true;
+		LocData.getInstance().levelCompleted(success);
 	};
 	
 	GameScene.prototype.checkLaunch_menu = function() {
@@ -119,9 +113,22 @@ function(Scene, NavButton, PauseButton, CommsData, LocData, Controls, GameMode, 
 	};
 	
 	GameScene.prototype.shutdown = function() {
-		this.gameView.shutdown();
-		this.hideMenu();
 		Scene.prototype.shutdown.apply(this, arguments);
+		this.pauseButton.mouseUpSignal.removeAll(this);
+		this.gameView.stackCompleteSignal.removeAll(this);
+		this.hideMenu();
+		this.gameView.destroy();
+		this.gameView = null;
+		if(this.gameMenu){
+			this.gameMenu.destroy();
+			this.gameMenu = null;
+		}
+		if(this.controls){
+			this.controls.upSignal.removeAll(this.gameView);
+			this.controls.downSignal.removeAll(this.gameView);
+			this.controls.destroy();
+			this.controls = null;
+		}
 	};
 	
 	return GameScene;

@@ -13,10 +13,6 @@ function(Game, ControlButton, PauseButton, Container){
 	
 	Controls.prototype = Object.create(Container.prototype);
 	Controls.prototype.constructor = Controls;
-	
-	Controls.prototype.preload = function(){
-	
-	};
 
 	Controls.prototype.create = function () {
 		Container.prototype.create.call(this);
