@@ -1,6 +1,6 @@
-define(['app/consts/leveldata', 'app/scenes/game/gamemode', 'app/commsdata', 'app/utils/storage'],
+define(['app/consts/leveldata', 'app/scenes/game/gamemode', 'app/commsdata', 'app/utils/storage', 'app/levelstate'],
 
-function(LevelData, GameMode, CommsData, Storage) {
+function(LevelData, GameMode, CommsData, Storage, LevelState) {
 	
 	"use strict";
 	
@@ -14,7 +14,7 @@ function(LevelData, GameMode, CommsData, Storage) {
 	};
 	
 	LocData.prototype.levelCompleted = function(success){
-		Storage.getInstance().setLevelDataForPageAndLevel(this.page, this.level, 1);
+		Storage.getInstance().setLevelDataForPageAndLevel(this.page, this.level, LevelState.COMPLETED);
 	};
 	
 	LocData.prototype.setMode = function(mode){

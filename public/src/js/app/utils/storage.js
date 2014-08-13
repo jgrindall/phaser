@@ -1,7 +1,7 @@
 
-define(['jquery'],
+define(['jquery', 'app/levelstate'],
 
-function($){
+function($, LevelState){
 	
 	"use strict";
 	
@@ -11,7 +11,10 @@ function($){
 	
 	Storage.LEVEL_PROGESS_KEY = "levelData";
 	
-	Storage.DEFAULT_PROGRESS = [[0,0,0,0,0,0,0,0,0], [1,1,1,1,1,1,1,1,1], [2,2,2,2,2,2,2,2,2]];
+	Storage.DEFAULT_PROGRESS = [];
+	Storage.DEFAULT_PROGRESS.push([LevelState.OPEN, LevelState.OPEN, LevelState.OPEN, LevelState.OPEN, LevelState.OPEN, LevelState.OPEN, LevelState.OPEN, LevelState.OPEN, LevelState.OPEN]);
+	Storage.DEFAULT_PROGRESS.push([LevelState.LOCKED, LevelState.LOCKED, LevelState.LOCKED, LevelState.LOCKED, LevelState.LOCKED, LevelState.LOCKED, LevelState.LOCKED, LevelState.LOCKED, LevelState.LOCKED]);
+	Storage.DEFAULT_PROGRESS.push([LevelState.COMPLETED, LevelState.COMPLETED, LevelState.COMPLETED, LevelState.COMPLETED, LevelState.COMPLETED, LevelState.COMPLETED, LevelState.COMPLETED, LevelState.COMPLETED, LevelState.COMPLETED]);
 	
 	Storage.prototype.init = function(){
 		var data;

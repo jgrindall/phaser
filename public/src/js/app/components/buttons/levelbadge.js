@@ -1,7 +1,7 @@
 
-define(['app/components/buttons/levelsbutton', 'app/game', 'app/components/container', 'app/utils/textfactory'],
+define(['app/components/buttons/levelsbutton', 'app/game', 'app/components/container', 'app/utils/textfactory', 'app/levelstate'],
 
-function(LevelsButton, Game, Container, TextFactory){
+function(LevelsButton, Game, Container, TextFactory, LevelState){
 	
 	"use strict";
 		
@@ -52,7 +52,10 @@ function(LevelsButton, Game, Container, TextFactory){
 	LevelBadge.WIDTH = 150;
 	LevelBadge.HEIGHT = 150;
 	
-	LevelBadge.ASSETS = ['levelbutton', 'levelbuttonlocked', 'levelbuttondone'];
+	LevelBadge.ASSETS = [];
+	LevelBadge.ASSETS[LevelState.OPEN] = 'levelbutton';
+	LevelBadge.ASSETS[LevelState.LOCKED] = 'levelbuttonlocked';
+	LevelBadge.ASSETS[LevelState.COMPLETED] = 'levelbuttondone';
 	
 	return LevelBadge;
 	
