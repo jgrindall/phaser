@@ -23,8 +23,9 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 	Preloader.BLOCK_KEY1 = 				'block1';
 	Preloader.BLOCK_KEY2 = 				'block2';
 	Preloader.BLOCK_KEY3 = 				'block3';
-	Preloader.DUDE_KEY = 				'dude';
+	Preloader.HERO_KEY = 				'hero';
 	Preloader.STAR_KEY = 				'star';
+	Preloader.ENEMY_KEY = 				'enemy';
 	Preloader.LEVEL1_JSON_KEY = 		'level1';
 	Preloader.LEVEL1_TILES_KEY = 		'tiles1';
 	Preloader.PANEL_KEY = 				'panel';
@@ -39,6 +40,7 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 	Preloader.LEVEL_BUTTON = 			'levelbutton';
 	Preloader.LEVEL_BUTTON_DONE = 		'levelbuttondone';
 	Preloader.LEVEL_BUTTON_LOCKED = 	'levelbuttonlocked';
+	Preloader.KILLAREA = 				'killarea';
 	
 	Preloader.SPRITESHEETS = [
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/levelButton.png", 			"key":Preloader.LEVEL_BUTTON, 				"w":150, 	"h":150},
@@ -55,8 +57,10 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/tick.png", 					"key":Preloader.TICK_KEY, 					"w":80, 	"h":80},
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/yellowList.png", 			"key":Preloader.LIST_KEY, 					"w":120, 	"h":120},
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/greenHome.png", 				"key":Preloader.HOME_KEY, 					"w":120, 	"h":120},
-		{"type":"spritesheet", 	"asset":"assets/images/game/dude.png", 						"key":Preloader.DUDE_KEY, 					"w":32, 	"h":48},
-		{"type":"spritesheet", 	"asset":"assets/images/buttons/pagination.png", 			"key":Preloader.MARKER_KEY, 				"w":40, 	"h":40}
+		{"type":"spritesheet", 	"asset":"assets/images/game/dude.png", 						"key":Preloader.HERO_KEY, 					"w":32, 	"h":48},
+		{"type":"spritesheet", 	"asset":"assets/images/game/enemy.png", 					"key":Preloader.ENEMY_KEY, 					"w":32, 	"h":32},
+		{"type":"spritesheet", 	"asset":"assets/images/buttons/pagination.png", 			"key":Preloader.MARKER_KEY, 				"w":40, 	"h":40},
+		{"type":"spritesheet", 	"asset":"assets/images/game/firstaid.png", 					"key":Preloader.KILLAREA, 					"w":32, 	"h":32},
 		
 	];
 	

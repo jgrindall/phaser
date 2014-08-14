@@ -1,7 +1,7 @@
 
-define(['app/scenes/scene', 'app/components/buttons/navbutton', 'app/components/buttons/pausebutton', 'app/commsdata', 'app/locdata', 'app/scenes/game/controls', 'app/scenes/game/gamemode', 'app/scenes/game/gameview', 'app/scenes/game/gamemenu', 'app/game'],
+define(['app/scenes/scene', 'app/components/buttons/navbutton', 'app/components/buttons/pausebutton', 'app/commsdata', 'app/locdata', 'app/scenes/game/controls', 'app/scenes/game/gamemode', 'app/scenes/game/gameview', 'app/scenes/game/gamemenu', 'app/game', 'app/consts/layoutdata'],
 
-function(Scene, NavButton, PauseButton, CommsData, LocData, Controls, GameMode, GameView, GameMenu, Game){
+function(Scene, NavButton, PauseButton, CommsData, LocData, Controls, GameMode, GameView, GameMenu, Game, LayoutData){
 	
 	"use strict";
 	
@@ -26,7 +26,7 @@ function(Scene, NavButton, PauseButton, CommsData, LocData, Controls, GameMode, 
 	
 	GameScene.prototype.create = function() {
 		Scene.prototype.create.apply(this, arguments);
-		this.gameView = new GameView();
+		this.gameView = new GameView(LayoutData.getData(0, 0));
 		this.gameView.stackCompleteSignal.add(this.stackComplete, this);
 		this.pauseButton = new PauseButton({"x":Game.w() - PauseButton.WIDTH, "y":0});
 		this.gameView.create();
