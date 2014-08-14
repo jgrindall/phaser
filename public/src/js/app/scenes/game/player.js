@@ -5,6 +5,8 @@ define(['app/scenes/game/character', 'app/scenes/game/objectstate', 'app/game'],
 	
 	var Player = function(options){
 		options.asset = 'hero';
+		this.dead = false;
+		this.deadSignal = new Phaser.Signal();
 		Character.call(this, options);
 	};
 
@@ -21,6 +23,15 @@ define(['app/scenes/game/character', 'app/scenes/game/objectstate', 'app/game'],
 	    this.sprite.animations.add('left', [0, 1, 2, 3], 10, true);
 	    this.sprite.animations.add('right', [5, 6, 7, 8], 10, true);
 	    this.state = new ObjectState(this.body);
+	};
+	
+	Player.prototype.kill = function() {
+		this.sprite.enableBody = false;
+		//this.sprite.animations.play('kill');
+		this.dead = true;
+		this.sprite.body.velocity.y = -10;
+		this.sprite.body.velocity.x = 0;
+		Game.getInstance().camera.unfollow();
 	};
 	
 	Player.prototype.isStill = function() {
@@ -55,38 +66,55 @@ define(['app/scenes/game/character', 'app/scenes/game/objectstate', 'app/game'],
 		
 	};
 	
-	Player.prototype.update = function() {
-		var left, right, up;
-		if(Game.physicsPaused){
-			return;
+	Player.prototype.updateDead = function() {
+		var dy = Game.getInstance().camera.y + Game.h() - this.sprite.y;
+		console.log("dy "+dy);
+		if(dy < 0){
+			this.deadSignal.dispatch();
 		}
+	};
+	
+	Player.prototype.updateNormal = function() {
+		var left, right, up;
 		this.sprite.body.velocity.x = 0;
 		left = this.state.isLeft();
 		right = this.state.isRight();
 		up = this.state.isUp();
-	    if(left){
+		if(left){
 			this.sprite.body.velocity.x = -Player.VELX;
-	        this.sprite.animations.play('left');
-	    }
-	    else if(right){
-	        this.sprite.body.velocity.x = Player.VELX;
-	        this.sprite.animations.play('right');
-	    }
-	    else{
-	        this.sprite.animations.stop();
-	        this.sprite.frame = 4;
-	    }
-	    if(up){
-	        this.sprite.body.velocity.y = -Player.VELY;
+			this.sprite.animations.play('left');
+		}
+		else if(right){
+			this.sprite.body.velocity.x = Player.VELX;
+			this.sprite.animations.play('right');
+		}
+		else{
+			this.sprite.animations.stop();
+			this.sprite.frame = 4;
+		}
+		if(up){
+			this.sprite.body.velocity.y = -Player.VELY;
 			this.state.remove("U");
-	    }
-	    if(this.forced){
-	    	this.forceTime++;
-	    	if(this.forceTime === Player.FORCE_DELAY){
-	    		this.state.setState(null);
-	    		this.forced = false;
-	    	}
-	    }
+		}
+		if(this.forced){
+			this.forceTime++;
+			if(this.forceTime === Player.FORCE_DELAY){
+				this.state.setState(null);
+				this.forced = false;
+			}
+		}
+	};
+	
+	Player.prototype.update = function() {
+		if(Game.physicsPaused){
+			return;
+		}
+		else if(this.dead){
+			this.updateDead();
+		}
+		else{
+			this.updateNormal();
+		}
 	};
 	
 	Player.prototype.destroy = function () {

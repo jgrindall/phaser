@@ -6,22 +6,7 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 	"use strict";
 	
 	var GameView  = function(options){
-		this.stackCompleteSignal = new Phaser.Signal();
 		this.options = options;
-	};
-	
-	GameView.CHECK_STILL = 500;
-	
-	GameView.prototype.nextCommand = function() {
-		var s;
-		this.commandNum++;
-		if(this.commandNum === this.commandStack.length){
-			this.stackCompleteSignal.dispatch({});
-		}
-		else{
-			s = this.commandStack[this.commandNum];
-			this.player.setForce(s);
-		}
 	};
 	
 	GameView.prototype.controlUp = function(data) {
@@ -47,7 +32,15 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 	GameView.prototype.addPlayer = function() {
 		this.player = new Player(this.options.hero);
 		this.player.create();
+		this.player.deadSignal.add(this.onDead, this);
 		Game.getInstance().world.add(this.player.sprite);
+	};
+	
+	GameView.prototype.onDead = function(data){
+		this.player.destroy();
+		this.player.deadSignal.removeAll(this);
+		this.player = null;
+		// message the user
 	};
 	
 	GameView.prototype.addBullets = function(){
@@ -95,8 +88,6 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 	};
 	
 	GameView.prototype.create = function() {
-		this.commandStack = CommsData.getInstance().getCommands();
-		this.commandNum = -1;
 		this.addBg();
 		this.addPlatforms();
 		this.addPlayer();
@@ -110,19 +101,15 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 	
 	GameView.prototype.collide = function() {
 		var physics = Game.getPhysics();
-	   	physics.collide(this.player.sprite, this.platforms.tileMapLayer);
+		if(this.player && !this.player.dead){
+	   		physics.collide(this.player.sprite, this.platforms.tileMapLayer);
+	   		physics.overlap(this.player.sprite, this.stars.group, this.collectStar, null, this);
+			physics.overlap(this.player.sprite, this.enemy1.sprite, this.hitEnemy, null, this);
+			physics.overlap(this.player.sprite, this.kill1.sprite, this.hitKillArea, null, this);
+	   	}
 	    physics.collide(this.kill1.sprite, this.platforms.tileMapLayer);
 	    physics.collide(this.enemy1.sprite, this.platforms.tileMapLayer);
 		physics.collide(this.stars.group, this.platforms.tileMapLayer);
-		physics.overlap(this.player.sprite, this.stars.group, this.collectStar, null, this);
-		physics.overlap(this.player.sprite, this.enemy1.sprite, this.hitEnemy, null, this);
-		physics.overlap(this.player.sprite, this.kill1.sprite, this.hitKillArea, null, this);
-	};
-	
-	GameView.prototype.checkCommands = function() {
-		if(LocData.getInstance().getMode() === GameMode.COMMANDS){
-			this.checkStill();
-		}
 	};
 	
 	GameView.prototype.update = function() {
@@ -131,29 +118,6 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 		this.stars.update();
 		this.enemy1.update();
 		this.gun1.update();
-		this.checkCommands();
-	};
-	
-	GameView.prototype.playBack = function(){
-		this.checkStill();
-	};
-	
-	GameView.prototype.checkStill = function(){
-		var that = this;
-		if(this.player.isStill()){
-			if(!this.still){
-				this.still = true;
-				if(this.checkEndTimeout){
-					clearTimeout(this.checkEndTimeout);
-				}
-				this.checkEndTimeout = setTimeout(function(){
-					that.nextCommand();
-				}, GameView.CHECK_STILL);
-			}
-		}
-		else{
-			this.still = false;
-		}
 	};
 
 	GameView.prototype.collectStar = function(player, star){
@@ -162,16 +126,20 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 	
 	GameView.prototype.hitEnemy = function(player, enemy){
 		//console.log("dead - enemy");
+		this.player.kill();
 	};
 	
 	GameView.prototype.hitKillArea = function(player, killArea){
 		//console.log("dead - kill");
+		//this.player.kill();
 	};
 
 	GameView.prototype.destroy = function() {
 		this.bg.destroy();
 		this.platforms.destroy();
-		this.player.destroy();
+		if(this.player){
+			this.player.destroy();
+		}
 		this.bg = null;
 		this.platforms = null;
 		this.player = null;
