@@ -7,6 +7,7 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 	
 	var GameView  = function(options){
 		this.options = options;
+		this.deadSignal = new Phaser.Signal();
 	};
 	
 	GameView.prototype.controlUp = function(data) {
@@ -40,7 +41,7 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 		this.player.destroy();
 		this.player.deadSignal.removeAll(this);
 		this.player = null;
-		// message the user
+		this.deadSignal.dispatch();
 	};
 	
 	GameView.prototype.addBullets = function(){
@@ -114,7 +115,9 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 	
 	GameView.prototype.update = function() {
 	    this.collide();
-		this.player.update();
+	    if(this.player){
+			this.player.update();
+		}
 		this.stars.update();
 		this.enemy1.update();
 		this.gun1.update();

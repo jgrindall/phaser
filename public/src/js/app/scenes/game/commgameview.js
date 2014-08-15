@@ -50,7 +50,7 @@ function(Game, GameView, CommsData, GameMode, LocData){
 	
 	CommGameView.prototype.checkStill = function(){
 		var that = this;
-		if(this.player.isStill()){
+		if(this.player && !this.player.dead && this.player.isStill()){
 			if(!this.still){
 				this.still = true;
 				if(this.checkEndTimeout){

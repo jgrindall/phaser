@@ -5,26 +5,21 @@ function(TickButton, Game, Container, TextFactory){
 	
 	"use strict";
 		
-	var Alert = function(options){
+	var AbstractPopup = function(options){
 		Container.call(this, options);
 		this.selectSignal = new Phaser.Signal();
 		this.buttons = [];
 	};
 	
-	Alert.WIDTH = 400;
-	Alert.HEIGHT = 200;
+	AbstractPopup.prototype = Object.create(Container.prototype);
+	AbstractPopup.prototype.constructor = AbstractPopup;
 	
-	Alert.prototype = Object.create(Container.prototype);
-	Alert.prototype.constructor = Alert;
-	
-	Alert.prototype.addRect = function () {
-		this.panel = new Phaser.Sprite(Game.getInstance(), this.bounds.x, this.bounds.y, 'alert');
-		this.buttonGroup = new Phaser.Group(Game.getInstance(), 0, 0);
+	AbstractPopup.prototype.addRect = function () {
+		this.panel = new Phaser.Sprite(Game.getInstance(), this.bounds.x, this.bounds.y, this.options.bgasset);
 		this.group.add(this.panel);
-		this.group.add(this.buttonGroup);
 	};
 	
-	Alert.prototype.addBg = function () {
+	AbstractPopup.prototype.addBg = function () {
 		this.rect = new Phaser.Graphics(Game.getInstance(), 0, 0);
 		this.rect.beginFill(0x000000);
 		this.rect.alpha = 0.7;
@@ -32,12 +27,17 @@ function(TickButton, Game, Container, TextFactory){
 		this.group.add(this.rect);
 	};
 	
-	Alert.prototype.addText = function () {
+	AbstractPopup.prototype.addText = function () {
 		this.label = TextFactory.make(Game.cx() - 150, this.bounds.y + 20, this.options.label, TextFactory.SMALL);
 		this.group.add(this.label);
 	};
 	
-	Alert.prototype.addOk = function () {
+	AbstractPopup.prototype.addButtons = function () {
+		this.buttonGroup = new Phaser.Group(Game.getInstance(), 0, 0);
+		this.group.add(this.buttonGroup);
+	};
+	
+	AbstractPopup.prototype.addOk = function () {
 		var x, y, b;
 		x = Game.cx() - TickButton.WIDTH/2;
 		y = this.bounds.y + this.bounds.h - TickButton.HEIGHT;
@@ -47,26 +47,27 @@ function(TickButton, Game, Container, TextFactory){
 		this.group.add(b.sprite);
 	};
 	
-	Alert.prototype.create = function () {
+	AbstractPopup.prototype.create = function () {
 		Container.prototype.create.call(this);
 		this.addBg();
 		this.addRect();
-		this.addOk();
+		this.addButtons();
 		this.addText();
 	};
 	
-	Alert.prototype.buttonUp = function(data) {
-		this.selectSignal.dispatch();
+	AbstractPopup.prototype.buttonUp = function(data) {
+		var index = this.buttonGroup.getIndex(data.target.sprite);
+		this.selectSignal.dispatch({"index":index});
 	};
 	
-	Alert.prototype.destroy = function() {
+	AbstractPopup.prototype.destroy = function() {
 		$.each(this.buttons, function(i, b){
 			b.mouseUpSignal.removeAll(this);
 		});
 		Container.prototype.destroy.call(this);
 	};
 	
-	return Alert;
+	return AbstractPopup;
 	
 });
 	

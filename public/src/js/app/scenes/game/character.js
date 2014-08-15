@@ -17,7 +17,7 @@ define(['app/game'], function(Game){
 		this.sprite.enableBody = true;
 		Game.getInstance().physics.enable(this.sprite, Phaser.Physics.ARCADE);
 		this.body = this.sprite.body;
-	    this.body.gravity.y = 20;
+	    this.body.gravity.y = 400;
 	    this.body.velocity.x = this.options.vx;
 	    this.body.velocity.y = this.options.vy;
 	    this.body.collideWorldBounds = true;

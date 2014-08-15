@@ -1,5 +1,7 @@
 
-define(['app/consts/appconsts','app/scenes/game/gamescene','app/scenes/comms/commscene','app/scenes/main/mainscene','app/scenes/tutorial/tutorialscene','app/scenes/levels/levelsscene'], function(AppConsts, GameScene, CommScene, MainScene, TutorialScene, LevelsScene ){
+define(['app/consts/appconsts','app/scenes/game/gamescene', 'app/scenes/loader/loaderscene', 'app/scenes/comms/commscene','app/scenes/main/mainscene','app/scenes/tutorial/tutorialscene','app/scenes/levels/levelsscene'],
+
+function(AppConsts, GameScene, LoaderScene, CommScene, MainScene, TutorialScene, LevelsScene ){
 	
 	"use strict";
 	
@@ -18,6 +20,9 @@ define(['app/consts/appconsts','app/scenes/game/gamescene','app/scenes/comms/com
 		}
 		else if(key === AppConsts.COMM_SCENE){
 			return CommScene;
+		}
+		else if(key === AppConsts.LOADER_SCENE){
+			return LoaderScene;
 		}
 		else if(key === AppConsts.MAIN_SCENE){
 			return MainScene;

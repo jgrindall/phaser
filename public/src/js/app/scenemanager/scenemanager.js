@@ -15,6 +15,7 @@ function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, LocData, Ga
 		this.addScene(AppConsts.MAIN_SCENE);
 		this.addScene(AppConsts.LEVELS_SCENE);
 		this.addScene(AppConsts.TUTORIAL_SCENE);
+		this.addScene(AppConsts.LOADER_SCENE);
 	};
 
 	SceneManager.prototype.addScene = function(key) {
@@ -36,7 +37,6 @@ function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, LocData, Ga
 			LocData.getInstance().setLocation(data);
 			levelData = Storage.getInstance().loadLevelDataForPageAndLevel(data.page, data.level);
 			if(levelData === LevelStatus.OPEN){
-				Game.startPhysics();
 				this.go(AppConsts.GAME_SCENE);
 			}
 			else{
@@ -64,7 +64,12 @@ function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, LocData, Ga
 		}
 	};
 	
+	SceneManager.prototype.loaderNavigationClicked = function(data){
+		this.go(AppConsts.MAIN_SCENE);
+	};
+	
 	SceneManager.prototype.tutorialNavigationClicked = function(data){
+		Game.startPhysics();
 		this.go(AppConsts.MAIN_SCENE);
 	};
 	
@@ -72,11 +77,14 @@ function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, LocData, Ga
 		if(data.target === "comms"){
 			this.go(AppConsts.COMM_SCENE);
 		}
-		if(data.target === "home"){
+		else if(data.target === "home"){
 			this.go(AppConsts.MAIN_SCENE);
 		}
-		if(data.target === "levels"){
+		else if(data.target === "levels"){
 			this.go(AppConsts.LEVELS_SCENE);
+		}
+		else if(data.target === "refresh"){
+			this.go(AppConsts.GAME_SCENE);
 		}
 	};
 	
@@ -95,6 +103,9 @@ function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, LocData, Ga
 		}
 		else if(data.key === AppConsts.GAME_SCENE){
 			this.gameNavigationClicked(data);
+		}
+		else if(data.key === AppConsts.LOADER_SCENE){
+			this.loaderNavigationClicked(data);
 		}
 	};
 
@@ -115,7 +126,7 @@ function(AppConsts, TextFactory, LevelData, SceneFactory, CommsData, LocData, Ga
 
 	SceneManager.prototype.create = function() {
 		this.registerScenes();
-		this.load(AppConsts.MAIN_SCENE);
+		this.load(AppConsts.LOADER_SCENE);
 	};
 	
 	return SceneManager;

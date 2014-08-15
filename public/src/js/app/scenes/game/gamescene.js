@@ -1,7 +1,15 @@
 
-define(['app/scenes/scene', 'app/components/buttons/navbutton', 'app/components/buttons/pausebutton', 'app/commsdata', 'app/locdata', 'app/scenes/game/controls', 'app/scenes/game/gamemode', 'app/scenes/game/commgameview', 'app/scenes/game/gamemenu', 'app/game', 'app/consts/layoutdata'],
+define(['app/scenes/scene', 'app/components/buttons/navbutton', 'app/components/buttons/pausebutton', 'app/commsdata',
 
-function(Scene, NavButton, PauseButton, CommsData, LocData, Controls, GameMode, CommGameView, GameMenu, Game, LayoutData){
+'app/locdata', 'app/scenes/game/controls', 'app/scenes/game/gamemode', 'app/scenes/game/commgameview',
+
+'app/utils/alertmanager', 'app/game', 'app/consts/layoutdata'],
+
+function(Scene, NavButton, PauseButton, CommsData, 
+
+LocData, Controls, GameMode, CommGameView,
+
+AlertManager, Game, LayoutData){
 	
 	"use strict";
 	
@@ -28,6 +36,7 @@ function(Scene, NavButton, PauseButton, CommsData, LocData, Controls, GameMode, 
 		Scene.prototype.create.apply(this, arguments);
 		this.gameView = new CommGameView(LayoutData.getData(0, 0));
 		this.gameView.stackCompleteSignal.add(this.stackComplete, this);
+		this.gameView.deadSignal.add(this.onDead, this);
 		this.pauseButton = new PauseButton({"x":Game.w() - PauseButton.WIDTH, "y":0});
 		this.gameView.create();
 	    this.pauseButton.create();
@@ -40,13 +49,13 @@ function(Scene, NavButton, PauseButton, CommsData, LocData, Controls, GameMode, 
 		this.checkLaunch();
 	};
 	
+	GameScene.prototype.onDead = function() {
+		this.showPauseMenu();
+	};
+	
 	GameScene.prototype.stackComplete = function() {
 		var success = true;
 		LocData.getInstance().levelCompleted(success);
-	};
-	
-	GameScene.prototype.checkLaunch_menu = function() {
-		setTimeout($.proxy(this.showMenu, this), 500);
 	};
 	
 	GameScene.prototype.checkLaunch_playback = function() {
@@ -55,30 +64,24 @@ function(Scene, NavButton, PauseButton, CommsData, LocData, Controls, GameMode, 
 	
 	GameScene.prototype.checkLaunch = function() {
 		if(LocData.getInstance().getMode() === GameMode.UNKNOWN){
-			this.checkLaunch_menu();
+			this.showGrowlMenu();
 		}
 		else if(LocData.getInstance().getMode() === GameMode.COMMANDS){
-			this.checkLaunch_playback();
+			this.showGrowlMenu();
 		}
 	};
 	
-	GameScene.prototype.showMenu = function(data) {
-		var options, that = this, bounds;
-		Game.pausePhysics();
-		bounds = {"x":Game.cx() - GameMenu.WIDTH/2, "y":Game.cy() - GameMenu.HEIGHT/2, "w":GameMenu.WIDTH, "h":GameMenu.HEIGHT};
-		options = {"bounds":bounds};
-		if(!this.gameMenu){
-			this.gameMenu = new GameMenu(options);
-			this.gameMenu.create();
-			Game.getInstance().world.add(this.gameMenu.group);
-			this.gameMenu.selectSignal.add(this.menuClick, this);
-		}
+	GameScene.prototype.showPauseMenu = function(data) {
+		AlertManager.makePauseMenu("pause", $.proxy(this.pauseMenuClick, this));
 	};
 	
-	GameScene.prototype.menuClick = function(data) {
+	GameScene.prototype.showGrowlMenu = function(data) {
+		AlertManager.makeGrowl("hint", null);
+	};
+	
+	GameScene.prototype.pauseMenuClick = function(data) {
 		if(data.index === 0){
 			LocData.getInstance().setMode(GameMode.INTERACTIVE);
-			this.hideMenu();
 		}
 		else if(data.index === 1){
 			LocData.getInstance().setMode(GameMode.COMMANDS);
@@ -91,20 +94,19 @@ function(Scene, NavButton, PauseButton, CommsData, LocData, Controls, GameMode, 
 			this.navigationSignal.dispatch({"key":this.key, "target":"home"});
 		}
 		else if(data.index === 4){
-			this.hideMenu();
+			this.navigationSignal.dispatch({"key":this.key, "target":"refresh"});
+		}
+		else if(data.index === 5){
+			
 		}
 	};
 	
 	GameScene.prototype.hideMenu = function(data) {
-		Game.unPausePhysics();
-		Game.getInstance().world.remove(this.gameMenu.group);
-		this.gameMenu.selectSignal.removeAll(this);
-		this.gameMenu.destroy();
-		this.gameMenu = null;
+		//Game.unPausePhysics();
 	};
 	
 	GameScene.prototype.buttonClicked = function(data) {
-		this.showMenu();
+		this.showPauseMenu();
 	};
 
 	GameScene.prototype.update = function() {

@@ -1,7 +1,7 @@
 
-define(['app/scenes/scene', 'app/preloader/preloader', 'app/components/buttons/navbutton', 'app/components/buttons/bulbbutton', 'app/components/loaderbar', 'app/utils/textfactory', 'app/game'],
+define(['app/scenes/scene', 'app/preloader/preloader', 'app/components/buttons/navbutton', 'app/scenes/game/commgameview', 'app/consts/layoutdata', 'app/components/buttons/bulbbutton', 'app/components/loaderbar', 'app/utils/textfactory', 'app/game'],
 
-function(Scene, Preloader, NavButton, BulbButton, LoaderBar, TextFactory, Game){
+function(Scene, Preloader, NavButton, CommGameView, LayoutData, BulbButton, LoaderBar, TextFactory, Game){
 	
 	"use strict";
 	
@@ -16,29 +16,15 @@ function(Scene, Preloader, NavButton, BulbButton, LoaderBar, TextFactory, Game){
 	MainScene.prototype.constructor = MainScene;
 
 	MainScene.prototype.preload = function() {
-		if(!MainScene.created){
-			this.addChildren();
-			this.preloader = new Preloader();
-			this.preloader.loadSignal.add(this.loadProgress, this);
-			this.preloader.start();
-		}
+		
 	};
 	
 	MainScene.prototype.addChildren = function() {
 		Scene.prototype.addChildren.call(this);
-		this.addBar();
+		this.gameView = new CommGameView(LayoutData.getData(0, 0));
+		this.gameView.create();
 		this.addText();
 		this.addButtons();
-	};
-	
-	MainScene.prototype.addBar = function() {
-		var x, y, options;
-		x = Game.cx() - LoaderBar.WIDTH/2;
-		y = Game.cy() - 20;
-		options = {"x":x, "y":y};
-		this.loaderBar = new LoaderBar(options);
-		this.loaderBar.create();
-		Game.getInstance().world.add(this.loaderBar.sprite);
 	};
 	
 	MainScene.prototype.addText = function() {
@@ -57,31 +43,17 @@ function(Scene, Preloader, NavButton, BulbButton, LoaderBar, TextFactory, Game){
 		Game.getInstance().world.add(this.startButton.sprite);
 		Game.getInstance().world.add(this.tutorialButton.sprite);
 	};
-	
-	MainScene.prototype.loadProgress = function(data) {
-		var p = Math.round(data.numLoaded * 100 / data.total);
-		this.loaderBar.goToPercent(p);
-	};
 
 	MainScene.prototype.create = function() {
 		Scene.prototype.create.call(this);
-		this.loaderBar.goToPercent(100);
-		console.log("MainScene.created "+MainScene.created);
-		if(MainScene.created){
-			this.showButtons();
-		}
-		else{
-			MainScene.created = true;
-			setTimeout($.proxy(this.showButtons, this), 750);
-		}
+		this.showButtons();
 	};
-	
+
 	MainScene.prototype.showButtons = function() {
 		var obj1, obj2, obj3;
 		obj1 = {"y": Game.h() + 100};
 		obj2 = {"y": Game.cy()};
 		obj3 = {"y": Game.cy()};
-		Game.getInstance().add.tween(this.loaderBar.sprite).to(obj1, 250, Phaser.Easing.Quadratic.Out, true, 20, false);
 		Game.getInstance().add.tween(this.startButton.sprite).to(obj2, 250, Phaser.Easing.Quadratic.Out, true, 20, false);
 		Game.getInstance().add.tween(this.tutorialButton.sprite).to(obj3, 250, Phaser.Easing.Quadratic.Out, true, 20, false);
 	};
@@ -96,21 +68,15 @@ function(Scene, Preloader, NavButton, BulbButton, LoaderBar, TextFactory, Game){
 
 	MainScene.prototype.update = function() {
 		Scene.prototype.update.apply(this, arguments);
+		this.gameView.update();
 	};
 
 	MainScene.prototype.shutdown = function() {
 		Scene.prototype.shutdown.apply(this, arguments);
-		this.loaderBar.destroy();
 		this.startButton.mouseUpSignal.removeAll(this);
 		this.tutorialButton.mouseUpSignal.removeAll(this);
-		if(this.preloader){
-			this.preloader.loadSignal.removeAll(this);
-			this.preloader.destroy();
-		}
-		this.loaderBar = null;
 		this.startButton = null
 		this.tutorialButton = null;
-		this.preloader = null;
 	};
 
 	return MainScene;
