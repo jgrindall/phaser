@@ -13,6 +13,10 @@ function(LevelData, GameMode, CommsData, Storage, LevelState) {
 		return this.mode;
 	};
 	
+	LocData.prototype.isFirstLevel = function(){
+		return this.page === 0 && this.level === 0;
+	};
+	
 	LocData.prototype.levelCompleted = function(success){
 		Storage.getInstance().setLevelDataForPageAndLevel(this.page, this.level, LevelState.COMPLETED);
 	};

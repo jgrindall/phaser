@@ -7,15 +7,17 @@ define(['app/game', 'app/scenes/game/star'], function(Game, Star){
 		this.create();
 	};
 	
-	Stars.prototype.addStar = function () {
-		var star = new Star({"x":100 + Math.random()*600, "y":Math.random()*200});
+	Stars.prototype.addStar = function (option) {
+		var star = new Star(option);
 		this.group.add(star.sprite);
 	};
 	
 	Stars.prototype.create = function () {
+		var that = this;
 		this.group = new Phaser.Group(Game.getInstance());
-		this.addStar();
-		this.addStar();
+		$.each(this.options, function(i, option){
+			that.addStar(option);
+		});
 	};
 	
 	Stars.prototype.update = function () {

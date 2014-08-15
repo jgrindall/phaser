@@ -1,7 +1,7 @@
 
-define(['app/components/buttons/tickbutton', 'app/game', 'app/components/container', 'app/utils/textfactory'],
+define(['app/components/buttons/closebutton', 'app/game', 'app/components/container', 'app/utils/textfactory'],
 
-function(TickButton, Game, Container, TextFactory){
+function(CloseButton, Game, Container, TextFactory){
 	
 	"use strict";
 		
@@ -33,26 +33,49 @@ function(TickButton, Game, Container, TextFactory){
 		this.group.add(this.label);
 	};
 	
-	AbstractPopup.prototype.addButtons = function () {
+	AbstractPopup.prototype.getPosition = function (ClassRef, pos, i, num) {
+		var x0 = this.bounds.x + this.bounds.w/2 - num*(ClassRef.WIDTH)/2;
+		if(pos === 'topright'){
+			return {"x":this.bounds.x + this.bounds.w - 50, "y":this.bounds.y + 10};
+		}
+		else if(pos === 'middle'){
+			return {"x":x0 + i * ClassRef.WIDTH, "y":this.bounds.y + this.bounds.h/2 - ClassRef.HEIGHT/2};
+		}
+		else if(pos === 'bottom'){
+			return {"x":Game.cx() - ClassRef.WIDTH/2, "y":this.bounds.y + this.bounds.h - ClassRef.HEIGHT};
+		}
+	};
+	
+	AbstractPopup.prototype.addButtonGroup = function () {
 		this.buttonGroup = new Phaser.Group(Game.getInstance(), 0, 0);
 		this.group.add(this.buttonGroup);
 	};
 	
-	AbstractPopup.prototype.addOk = function () {
-		var x, y, b;
-		x = Game.cx() - TickButton.WIDTH/2;
-		y = this.bounds.y + this.bounds.h - TickButton.HEIGHT;
-		b = new TickButton({"x":x, "y":y});
+	AbstractPopup.prototype.addCloseButton = function () {
+		this.addButton(CloseButton, 'topright');
+	};
+	
+	AbstractPopup.prototype.addButtons = function () {
+		
+	};
+	
+	AbstractPopup.prototype.addButton = function (ClassRef, pos, i, num) {
+		var p, b;
+		p = this.getPosition(ClassRef, pos, i, num);
+		b = new ClassRef({"x":p.x, "y":p.y});
+		b.pos = pos;
 		b.mouseUpSignal.add(this.buttonUp, this);
-		this.group.add(b.sprite);
+		this.buttonGroup.add(b.sprite);
+		this.buttons.push(b);
 	};
 	
 	AbstractPopup.prototype.create = function () {
 		Container.prototype.create.call(this);
 		this.addBg();
 		this.addRect();
-		this.addButtons();
 		this.addText();
+		this.addButtonGroup();
+		this.addButtons();
 	};
 	
 	AbstractPopup.prototype.buttonUp = function(data) {
@@ -71,9 +94,6 @@ function(TickButton, Game, Container, TextFactory){
 	
 });
 	
-
-
-
 
 
 

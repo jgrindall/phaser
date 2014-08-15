@@ -23,7 +23,6 @@ function(Game, ButtonGrid, LevelBadge, Storage){
 		bounds = {"x":i * w + paddingX, "y":paddingY, "w":800, "h":600};
 		options = {"bounds":bounds, "numX": numX, "numY": numY, "buttonClass": LevelBadge, "config":config};
 		grid = new ButtonGrid(options);
-		grid.create();
 		scroller.add(grid);
 	};
 	

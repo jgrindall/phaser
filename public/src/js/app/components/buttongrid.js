@@ -11,6 +11,7 @@ define(['app/game', 'app/components/container'],function(Game, Container){
 		this.marginX = (this.spaceX - this.options.buttonClass.WIDTH)/2;
 		this.marginY = (this.spaceY - this.options.buttonClass.HEIGHT)/2;
 		this.signal = new Phaser.Signal();
+		this.create();
 	};
 	
 	ButtonGrid.prototype = Object.create(Container.prototype);

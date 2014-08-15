@@ -8,6 +8,9 @@ define(['app/components/buttons/abstractbutton'], function(AbstractButton){
 		AbstractButton.call(this, options);
 	};
 	
+	HomeButton.WIDTH = 120;
+	HomeButton.HEIGHT = 120;
+	
 	HomeButton.prototype = Object.create(AbstractButton.prototype);
 	HomeButton.prototype.constructor = HomeButton;
 

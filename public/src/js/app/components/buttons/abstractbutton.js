@@ -22,7 +22,14 @@ define(['app/game'], function(Game){
 	AbstractButton.prototype.callback = function(){
 
 	};
-
+	
+	AbstractButton.prototype.addButton = function (ClassRef, x, y) {
+		var b = new ClassRef({"x":x, "y":y});
+		b.mouseUpSignal.add(this.buttonUp, this);
+		this.buttonGroup.add(b.sprite);
+		this.buttons.push(b);
+	};
+	
 	AbstractButton.prototype.create = function(){
 		//game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame
 		this.sprite = new Phaser.Button(Game.getInstance(), 0, 0, this.asset, this.callback, this, 0, 1, 2, 3);

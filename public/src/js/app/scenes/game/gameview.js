@@ -128,7 +128,11 @@ function(Game, Player, Enemies, KillAreas, Gunners, Bullets, Background, Stars, 
 	};
 	
 	GameView.prototype.collectHome = function(player, home){
-		this.homeSignal.dispatch({});
+		var success, data;
+		console.log(this.numStars+"  "+this.options.stars.length+"  "+JSON.stringify(this.options));
+		success = (this.numStars === this.options.stars.length);
+		data = {"success": success};
+		this.homeSignal.dispatch(data);
 	};
 	
 	GameView.prototype.hitEnemy = function(player, enemy){

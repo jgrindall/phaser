@@ -1,5 +1,7 @@
 
-define(['app/game', 'app/components/alert', 'app/scenes/game/gamemenu', 'app/components/growl'], function(Game, Alert, GameMenu, Growl){
+define(['app/game', 'app/components/alert', 'app/scenes/game/gamepausemenu', 'app/scenes/game/gameovermenu', 'app/components/growl'], 
+
+function(Game, Alert, GamePauseMenu, GameOverMenu, Growl){
 	
 	"use strict";
 	
@@ -43,7 +45,12 @@ define(['app/game', 'app/components/alert', 'app/scenes/game/gamemenu', 'app/com
 	};
 	
 	AlertManager.makePauseMenu = function(label, callback){
-		AlertManager.make(GameMenu, label, callback);
+		AlertManager.make(GamePauseMenu, label, callback);
+		Game.pausePhysics();
+	};
+	
+	AlertManager.makeGameOverMenu = function(label, callback){
+		AlertManager.make(GameOverMenu, label, callback);
 		Game.pausePhysics();
 	};
 	

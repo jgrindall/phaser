@@ -17,13 +17,7 @@ function(TickButton, Game, Container, TextFactory, AbstractPopup){
 	Alert.HEIGHT = 200;
 	
 	Alert.prototype.addOk = function () {
-		var x, y, b;
-		x = Game.cx() - TickButton.WIDTH/2;
-		y = this.bounds.y + this.bounds.h - TickButton.HEIGHT;
-		b = new TickButton({"x":x, "y":y});
-		b.mouseUpSignal.add(this.buttonUp, this);
-		this.group.add(b.sprite);
-		this.buttons.push(b);
+		this.addButton(TickButton, 'bottom');
 	};
 	
 	Alert.prototype.addButtons = function () {

@@ -9,6 +9,7 @@ function(LevelsButton, Game, Container, TextFactory, LevelState){
 		Container.call(this, options);
 		this.state = this.options.state;
 		this.mouseUpSignal = new Phaser.Signal();
+		this.create();
 	};
 	
 	LevelBadge.prototype = Object.create(Container.prototype);

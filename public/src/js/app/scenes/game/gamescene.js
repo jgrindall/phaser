@@ -31,8 +31,8 @@ AlertManager, Game, LayoutData){
 		this.controls.visible = tf;
 	};
 	
-	GameScene.prototype.onHome = function() {
-		this.showGameOverMenu();
+	GameScene.prototype.onHome = function(data) {
+		this.showGameOverMenu(data);
 	};
 	
 	GameScene.prototype.listenToGame = function() {
@@ -76,6 +76,7 @@ AlertManager, Game, LayoutData){
 	};
 	
 	GameScene.prototype.checkLaunch = function() {
+		var firstLevel = LocData.getInstance().isFirstLevel();
 		if(LocData.getInstance().getMode() === GameMode.INTERACTIVE){
 			this.showGrowlMenu();
 		}
@@ -89,8 +90,7 @@ AlertManager, Game, LayoutData){
 	};
 	
 	GameScene.prototype.showGameOverMenu = function(data) {
-		console.log("sgover ");
-		AlertManager.makeAlert("game over!", $.proxy(this.gameOverMenuClick, this));
+		AlertManager.makeGameOverMenu("game over " + data.success, $.proxy(this.gameOverMenuClick, this));
 	};
 	
 	GameScene.prototype.showDeadMenu = function(data) {

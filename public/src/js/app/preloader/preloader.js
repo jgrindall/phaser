@@ -29,6 +29,7 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 	Preloader.LEVEL1_JSON_KEY = 		'level1';
 	Preloader.LEVEL1_TILES_KEY = 		'tiles1';
 	Preloader.PANEL_KEY = 				'panel';
+	Preloader.PANEL_SMALL_KEY = 		'panelsmall';
 	Preloader.ALERT_KEY = 				'alert';
 	Preloader.LEFT_KEY = 				'left';
 	Preloader.RIGHT_KEY = 				'right';
@@ -88,6 +89,7 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 		{"type":"image", 		"asset":"assets/images/game/star.png", 					"key":Preloader.STAR_KEY},
 		{"type":"image", 		"asset":"assets/levels/tiles1.png",	 					"key":Preloader.LEVEL1_TILES_KEY},
 		{"type":"image", 		"asset":"assets/images/other/panel.png",	 			"key":Preloader.PANEL_KEY},
+		{"type":"image", 		"asset":"assets/images/other/panelsmall.png",	 		"key":Preloader.PANEL_SMALL_KEY},
 		{"type":"image", 		"asset":"assets/images/other/alert.png",	 			"key":Preloader.ALERT_KEY}
 	];
 	
