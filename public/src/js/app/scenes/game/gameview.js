@@ -1,7 +1,7 @@
 
-define(['app/game', 'app/scenes/game/player', 'app/scenes/game/enemies', 'app/scenes/game/killarea', 'app/scenes/game/gunner', 'app/scenes/game/bullets', 'app/components/background', 'app/scenes/game/stars', 'app/commsdata', 'app/locdata', 'app/scenes/game/platforms', 'app/scenes/game/home', 'app/scenes/game/gamemode'],
+define(['app/game', 'app/scenes/game/player', 'app/scenes/game/enemies', 'app/scenes/game/killareas', 'app/scenes/game/gunners', 'app/scenes/game/bullets', 'app/components/background', 'app/scenes/game/stars', 'app/commsdata', 'app/locdata', 'app/scenes/game/platforms', 'app/scenes/game/home', 'app/scenes/game/gamemode'],
 
-function(Game, Player, Enemies, KillArea, Gunner, Bullets, Background, Stars, CommsData, LocData, Platforms, Home, GameMode){
+function(Game, Player, Enemies, KillAreas, Gunners, Bullets, Background, Stars, CommsData, LocData, Platforms, Home, GameMode){
 	
 	"use strict";
 	
@@ -65,14 +65,14 @@ function(Game, Player, Enemies, KillArea, Gunner, Bullets, Background, Stars, Co
 	};
 	
 	GameView.prototype.addKillAreas = function() {
-		this.kill1 = new KillArea(this.options.killareas);
-		Game.getInstance().world.add(this.kill1.sprite);
+		this.killareas = new KillAreas(this.options.killareas);
+		Game.getInstance().world.add(this.killareas.group);
 	};
 	
 	GameView.prototype.shoot = function(data) {
-		var bullet = this.bullets.group.getFirstExists(false);
+		var bullet = this.bullets.getFirstExists();
 		if(bullet){
-			bullet.reset(data.target.sprite.x, data.target.sprite.y);
+			bullet.reset(data.x, data.y);
 			bullet.body.allowGravity = false;
 			bullet.body.velocity.x = -300;
 			bullet.body.velocity.y = 0;
@@ -80,10 +80,9 @@ function(Game, Player, Enemies, KillArea, Gunner, Bullets, Background, Stars, Co
 	};
 	
 	GameView.prototype.addGunners = function() {
-		this.gun1 = new Gunner(this.options.gunners);
-		this.gun1.create();
-		this.gun1.shootSignal.add(this.shoot, this);
-		Game.getInstance().world.add(this.gun1.sprite);
+		this.gunners = new Gunners(this.options.gunners);
+		this.gunners.shootSignal.add(this.shoot, this);
+		Game.getInstance().world.add(this.gunners.group);
 	};
 	
 	GameView.prototype.create = function() {
@@ -106,11 +105,11 @@ function(Game, Player, Enemies, KillArea, Gunner, Bullets, Background, Stars, Co
 	   		physics.overlap(this.player.sprite, this.stars.group, this.collectStar, null, this);
 	   		physics.overlap(this.player.sprite, this.home.sprite, this.collectHome, null, this);
 			physics.overlap(this.player.sprite, this.enemies.group, this.hitEnemy, null, this);
-			physics.overlap(this.player.sprite, this.kill1.sprite, this.hitKillArea, null, this);
+			physics.overlap(this.player.sprite, this.killareas.group, this.hitKillArea, null, this);
 	   	}
-	    physics.collide(this.kill1.sprite, this.platforms.tileMapLayer);
-	    physics.collide(this.enemies.group, this.platforms.tileMapLayer);
-		physics.collide(this.stars.group, this.platforms.tileMapLayer);
+	    physics.collide(this.killareas.group, 	this.platforms.tileMapLayer);
+	    physics.collide(this.enemies.group, 	this.platforms.tileMapLayer);
+		physics.collide(this.stars.group, 		this.platforms.tileMapLayer);
 	};
 	
 	GameView.prototype.update = function() {
@@ -120,7 +119,7 @@ function(Game, Player, Enemies, KillArea, Gunner, Bullets, Background, Stars, Co
 		}
 		this.stars.update();
 		this.enemies.update();
-		this.gun1.update();
+		this.gunners.update();
 	};
 
 	GameView.prototype.collectStar = function(player, star){
@@ -148,6 +147,7 @@ function(Game, Player, Enemies, KillArea, Gunner, Bullets, Background, Stars, Co
 			this.player.destroy();
 		}
 		this.bg = null;
+		//TODO  - more
 		this.platforms = null;
 		this.player = null;
 	};

@@ -7,6 +7,7 @@ define(['app/game'], function(Game){
 		options.asset = 'killarea';
 		this.options = options;
 		this.shootSignal = new Phaser.Signal();
+		this.create();
 	};
 	
 	Gunner.prototype.create = function () {

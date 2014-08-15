@@ -69,7 +69,6 @@ define(['app/scenes/game/character', 'app/scenes/game/objectstate', 'app/game'],
 	
 	Player.prototype.updateDead = function() {
 		var dy = Game.getInstance().camera.y + Game.h() - this.sprite.y;
-		console.log("dy "+dy);
 		if(dy < 0){
 			this.deadSignal.dispatch();
 		}

@@ -8,6 +8,10 @@ define(['app/game'], function(Game){
 		this.create();
 	};
 	
+	Bullets.prototype.getFirstExists = function(){
+		return this.group.getFirstExists(false);
+	};
+	
 	Bullets.prototype.create = function () {
 		this.group = new Phaser.Group(Game.getInstance(), null, 'bullets', false, true, Phaser.Physics.ARCADE);
     	this.group.createMultiple(10, 'killarea', 0, false);
