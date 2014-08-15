@@ -26,7 +26,6 @@ define(['app/game', 'app/components/alert', 'app/scenes/game/gamemenu', 'app/com
 		y = (Game.h() - ClassRef.HEIGHT)/2;
 		AlertManager.close();
 		AlertManager.alert = new ClassRef({"label":label, "bounds":{"x":x, "y":y, "w":ClassRef.WIDTH, "h":ClassRef.HEIGHT}});
-		AlertManager.alert.create();
 		Game.getInstance().world.add(AlertManager.alert.group);
 		AlertManager.alert.selectSignal.add($.proxy(this.buttonClick, this, callback));
 		Game.alertSignal.dispatch({"show":true});

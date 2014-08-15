@@ -36,7 +36,6 @@ define(['app/game', 'app/components/container'],function(Game, Container){
 				pos.x += this.marginX;
 				pos.y += this.marginY;
 				b = new this.options.buttonClass({"bounds":pos, "index":n, "state":this.config[n]});
-				b.create();
 				b.mouseUpSignal.add(this.buttonUp, this);
 				this.buttonGroup.add(b.group);
 				n++;

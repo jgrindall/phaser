@@ -9,6 +9,7 @@ function(TickButton, Game, Container, TextFactory){
 		Container.call(this, options);
 		this.selectSignal = new Phaser.Signal();
 		this.buttons = [];
+		this.create();
 	};
 	
 	AbstractPopup.prototype = Object.create(Container.prototype);
