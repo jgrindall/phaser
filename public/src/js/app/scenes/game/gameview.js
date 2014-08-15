@@ -70,13 +70,7 @@ function(Game, Player, Enemies, KillAreas, Gunners, Bullets, Background, Stars, 
 	};
 	
 	GameView.prototype.shoot = function(data) {
-		var bullet = this.bullets.getFirstExists();
-		if(bullet){
-			bullet.reset(data.x, data.y);
-			bullet.body.allowGravity = false;
-			bullet.body.velocity.x = -300;
-			bullet.body.velocity.y = 0;
-		}
+		this.bullets.shoot(data);
 	};
 	
 	GameView.prototype.addGunners = function() {
@@ -113,6 +107,9 @@ function(Game, Player, Enemies, KillAreas, Gunners, Bullets, Background, Stars, 
 	};
 	
 	GameView.prototype.update = function() {
+		if(Game.physicsPaused){
+			return;
+		}
 	    this.collide();
 	    if(this.player){
 			this.player.update();
@@ -129,7 +126,6 @@ function(Game, Player, Enemies, KillAreas, Gunners, Bullets, Background, Stars, 
 	
 	GameView.prototype.collectHome = function(player, home){
 		var success, data;
-		console.log(this.numStars+"  "+this.options.stars.length+"  "+JSON.stringify(this.options));
 		success = (this.numStars === this.options.stars.length);
 		data = {"success": success};
 		this.homeSignal.dispatch(data);

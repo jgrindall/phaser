@@ -26,9 +26,7 @@ Container, AbstractPopup){
 	
 	GameOverMenu.prototype.addButtons = function () {
 		AbstractPopup.prototype.addButtons.call(this);
-		this.addButton(NavButton, 	'middle', 0, 2);
-		this.addButton(ResetButton, 'middle', 1, 2);
-		this.addCloseButton();
+		this.addButton(ResetButton, 'middle', 0, 2);
 	};
 	
 	return GameOverMenu;

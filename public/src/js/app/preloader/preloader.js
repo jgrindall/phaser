@@ -34,6 +34,7 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 	Preloader.LEFT_KEY = 				'left';
 	Preloader.RIGHT_KEY = 				'right';
 	Preloader.UP_KEY = 					'up';
+	Preloader.BULLET_KEY = 				'bullet';
 	Preloader.DOWN_KEY = 				'down';
 	Preloader.TAB_BUTTON0 = 			'tabbutton0';
 	Preloader.TAB_BUTTON1 = 			'tabbutton1';
@@ -69,6 +70,7 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 		{"type":"spritesheet", 	"asset":"assets/images/game/dude.png", 						"key":Preloader.HERO_KEY, 					"w":32, 	"h":48},
 		{"type":"spritesheet", 	"asset":"assets/images/game/enemy.png", 					"key":Preloader.ENEMY_KEY, 					"w":32, 	"h":32},
 		{"type":"spritesheet", 	"asset":"assets/images/game/killarea.png", 					"key":Preloader.KILLAREA_KEY, 				"w":32, 	"h":32},
+		{"type":"spritesheet", 	"asset":"assets/images/game/bullet.png", 					"key":Preloader.BULLET_KEY, 				"w":32, 	"h":32},
 		{"type":"spritesheet", 	"asset":"assets/images/game/home.png", 						"key":Preloader.HOME_KEY, 					"w":32, 	"h":28}
 	];
 	

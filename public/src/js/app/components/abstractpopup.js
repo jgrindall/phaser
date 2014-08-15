@@ -15,9 +15,9 @@ function(CloseButton, Game, Container, TextFactory){
 	AbstractPopup.prototype = Object.create(Container.prototype);
 	AbstractPopup.prototype.constructor = AbstractPopup;
 	
-	AbstractPopup.prototype.addRect = function () {
+	AbstractPopup.prototype.addPanel = function () {
 		this.panel = new Phaser.Sprite(Game.getInstance(), this.bounds.x, this.bounds.y, this.options.bgasset);
-		this.group.add(this.panel);
+		this.containerGroup.add(this.panel);
 	};
 	
 	AbstractPopup.prototype.addBg = function () {
@@ -30,7 +30,7 @@ function(CloseButton, Game, Container, TextFactory){
 	
 	AbstractPopup.prototype.addText = function () {
 		this.label = TextFactory.make(Game.cx() - 150, this.bounds.y + 20, this.options.label, TextFactory.SMALL);
-		this.group.add(this.label);
+		this.containerGroup.add(this.label);
 	};
 	
 	AbstractPopup.prototype.getPosition = function (ClassRef, pos, i, num) {
@@ -46,9 +46,19 @@ function(CloseButton, Game, Container, TextFactory){
 		}
 	};
 	
+	AbstractPopup.prototype.showMenu = function () {
+		Game.getInstance().add.tween(this.containerGroup).to( {x: 0, y: 0}, 700, Phaser.Easing.Back.InOut, true, 0, false);
+	};
+	
 	AbstractPopup.prototype.addButtonGroup = function () {
 		this.buttonGroup = new Phaser.Group(Game.getInstance(), 0, 0);
-		this.group.add(this.buttonGroup);
+		this.containerGroup.add(this.buttonGroup);
+		this.containerGroup.y = Game.h();
+	};
+	
+	AbstractPopup.prototype.addContainer = function () {
+		this.containerGroup = new Phaser.Group(Game.getInstance(), 0, 0);
+		this.group.add(this.containerGroup);
 	};
 	
 	AbstractPopup.prototype.addCloseButton = function () {
@@ -72,7 +82,8 @@ function(CloseButton, Game, Container, TextFactory){
 	AbstractPopup.prototype.create = function () {
 		Container.prototype.create.call(this);
 		this.addBg();
-		this.addRect();
+		this.addContainer();
+		this.addPanel();
 		this.addText();
 		this.addButtonGroup();
 		this.addButtons();
@@ -86,6 +97,7 @@ function(CloseButton, Game, Container, TextFactory){
 	AbstractPopup.prototype.destroy = function() {
 		$.each(this.buttons, function(i, b){
 			b.mouseUpSignal.removeAll(this);
+			b.destroy();
 		});
 		Container.prototype.destroy.call(this);
 	};

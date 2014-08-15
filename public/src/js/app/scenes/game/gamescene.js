@@ -90,11 +90,16 @@ AlertManager, Game, LayoutData){
 	};
 	
 	GameScene.prototype.showGameOverMenu = function(data) {
-		AlertManager.makeGameOverMenu("game over " + data.success, $.proxy(this.gameOverMenuClick, this));
+		if(data.success){
+			AlertManager.makeGameOverMenuSuccess("Well done!", $.proxy(this.gameOverMenuClick, this));
+		}
+		else{
+			AlertManager.makeGameOverMenuFail("Well done!", $.proxy(this.gameOverMenuClick, this));
+		}
 	};
 	
 	GameScene.prototype.showDeadMenu = function(data) {
-		AlertManager.makeAlert("dead game over", $.proxy(this.gameOverMenuClick, this));
+		AlertManager.makeGameOverMenu("dead game over", $.proxy(this.gameOverMenuClick, this));
 	};
 	
 	GameScene.prototype.showGrowlMenu = function(data) {
@@ -102,7 +107,14 @@ AlertManager, Game, LayoutData){
 	};
 	
 	GameScene.prototype.gameOverMenuClick = function(data) {
-		this.navigationSignal.dispatch({"key":this.key, "target":"refresh"});
+		console.log("gameOverMenuClick "+JSON.stringify(data));
+		if(data.index === 0){
+			//reset
+			this.navigationSignal.dispatch({"key":this.key, "target":"refresh"});	
+		}
+		else{
+			
+		}
 	};
 	
 	GameScene.prototype.pauseMenuClick = function(data) {
@@ -128,7 +140,7 @@ AlertManager, Game, LayoutData){
 	};
 	
 	GameScene.prototype.hideMenu = function(data) {
-		//Game.unPausePhysics();
+		
 	};
 	
 	GameScene.prototype.buttonClicked = function(data) {

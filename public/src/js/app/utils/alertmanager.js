@@ -1,7 +1,7 @@
 
-define(['app/game', 'app/components/alert', 'app/scenes/game/gamepausemenu', 'app/scenes/game/gameovermenu', 'app/components/growl'], 
+define(['app/game', 'app/components/alert', 'app/scenes/game/gamepausemenu', 'app/scenes/game/gameovermenusuccess', 'app/scenes/game/gameovermenufail', 'app/components/growl'], 
 
-function(Game, Alert, GamePauseMenu, GameOverMenu, Growl){
+function(Game, Alert, GamePauseMenu, GameOverMenuSuccess, GameOverMenuFail, Growl){
 	
 	"use strict";
 	
@@ -15,6 +15,7 @@ function(Game, Alert, GamePauseMenu, GameOverMenu, Growl){
 			AlertManager.alert.destroy();
 			AlertManager.alert = null;
 			Game.alertSignal.dispatch({"show":false});
+			Game.unPausePhysics();
 		}
 	};
 	
@@ -28,9 +29,12 @@ function(Game, Alert, GamePauseMenu, GameOverMenu, Growl){
 		y = (Game.h() - ClassRef.HEIGHT)/2;
 		AlertManager.close();
 		AlertManager.alert = new ClassRef({"label":label, "bounds":{"x":x, "y":y, "w":ClassRef.WIDTH, "h":ClassRef.HEIGHT}});
-		Game.getInstance().world.add(AlertManager.alert.group);
 		AlertManager.alert.selectSignal.add($.proxy(this.buttonClick, this, callback));
 		Game.alertSignal.dispatch({"show":true});
+		setTimeout(function(){
+			Game.getInstance().world.add(AlertManager.alert.group);
+			AlertManager.alert.showMenu();
+		}, 300);
 	};
 	
 	AlertManager.buttonClick = function(callback, data){
@@ -49,8 +53,13 @@ function(Game, Alert, GamePauseMenu, GameOverMenu, Growl){
 		Game.pausePhysics();
 	};
 	
-	AlertManager.makeGameOverMenu = function(label, callback){
-		AlertManager.make(GameOverMenu, label, callback);
+	AlertManager.makeGameOverMenuSuccess = function(label, callback){
+		AlertManager.make(GameOverMenuSuccess, label, callback);
+		Game.pausePhysics();
+	};
+	
+	AlertManager.makeGameOverMenuFail = function(label, callback){
+		AlertManager.make(GameOverMenuFail, label, callback);
 		Game.pausePhysics();
 	};
 	

@@ -8,16 +8,35 @@ define(['app/game'], function(Game){
 		options.interval = 4000;
 		this.options = options;
 		this.shootSignal = new Phaser.Signal();
+		Game.pauseSignal.add(this.pauseChanged, this);
 		this.create();
+	};
+	
+	Gunner.prototype.pauseChanged = function(){
+		var paused = Game.physicsPaused;
+		if(paused){
+			this.pause();
+		}
+		else{
+			this.unPause();
+		}
+	};
+	
+	Gunner.prototype.pause = function () {
+		if(!this.interval){
+			clearInterval(this.interval);
+		}
+	};
+	
+	Gunner.prototype.unPause = function () {
+		if(!this.interval){
+			this.interval = setInterval($.proxy(this.shoot, this), this.options.interval);
+		}
 	};
 	
 	Gunner.prototype.create = function () {
 		this.makeSprite();
-		this.setupGun();
-	};
-	
-	Gunner.prototype.setupGun = function() {
-		this.interval = setInterval($.proxy(this.shoot, this), this.options.interval);
+		this.unPause();
 	};
 	
 	Gunner.prototype.shoot = function() {
@@ -46,5 +65,4 @@ define(['app/game'], function(Game){
 	return Gunner;
 	
 });
-
 

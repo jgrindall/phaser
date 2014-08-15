@@ -36,6 +36,7 @@ define(['app/game'], function(Game){
 	
 	Character.prototype.pause = function(){
 		this.cachedVelocity = {'x':this.sprite.body.velocity.x, 'y':this.sprite.body.velocity.y};
+		this.anim = this.sprite.animations.currentAnim;
 		this.body.allowGravity = false;
 		this.body.velocity.x = 0;
 		this.body.velocity.y = 0;
@@ -44,6 +45,7 @@ define(['app/game'], function(Game){
 	
 	Character.prototype.unPause = function(){
 		this.body.allowGravity = true;
+		this.anim.play();
 		this.body.velocity.x = this.cachedVelocity.x;
 		this.body.velocity.y = this.cachedVelocity.y;
 	};
