@@ -14,7 +14,6 @@ define(['app/game', 'app/components/scroller', 'app/components/groupmarker'],fun
 	Pager.prototype.addChildren = function(){
 		Scroller.prototype.addChildren.call(this);
 		this.groupMarker = new GroupMarker({"num":this.options.dataProvider.getNumPages()});
-		this.groupMarker.create();
 		Game.getInstance().world.add(this.groupMarker.group);
 	};
 	

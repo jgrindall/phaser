@@ -27,12 +27,8 @@ function(Scene, Commands, Tabs, TabButton, LocData, CommsData, NavButton, HomeBu
 		this.commands = new Commands(CommsData.getInstance(), LocData.getInstance());
 		bounds = {"x": Game.w() - w, "y": 0, "w": w, "h": 50};
 		this.tabs = new Tabs({"locData":LocData.getInstance(), "commsData":CommsData.getInstance(), "bounds":bounds});
-		this.goButton.create();
-		this.tabs.create();
-		this.commands.create();
 		this.tabs.selectSignal.add(this.tabSelected, this);
 		this.backButton = new HomeButton({"x":0, "y":0});
-		this.backButton.create();
 		Game.getInstance().world.add(this.goButton.sprite);
 		Game.getInstance().world.add(this.tabs.group);
 		Game.getInstance().world.add(this.backButton.sprite);

@@ -5,6 +5,7 @@ define(['app/game'], function(Game){
 	
 	var Gunner = function(options){
 		options.asset = 'killarea';
+		options.interval = 4000;
 		this.options = options;
 		this.shootSignal = new Phaser.Signal();
 		this.create();
@@ -12,6 +13,15 @@ define(['app/game'], function(Game){
 	
 	Gunner.prototype.create = function () {
 		this.makeSprite();
+		this.setupGun();
+	};
+	
+	Gunner.prototype.setupGun = function() {
+		this.interval = setInterval($.proxy(this.shoot, this), this.options.interval);
+	};
+	
+	Gunner.prototype.shoot = function() {
+		this.shootSignal.dispatch({"target":this});
 	};
 	
 	Gunner.prototype.makeSprite = function() {
@@ -23,13 +33,12 @@ define(['app/game'], function(Game){
 	};
 	
 	Gunner.prototype.update = function () {
-		if(Math.random() < 0.003){
-			this.shootSignal.dispatch({"target":this});
-		}
+		
 	};
 	
 	Gunner.prototype.destroy = function () {
 		this.shootSignal.removeAll(this);
+		clearInterval(this.interval);
 		this.sprite.destroy(true);
 		this.sprite = null;
 	};

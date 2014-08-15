@@ -11,6 +11,7 @@ function(TabButton, Game, Container){
 		this.commsData = this.options.commsData;
 		this.selectSignal = new Phaser.Signal();
 		this.buttons = [];
+		this.create();
 	};
 	
 	Tabs.prototype = Object.create(Container.prototype);
@@ -22,7 +23,6 @@ function(TabButton, Game, Container){
 			var pos;
 			pos = {"x":that.options.bounds.x + i * TabButton.WIDTH, "y":0 , "num":i};
 			b = new TabButton(pos);
-			b.create();
 			if(i === 1){
 				b.goToFrame(2);
 			}

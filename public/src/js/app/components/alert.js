@@ -21,7 +21,6 @@ function(TickButton, Game, Container, TextFactory, AbstractPopup){
 		x = Game.cx() - TickButton.WIDTH/2;
 		y = this.bounds.y + this.bounds.h - TickButton.HEIGHT;
 		b = new TickButton({"x":x, "y":y});
-		b.create();
 		b.mouseUpSignal.add(this.buttonUp, this);
 		this.group.add(b.sprite);
 		this.buttons.push(b);

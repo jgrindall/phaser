@@ -9,6 +9,7 @@ function(Game, ControlButton, PauseButton, Container){
 		this.upSignal = new Phaser.Signal();
 		this.downSignal = new Phaser.Signal();
 		this.buttons = [];
+		this.create();
 	};
 	
 	Controls.prototype = Object.create(Container.prototype);
@@ -38,7 +39,6 @@ function(Game, ControlButton, PauseButton, Container){
 			x = 100 + ControlButton.WIDTH * i;
 			pos = {"x":x, "y":y, 'asset':assets[i]};
 			b = new ControlButton(pos);
-			b.create();
 			b.mouseUpSignal.add($.proxy(that.controlUp, that));
 			that.group.add(b.sprite);
 			that.buttons.push(b);

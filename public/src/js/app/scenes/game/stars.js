@@ -22,6 +22,10 @@ define(['app/game', 'app/scenes/game/star'], function(Game, Star){
 		
 	};
 	
+	Stars.prototype.destroy = function () {
+		this.group.destroy(true);	
+	};
+	
 	return Stars;
 	
 });

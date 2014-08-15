@@ -22,6 +22,11 @@ define(['app/game', 'app/scenes/game/enemy'], function(Game, Enemy){
 		this.enemy.update();
 	};
 	
+	Enemies.prototype.destroy = function () {
+		this.enemy.destroy();
+		this.group.destroy(true);
+	};
+	
 	return Enemies;
 	
 });

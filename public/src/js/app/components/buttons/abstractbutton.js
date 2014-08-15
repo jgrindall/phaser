@@ -8,6 +8,7 @@ define(['app/game'], function(Game){
 		this.asset = this.options.asset;
 		this.mouseDownSignal = new Phaser.Signal();
 		this.mouseUpSignal = new Phaser.Signal();
+		this.create();
 	};
 
 	AbstractButton.prototype.goToFrame = function(i){

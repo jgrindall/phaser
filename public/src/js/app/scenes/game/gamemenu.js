@@ -1,7 +1,15 @@
 
-define(['app/components/buttons/navbutton', 'app/components/buttons/closebutton', 'app/game', 'app/components/buttons/listbutton', 'app/components/buttons/homebutton', 'app/components/container', 'app/components/abstractpopup'],
+define(['app/components/buttons/navbutton', 'app/components/buttons/closebutton', 'app/game',
 
-function(NavButton, CloseButton, Game, ListButton, HomeButton, Container, AbstractPopup){
+'app/components/buttons/listbutton', 'app/components/buttons/homebutton', 'app/components/buttons/resetbutton',
+
+'app/components/container', 'app/components/abstractpopup'],
+
+function(NavButton, CloseButton, Game,
+
+ListButton, HomeButton, ResetButton,
+
+Container, AbstractPopup){
 	
 	"use strict";
 		
@@ -18,7 +26,6 @@ function(NavButton, CloseButton, Game, ListButton, HomeButton, Container, Abstra
 	
 	GameMenu.prototype.addButton = function (ClassRef, x, y) {
 		var b = new ClassRef({"x":x, "y":y});
-		b.create();
 		b.mouseUpSignal.add(this.buttonUp, this);
 		this.buttonGroup.add(b.sprite);
 		this.buttons.push(b);
@@ -31,7 +38,7 @@ function(NavButton, CloseButton, Game, ListButton, HomeButton, Container, Abstra
 		this.addButton(NavButton, 350, y);
 		this.addButton(ListButton, 500, y);
 		this.addButton(HomeButton, 650, y);
-		this.addButton(NavButton, 750, y);
+		this.addButton(ResetButton, 750, y);
 		this.addButton(CloseButton, this.bounds.x + this.bounds.w - 50, this.bounds.y + 10);
 	};
 	

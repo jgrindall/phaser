@@ -13,9 +13,9 @@ define(['app/scenes/game/character', 'app/scenes/game/objectstate', 'app/game'],
 	Player.prototype = Object.create(Character.prototype);
 	Player.prototype.constructor = Player;
 	
-	Player.VELX = 210;
-	Player.VELY = 850;
-	Player.FORCE_DELAY = 30;
+	Player.VELX = 400;
+	Player.VELY = 700;
+	Player.FORCE_DELAY = 20;
 	
 	Player.prototype.makeSprite = function () {
 		Character.prototype.makeSprite.call(this);

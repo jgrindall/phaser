@@ -23,7 +23,6 @@ AlertManager, Game, LayoutData){
 	
 	GameScene.prototype.addControls = function() {
 		this.controls = new Controls({"bounds":{"x":0, "y":0}});
-		this.controls.create();
 		Game.getInstance().world.add(this.controls.group);
 		this.controls.upSignal.add(this.gameView.controlUp, this.gameView);
 		this.controls.downSignal.add(this.gameView.controlDown, this.gameView);
@@ -32,21 +31,28 @@ AlertManager, Game, LayoutData){
 		this.controls.visible = tf;
 	};
 	
-	GameScene.prototype.create = function() {
-		Scene.prototype.create.apply(this, arguments);
-		this.gameView = new CommGameView(LayoutData.getData(0, 0));
+	GameScene.prototype.onHome = function() {
+		this.showGameOverMenu();
+	};
+	
+	GameScene.prototype.listenToGame = function() {
 		this.gameView.stackCompleteSignal.add(this.stackComplete, this);
 		this.gameView.stillSignal.add(this.onStill, this);
 		this.gameView.deadSignal.add(this.onDead, this);
+		this.gameView.homeSignal.add(this.onHome, this);
+	};
+	
+	GameScene.prototype.create = function() {
+		Scene.prototype.create.apply(this, arguments);
+		this.gameView = new CommGameView(LayoutData.getData(0, 0));
 		this.pauseButton = new PauseButton({"x":Game.w() - PauseButton.WIDTH, "y":0});
-		this.gameView.create();
-	    this.pauseButton.create();
 		this.pauseButton.sprite.fixedToCamera = true;
 		this.pauseButton.mouseUpSignal.add(this.buttonClicked, this);
 		Game.getInstance().world.add(this.pauseButton.sprite);
 		if(LocData.getInstance().getMode() !== GameMode.COMMANDS){
 			this.addControls();
 		}
+		this.listenToGame();
 		this.checkLaunch();
 	};
 	
@@ -57,7 +63,7 @@ AlertManager, Game, LayoutData){
 	};
 	
 	GameScene.prototype.onDead = function() {
-		this.showPauseMenu();
+		this.showDeadMenu();
 	};
 	
 	GameScene.prototype.stackComplete = function() {
@@ -82,8 +88,21 @@ AlertManager, Game, LayoutData){
 		AlertManager.makePauseMenu("pause", $.proxy(this.pauseMenuClick, this));
 	};
 	
+	GameScene.prototype.showGameOverMenu = function(data) {
+		console.log("sgover ");
+		AlertManager.makeAlert("game over!", $.proxy(this.gameOverMenuClick, this));
+	};
+	
+	GameScene.prototype.showDeadMenu = function(data) {
+		AlertManager.makeAlert("dead game over", $.proxy(this.gameOverMenuClick, this));
+	};
+	
 	GameScene.prototype.showGrowlMenu = function(data) {
 		AlertManager.makeGrowl("Use the buttons to...", null);
+	};
+	
+	GameScene.prototype.gameOverMenuClick = function(data) {
+		this.navigationSignal.dispatch({"key":this.key, "target":"refresh"});
 	};
 	
 	GameScene.prototype.pauseMenuClick = function(data) {

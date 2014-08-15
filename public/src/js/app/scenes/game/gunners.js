@@ -34,8 +34,8 @@ function(Game, Gunner){
 	
 	Gunners.prototype.destroy = function () {
 		this.gunner.shootSignal.removeAll(this);
-		this.group.destroy(true);
 		this.gunner.destroy();
+		this.group.destroy(true);
 	};
 	
 	return Gunners;

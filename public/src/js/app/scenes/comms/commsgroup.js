@@ -4,6 +4,7 @@ define(['app/game','app/scenes/comms/commslayout', 'app/consts/leveldata'], func
 	
 	var CommsGroup = function(game){
 		Phaser.Group.call(this, game);
+		this.create();
 	};
 	
 	CommsGroup.prototype = Object.create(Phaser.Group.prototype);

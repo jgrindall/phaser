@@ -12,6 +12,7 @@ function(BlocksFactory, Game, CommsLayout, CommsGroup){
 		this.commsData = commsData;
 		commsData.layoutSignal.add(this.onLayout, this);
 		commsData.tabSignal.add(this.onSelectTab, this);
+		this.create();
 	};
 
 	Commands.prototype.onSelectTab = function(){
@@ -53,7 +54,6 @@ function(BlocksFactory, Game, CommsLayout, CommsGroup){
 		$.each(levelData.tiles, function(type, v){
 			$.each(new Array(v), function(i) {
 				b = BlocksFactory.create(type);
-				b.create();
 				b.clickSignal.add($.proxy(that.blockDown, that));
 				b.releaseSignal.add($.proxy(that.blockUp, that));
 				b.origPos = {"x":b.sprite.x, "y":b.sprite.y};
@@ -85,7 +85,6 @@ function(BlocksFactory, Game, CommsLayout, CommsGroup){
 		var that = this;
 		$.each(new Array(numTabs), function(i) {
 			var group = new CommsGroup(Game.getInstance());
-			group.create();
 			Game.getInstance().world.add(group);
 			that.targetGroups.push(group);
 		});

@@ -9,6 +9,7 @@ define(['app/game'],function(Game){
 		this.dragging = false;
 		this.minX = 0;
 		this.selectSignal = new Phaser.Signal();
+		this.create();
 	};
 	
 	Scroller.MIN_MOVE = 10;

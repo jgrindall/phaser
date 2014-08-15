@@ -27,7 +27,6 @@ define(['app/game', 'app/components/background'], function(Game, Background){
 	
 	Scene.prototype.addChildren = function() {
 		this.bg = new Background({"asset":'sky'});
-		this.bg.create();
 		Game.getInstance().world.add(this.bg.sprite);
 	};
 	

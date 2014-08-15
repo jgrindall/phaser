@@ -8,6 +8,9 @@ function(Game, Player, Enemies, KillAreas, Gunners, Bullets, Background, Stars, 
 	var GameView  = function(options){
 		this.options = options;
 		this.deadSignal = new Phaser.Signal();
+		this.homeSignal = new Phaser.Signal();
+		this.numStars = 0;
+		this.create();
 	};
 	
 	GameView.prototype.controlUp = function(data) {
@@ -20,19 +23,16 @@ function(Game, Player, Enemies, KillAreas, Gunners, Bullets, Background, Stars, 
 	
 	GameView.prototype.addBg = function() {
 		this.bg = new Background({"asset":'background'});
-		this.bg.create();
 		Game.getInstance().world.add(this.bg.sprite);
 	};
 	
 	GameView.prototype.addPlatforms = function() {
 		this.platforms = new Platforms(this.options.tiles);
-		this.platforms.create();
 		Game.getInstance().world.add(this.platforms.tileMapLayer);
 	};
 	
 	GameView.prototype.addPlayer = function() {
 		this.player = new Player(this.options.hero);
-		this.player.create();
 		this.player.deadSignal.add(this.onDead, this);
 		Game.getInstance().world.add(this.player.sprite);
 	};
@@ -123,11 +123,12 @@ function(Game, Player, Enemies, KillAreas, Gunners, Bullets, Background, Stars, 
 	};
 
 	GameView.prototype.collectStar = function(player, star){
+		this.numStars++;
 		star.kill();
 	};
 	
 	GameView.prototype.collectHome = function(player, home){
-		alert("home");
+		this.homeSignal.dispatch({});
 	};
 	
 	GameView.prototype.hitEnemy = function(player, enemy){
@@ -141,14 +142,25 @@ function(Game, Player, Enemies, KillAreas, Gunners, Bullets, Background, Stars, 
 	};
 
 	GameView.prototype.destroy = function() {
+		this.deadSignal = null;
+		this.homeSignal = null;
 		this.bg.destroy();
 		this.platforms.destroy();
+		this.enemies.destroy();
+		this.gunners.destroy();
+		this.home.destroy();
+		this.stars.destroy();
+		this.bullets.destroy();
 		if(this.player){
 			this.player.destroy();
 		}
 		this.bg = null;
-		//TODO  - more
 		this.platforms = null;
+		this.enemies = null;
+		this.gunners = null;
+		this.home = null;
+		this.stars = null;
+		this.bullets = null;
 		this.player = null;
 	};
 	

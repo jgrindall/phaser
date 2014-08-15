@@ -22,7 +22,6 @@ function(Scene, Preloader, NavButton, CommGameView, LayoutData, BulbButton, Load
 	MainScene.prototype.addChildren = function() {
 		Scene.prototype.addChildren.call(this);
 		this.gameView = new CommGameView(LayoutData.getData(0, 0));
-		this.gameView.create();
 		this.addText();
 		this.addButtons();
 	};
@@ -36,8 +35,6 @@ function(Scene, Preloader, NavButton, CommGameView, LayoutData, BulbButton, Load
 		var padding = 100;
 		this.startButton = new NavButton({"x":Game.cx() - NavButton.WIDTH - padding, "y":Game.h() + 100});
 		this.tutorialButton = new BulbButton({"x":Game.cx() + padding, "y":Game.h() + 100});
-		this.startButton.create();
-		this.tutorialButton.create();
 		this.startButton.mouseUpSignal.add(this.startButtonClicked, this);
 		this.tutorialButton.mouseUpSignal.add(this.tutorialButtonClicked, this);
 		Game.getInstance().world.add(this.startButton.sprite);
