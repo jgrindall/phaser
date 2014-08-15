@@ -14,7 +14,8 @@ define(['app/scenes/game/character', 'app/scenes/game/objectstate', 'app/game'],
 	Player.prototype.constructor = Player;
 	
 	Player.VELX = 400;
-	Player.VELY = 700;
+	Player.VELY = 500;
+	Player.VELY_DEAD = 200;
 	Player.FORCE_DELAY = 20;
 	
 	Player.prototype.makeSprite = function () {
@@ -30,7 +31,7 @@ define(['app/scenes/game/character', 'app/scenes/game/objectstate', 'app/game'],
 		this.sprite.enableBody = false;
 		//TODO this.sprite.animations.play('kill');
 		this.dead = true;
-		this.sprite.body.velocity.y = -Player.VELY;
+		this.sprite.body.velocity.y = -Player.VELY_DEAD;
 		this.sprite.body.velocity.x = 0;
 		Game.getInstance().camera.unfollow();
 	};

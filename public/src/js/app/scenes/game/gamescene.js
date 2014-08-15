@@ -99,7 +99,7 @@ AlertManager, Game, LayoutData){
 	};
 	
 	GameScene.prototype.showDeadMenu = function(data) {
-		AlertManager.makeGameOverMenu("dead game over", $.proxy(this.gameOverMenuClick, this));
+		AlertManager.makeGameOverMenuFail("dead game over", $.proxy(this.gameOverMenuClick, this));
 	};
 	
 	GameScene.prototype.showGrowlMenu = function(data) {
@@ -113,7 +113,7 @@ AlertManager, Game, LayoutData){
 			this.navigationSignal.dispatch({"key":this.key, "target":"refresh"});	
 		}
 		else{
-			
+			this.navigationSignal.dispatch({"key":this.key, "target":"levels"});	
 		}
 	};
 	
