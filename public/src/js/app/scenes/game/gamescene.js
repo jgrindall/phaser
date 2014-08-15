@@ -36,6 +36,7 @@ AlertManager, Game, LayoutData){
 		Scene.prototype.create.apply(this, arguments);
 		this.gameView = new CommGameView(LayoutData.getData(0, 0));
 		this.gameView.stackCompleteSignal.add(this.stackComplete, this);
+		this.gameView.stillSignal.add(this.onStill, this);
 		this.gameView.deadSignal.add(this.onDead, this);
 		this.pauseButton = new PauseButton({"x":Game.w() - PauseButton.WIDTH, "y":0});
 		this.gameView.create();
@@ -47,6 +48,12 @@ AlertManager, Game, LayoutData){
 			this.addControls();
 		}
 		this.checkLaunch();
+	};
+	
+	GameScene.prototype.onStill = function() {
+		if(this.controls){
+			this.controls.enableAll();
+		}
 	};
 	
 	GameScene.prototype.onDead = function() {
@@ -63,7 +70,7 @@ AlertManager, Game, LayoutData){
 	};
 	
 	GameScene.prototype.checkLaunch = function() {
-		if(LocData.getInstance().getMode() === GameMode.UNKNOWN){
+		if(LocData.getInstance().getMode() === GameMode.INTERACTIVE){
 			this.showGrowlMenu();
 		}
 		else if(LocData.getInstance().getMode() === GameMode.COMMANDS){
@@ -76,7 +83,7 @@ AlertManager, Game, LayoutData){
 	};
 	
 	GameScene.prototype.showGrowlMenu = function(data) {
-		AlertManager.makeGrowl("hint", null);
+		AlertManager.makeGrowl("Use the buttons to...", null);
 	};
 	
 	GameScene.prototype.pauseMenuClick = function(data) {
@@ -118,6 +125,7 @@ AlertManager, Game, LayoutData){
 		Scene.prototype.shutdown.apply(this, arguments);
 		this.pauseButton.mouseUpSignal.removeAll(this);
 		this.gameView.stackCompleteSignal.removeAll(this);
+		this.gameView.stillSignal.removeAll(this);
 		this.hideMenu();
 		this.gameView.destroy();
 		this.gameView = null;

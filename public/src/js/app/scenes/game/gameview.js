@@ -1,7 +1,7 @@
 
-define(['app/game', 'app/scenes/game/player', 'app/scenes/game/enemy', 'app/scenes/game/killarea', 'app/scenes/game/gunner', 'app/components/background', 'app/scenes/game/stars', 'app/commsdata', 'app/locdata', 'app/scenes/game/platforms', 'app/scenes/game/gamemode'],
+define(['app/game', 'app/scenes/game/player', 'app/scenes/game/enemies', 'app/scenes/game/killarea', 'app/scenes/game/gunner', 'app/scenes/game/bullets', 'app/components/background', 'app/scenes/game/stars', 'app/commsdata', 'app/locdata', 'app/scenes/game/platforms', 'app/scenes/game/home', 'app/scenes/game/gamemode'],
 
-function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, LocData, Platforms, GameMode){
+function(Game, Player, Enemies, KillArea, Gunner, Bullets, Background, Stars, CommsData, LocData, Platforms, Home, GameMode){
 	
 	"use strict";
 	
@@ -15,7 +15,7 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 	};
 	
 	GameView.prototype.controlDown = function(data) {
-		this.player.controlDown(data);
+		
 	};
 	
 	GameView.prototype.addBg = function() {
@@ -45,39 +45,37 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 	};
 	
 	GameView.prototype.addBullets = function(){
-		this.bullets = new Phaser.Group(Game.getInstance(), null, 'bullets', false, true, Phaser.Physics.ARCADE);
-    	this.bullets.createMultiple(10, 'killarea', 0, false);
-    	this.bullets.setAll('outOfBoundsKill', true);
-    	this.bullets.setAll('checkWorldBounds', true);
-    	Game.getInstance().world.add(this.bullets);
+		this.bullets = new Bullets();
+		Game.getInstance().world.add(this.bullets.group);
 	};
 	
 	GameView.prototype.addStars = function() {
 		this.stars = new Stars(this.options.stars);
-		this.stars.create();
 		Game.getInstance().world.add(this.stars.group);
 	};
 	
 	GameView.prototype.addEnemies = function() {
-		this.enemy1 = new Enemy(this.options.enemies);
-		this.enemy1.create();
-		Game.getInstance().world.add(this.enemy1.sprite);
+		this.enemies = new Enemies(this.options.enemies);
+		Game.getInstance().world.add(this.enemies.group);
+	};
+	
+	GameView.prototype.addHome = function() {
+		this.home = new Home(this.options.home);
+		Game.getInstance().world.add(this.home.sprite);
 	};
 	
 	GameView.prototype.addKillAreas = function() {
 		this.kill1 = new KillArea(this.options.killareas);
-		this.kill1.create();
 		Game.getInstance().world.add(this.kill1.sprite);
 	};
 	
 	GameView.prototype.shoot = function(data) {
-		var bullet = this.bullets.getFirstExists(false);
+		var bullet = this.bullets.group.getFirstExists(false);
 		if(bullet){
 			bullet.reset(data.target.sprite.x, data.target.sprite.y);
 			bullet.body.allowGravity = false;
 			bullet.body.velocity.x = -300;
 			bullet.body.velocity.y = 0;
-			//TODO make Bullet class and Bullets class
 		}
 	};
 	
@@ -95,6 +93,7 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 		this.addBullets();
 		this.addGunners();
 		this.addEnemies();
+		this.addHome();
 		this.addKillAreas();
 		this.addStars();
 		Game.getInstance().camera.follow(this.player.sprite);
@@ -105,11 +104,12 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 		if(this.player && !this.player.dead){
 	   		physics.collide(this.player.sprite, this.platforms.tileMapLayer);
 	   		physics.overlap(this.player.sprite, this.stars.group, this.collectStar, null, this);
-			physics.overlap(this.player.sprite, this.enemy1.sprite, this.hitEnemy, null, this);
+	   		physics.overlap(this.player.sprite, this.home.sprite, this.collectHome, null, this);
+			physics.overlap(this.player.sprite, this.enemies.group, this.hitEnemy, null, this);
 			physics.overlap(this.player.sprite, this.kill1.sprite, this.hitKillArea, null, this);
 	   	}
 	    physics.collide(this.kill1.sprite, this.platforms.tileMapLayer);
-	    physics.collide(this.enemy1.sprite, this.platforms.tileMapLayer);
+	    physics.collide(this.enemies.group, this.platforms.tileMapLayer);
 		physics.collide(this.stars.group, this.platforms.tileMapLayer);
 	};
 	
@@ -119,12 +119,16 @@ function(Game, Player, Enemy, KillArea, Gunner, Background, Stars, CommsData, Lo
 			this.player.update();
 		}
 		this.stars.update();
-		this.enemy1.update();
+		this.enemies.update();
 		this.gun1.update();
 	};
 
 	GameView.prototype.collectStar = function(player, star){
 		star.kill();
+	};
+	
+	GameView.prototype.collectHome = function(player, home){
+		alert("home");
 	};
 	
 	GameView.prototype.hitEnemy = function(player, enemy){

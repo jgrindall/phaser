@@ -17,7 +17,7 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 	Preloader.SOUND5_KEY = 				'sound5';
 	Preloader.CLOSE_KEY = 				'close';
 	Preloader.TICK_KEY = 				'tick';
-	Preloader.HOME_KEY = 				'home';
+	Preloader.HOME_BUTTON_KEY = 		'homebutton';
 	Preloader.MARKER_KEY = 				'marker';
 	Preloader.BLOCK_KEY0 = 				'block0';
 	Preloader.BLOCK_KEY1 = 				'block1';
@@ -40,7 +40,8 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 	Preloader.LEVEL_BUTTON = 			'levelbutton';
 	Preloader.LEVEL_BUTTON_DONE = 		'levelbuttondone';
 	Preloader.LEVEL_BUTTON_LOCKED = 	'levelbuttonlocked';
-	Preloader.KILLAREA = 				'killarea';
+	Preloader.KILLAREA_KEY = 			'killarea';
+	Preloader.HOME_KEY = 				'home';
 	
 	Preloader.SPRITESHEETS = [
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/levelButton.png", 			"key":Preloader.LEVEL_BUTTON, 				"w":150, 	"h":150},
@@ -56,11 +57,12 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/close.png", 					"key":Preloader.CLOSE_KEY, 					"w":50, 	"h":50},
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/tick.png", 					"key":Preloader.TICK_KEY, 					"w":80, 	"h":80},
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/yellowList.png", 			"key":Preloader.LIST_KEY, 					"w":120, 	"h":120},
-		{"type":"spritesheet", 	"asset":"assets/images/buttons/greenHome.png", 				"key":Preloader.HOME_KEY, 					"w":120, 	"h":120},
+		{"type":"spritesheet", 	"asset":"assets/images/buttons/greenHome.png", 				"key":Preloader.HOME_BUTTON_KEY, 			"w":120, 	"h":120},
 		{"type":"spritesheet", 	"asset":"assets/images/game/dude.png", 						"key":Preloader.HERO_KEY, 					"w":32, 	"h":48},
 		{"type":"spritesheet", 	"asset":"assets/images/game/enemy.png", 					"key":Preloader.ENEMY_KEY, 					"w":32, 	"h":32},
 		{"type":"spritesheet", 	"asset":"assets/images/buttons/pagination.png", 			"key":Preloader.MARKER_KEY, 				"w":40, 	"h":40},
-		{"type":"spritesheet", 	"asset":"assets/images/game/firstaid.png", 					"key":Preloader.KILLAREA, 					"w":32, 	"h":32},
+		{"type":"spritesheet", 	"asset":"assets/images/game/killarea.png", 					"key":Preloader.KILLAREA_KEY, 				"w":32, 	"h":32},
+		{"type":"spritesheet", 	"asset":"assets/images/game/home.png", 						"key":Preloader.HOME_KEY, 					"w":32, 	"h":28}
 		
 	];
 	
@@ -71,12 +73,12 @@ define(['app/consts/leveldata', 'app/game'], function(LevelData, Game){
 	];
 	
 	Preloader.IMAGES = [
-		{"type":"image", 		"asset":"assets/images/bg/background2.png", 			"key":Preloader.BG_KEY},
 		{"type":"image", 		"asset":LevelData.BLOCK0, 								"key":Preloader.BLOCK_KEY0},
 		{"type":"image", 		"asset":LevelData.BLOCK1, 								"key":Preloader.BLOCK_KEY1},
 		{"type":"image", 		"asset":LevelData.BLOCK2, 								"key":Preloader.BLOCK_KEY2},
 		{"type":"image", 		"asset":LevelData.BLOCK3, 								"key":Preloader.BLOCK_KEY3},
-		{"type":"image", 		"asset":"assets/images/game/star2.png", 				"key":Preloader.STAR_KEY},
+		{"type":"image", 		"asset":"assets/images/bg/background.png", 				"key":Preloader.BG_KEY},
+		{"type":"image", 		"asset":"assets/images/game/star.png", 					"key":Preloader.STAR_KEY},
 		{"type":"image", 		"asset":"assets/levels/tiles1.png",	 					"key":Preloader.LEVEL1_TILES_KEY},
 		{"type":"image", 		"asset":"assets/images/other/panel.png",	 			"key":Preloader.PANEL_KEY},
 		{"type":"image", 		"asset":"assets/images/other/alert.png",	 			"key":Preloader.ALERT_KEY}

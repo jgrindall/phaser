@@ -13,6 +13,7 @@ define(['app/game'], function(Game){
 	};
 	
 	Character.prototype.makeSprite = function() {
+		console.log("makeSprite!");
 	    this.sprite = new Phaser.Sprite(Game.getInstance(), this.options.x, this.options.y, this.options.asset);
 		this.sprite.enableBody = true;
 		Game.getInstance().physics.enable(this.sprite, Phaser.Physics.ARCADE);

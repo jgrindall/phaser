@@ -14,6 +14,20 @@ function(Game, ControlButton, PauseButton, Container){
 	Controls.prototype = Object.create(Container.prototype);
 	Controls.prototype.constructor = Controls;
 
+	Controls.prototype.disableAll = function () {
+		$.each(this.buttons, function(i, b){
+			b.goToFrame(3);
+			b.disableInput();
+		});
+	};
+	
+	Controls.prototype.enableAll = function () {
+		$.each(this.buttons, function(i, b){
+			b.resetFrames();
+			b.enableInput();
+		});
+	};
+	
 	Controls.prototype.create = function () {
 		Container.prototype.create.call(this);
 		//this.group.fixedToCamera = true;
@@ -25,25 +39,24 @@ function(Game, ControlButton, PauseButton, Container){
 			pos = {"x":x, "y":y, 'asset':assets[i]};
 			b = new ControlButton(pos);
 			b.create();
-			b.mouseDownSignal.add($.proxy(that.controlDown, that));
 			b.mouseUpSignal.add($.proxy(that.controlUp, that));
 			that.group.add(b.sprite);
 			that.buttons.push(b);
 		}); 
 	};
 	
-	Controls.prototype.controlDown = function (data) {
-		var index = this.group.getIndex(data.target.sprite);
-		this.downSignal.dispatch({"index":index});
-	};
-	
 	Controls.prototype.controlUp = function (data) {
 		var index = this.group.getIndex(data.target.sprite);
+		this.disableAll();
 		this.upSignal.dispatch({"index":index});
 	};
 	
-	Controls.prototype.update = function() {
-    
+	Controls.prototype.destroy = function() {
+		var that = this;
+		$.each(this.buttons, function(i, b){
+			b.mouseUpSignal.removeAll(this);
+		});
+    	Container.prototype.destroy.call(this);
 	};
 	
 	return Controls;

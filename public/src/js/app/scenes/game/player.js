@@ -13,23 +13,24 @@ define(['app/scenes/game/character', 'app/scenes/game/objectstate', 'app/game'],
 	Player.prototype = Object.create(Character.prototype);
 	Player.prototype.constructor = Player;
 	
-	Player.VELX = 200;
-	Player.VELY = 700;
-	Player.FORCE_DELAY = 20;
+	Player.VELX = 210;
+	Player.VELY = 850;
+	Player.FORCE_DELAY = 30;
 	
 	Player.prototype.makeSprite = function () {
 		Character.prototype.makeSprite.call(this);
 		this.body.bounce.y = 0.2;
 	    this.sprite.animations.add('left', [0, 1, 2, 3], 10, true);
 	    this.sprite.animations.add('right', [5, 6, 7, 8], 10, true);
+	    //this.sprite.animations.add('kill', [5, 6, 7, 8], 10, true);
 	    this.state = new ObjectState(this.body);
 	};
 	
 	Player.prototype.kill = function() {
 		this.sprite.enableBody = false;
-		//this.sprite.animations.play('kill');
+		//TODO this.sprite.animations.play('kill');
 		this.dead = true;
-		this.sprite.body.velocity.y = -10;
+		this.sprite.body.velocity.y = -Player.VELY;
 		this.sprite.body.velocity.x = 0;
 		Game.getInstance().camera.unfollow();
 	};
@@ -45,6 +46,10 @@ define(['app/scenes/game/character', 'app/scenes/game/objectstate', 'app/game'],
 	};
 	
 	Player.prototype.controlDown = function(data) {
+		
+	};
+	
+	Player.prototype.controlUp = function(data) {
 		if(this.state.getState() != null){
 			return;
 		}
@@ -60,10 +65,6 @@ define(['app/scenes/game/character', 'app/scenes/game/objectstate', 'app/game'],
 		else if(data.index === 3){
 			this.setForce(ObjectState.UPRIGHT);
 		}
-	};
-	
-	Player.prototype.controlUp = function(data) {
-		
 	};
 	
 	Player.prototype.updateDead = function() {

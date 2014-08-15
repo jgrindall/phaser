@@ -28,7 +28,7 @@ module.exports = function(grunt) {
         			Phaser:true
       			}
     		},
-    		all: ['public/src/js/app/scenemanager.js', 'public/src/js/app/**/*.js']
+    		all: ['public/src/js/app/**/*.js']
     	},
   
 		
@@ -48,7 +48,6 @@ module.exports = function(grunt) {
     			}
   			}
 		},
-		
 		
 		copy: {
   			index:{
@@ -75,10 +74,11 @@ module.exports = function(grunt) {
 		  	
   	});
 	
-	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
   	grunt.loadNpmTasks('grunt-contrib-requirejs');
  	grunt.loadNpmTasks('grunt-contrib-copy');
+ 	grunt.loadNpmTasks('grunt-contrib-uglify');
   	
   	grunt.registerTask('default', ['clean', 'jshint', 'requirejs', 'copy']);
 

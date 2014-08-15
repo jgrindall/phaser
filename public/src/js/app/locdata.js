@@ -6,7 +6,7 @@ function(LevelData, GameMode, CommsData, Storage, LevelState) {
 	
 	var LocData = function(){
 		this.level = null;
-		this.mode = GameMode.UNKNOWN;
+		this.mode = GameMode.INTERACTIVE;
 	};
 	
 	LocData.prototype.getMode = function(){
